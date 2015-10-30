@@ -21,7 +21,6 @@ namespace RPG
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
     {
-        private Config config;
         public DateTime LastCheck = DateTime.UtcNow;
         public DateTime SLastCheck = DateTime.UtcNow;
         public GPlayer[] Playerlist = new GPlayer[256];
@@ -65,6 +64,7 @@ namespace RPG
         {
             Commands.ChatCommands.Add(new Command("geldar.admin", Reloadcfg, "rpgreload"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Adv, "adventure"));
+            //Commands.ChatCommands.Add(new Command("geldar.admin", qmode, "questmode"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -142,12 +142,27 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         if (player.pyramid1cd == 0)
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                            args.Player.SendMessage("You just looted some shit", Color.Goldenrod);
-                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            if (Config.contents.EnableRegionRestriciton)
                             {
-                                player.pyramid1cd = config.pyramid1cd;
-                            }
+                                Region region;
+                                if (Config.contents.DeathandDespair)
+                                    region = TShock.Regions.GetRegionByName(Config.contents.DeathandDespair);
+                                else
+                                    region = quest.Region;
+                                if (args.Player.CurrentRegion != region)
+                                {
+
+                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
+                                    args.Player.SendMessage("You just looted some shit", Color.Goldenrod);
+                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                    {
+                                        player.pyramid1cd = Config.contents.pyramid1cd;
+                                    }
+                                    args.Player.SendErrorMessage("You are not in the right region. You should be in hell, where you belong.");
+                                    return;
+                                }
+                                
+                        }
                         }
                         else
                         {
@@ -158,84 +173,11 @@ namespace RPG
                     break;
             }
         }
-
-        #region Config create
-
-        private void CreateConfig()
-        {
-            string filepath = Path.Combine(TShock.SavePath, "rpg.json");
-            try
-            {
-                using (var stream = new FileStream(filepath, FileMode.Create, FileAccess.Write, FileShare.Write))
-                {
-                    using (var sr = new StreamWriter(stream))
-                    {
-                        config = new Config();
-                        var configString = JsonConvert.SerializeObject(config, Formatting.Indented);
-                        sr.Write(configString);
-                    }
-                    stream.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                TShock.Log.ConsoleError(ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Config read
-
-        private bool ReadConfig()
-        {
-            string filepath = Path.Combine(TShock.SavePath, "rpg.json");
-            try
-            {
-                if (File.Exists(filepath))
-                {
-                    using (var stream = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        using (var sr = new StreamReader(stream))
-                        {
-                            var configString = sr.ReadToEnd();
-                            config = JsonConvert.DeserializeObject<Config>(configString);
-                        }
-                        stream.Close();
-                    }
-                    return true;
-                }
-                else
-                {
-                    TShock.Log.ConsoleError("RPG Config not found, how about a new one...");
-                    CreateConfig();
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                TShock.Log.ConsoleError(ex.Message);
-            }
-            return false;
-        }
-
-        #endregion
-
-        #region Config
-
-        public class Config
-        {
-            public bool SEconomy = true;
-            public int pyramid1cd = 10;
-        }
-
-        #endregion
-
         #region Config reload
 
         private void Reloadcfg(CommandArgs args)
         {
-            if (ReadConfig())
+            if (Config.ReadConfig())
             {
                 args.Player.SendMessage("RPG config reloaded.", Color.Goldenrod);
             }
