@@ -40,6 +40,15 @@ namespace RPG
         public int jadv3cd { get; set; }
         public int jadv4cd { get; set; }
         public int jadv5cd { get; set; }
+        public int space1cd { get; set; }
+        public int space2cd { get; set; }
+        public int space3cd { get; set; }
+        public int space4cd { get; set; }
+        public int hallow1cd { get; set; }
+        public int hallow2cd { get; set; }
+        public int hallow3cd { get; set; }
+        public int hallow4cd { get; set; }
+        public int hallow5cd { get; set; }
 
         public GPlayer(int index)
         {

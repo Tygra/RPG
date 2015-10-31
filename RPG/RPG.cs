@@ -18,6 +18,12 @@ using Newtonsoft.Json;
 namespace RPG
 {
     [ApiVersion(1, 22)]
+    //To-do
+    //Oasis teleport
+    //SEconomy payment
+    //Story
+    //Clevel
+    //Ilevel
     public class RPG : TerrariaPlugin
     {
         #region Info & other things
@@ -68,6 +74,8 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.level5", Adv, "adventure"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Teleport, "teleport"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
+            Commands.ChatCommands.Add(new Command("geldar.level1", Tutorial, "tutorial"));
+            Commands.ChatCommands.Add(new Command("geldar.level5", Quests, "quest"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -154,9 +162,143 @@ namespace RPG
         }
         #endregion
 
+        #region Tutorial
+        private void Tutorial(CommandArgs args)
+        {
+            if(args.Parameters.Count < 1)
+            {
+                args.Player.SendMessage("Info: If you wish to be teleported to the tutorial zone, use /teleport tutorial", Color.Goldenrod);
+                return;
+            }
+
+            switch (args.Parameters[0])
+            {
+                case "tutclass":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutclassregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Class tutorials");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6221 983");
+                        }
+                    }
+                    break;
+
+                case "tutgear":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutgearregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Gear tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6213 992");
+                        }
+                    }
+                    break;
+
+                case "tutmine":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Mining tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6225 1007");
+                        }
+                    }
+                    break;
+
+                case "tuttrade":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tuttraderegion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Trading tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6250 1009");
+                        }
+                    }
+                    break;
+
+                case "tuthouse":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tuthouseregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Housing tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6216 1015");
+                        }
+                    }
+                    break;
+
+                case "dropretry":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Itemdrop tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6216 1015");
+                        }
+                    }
+                    break;
+
+                case "tutdrop":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the correct shaft of the Itemdrop tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6230 1030");
+                        }
+                    }
+                    break;
+            }
+        }
+        #endregion
+
         #region Story
 
         private void Story(CommandArgs args)
+        {
+
+        }
+
+        #endregion
+
+        #region Quests
+        private void Quests(CommandArgs args)
         {
 
         }
@@ -170,6 +312,7 @@ namespace RPG
             {
                 args.Player.SendMessage("Info: Use the commands below.", Color.Goldenrod);
                 args.Player.SendMessage("Info: /teleport adventure - Teleports you to the adventure tower.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /teleport tutorial - Teleports you to the Tutorial zone.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /teleport oasis - Teleports you to the Poised Oasis.", Color.SkyBlue);
                 args.Player.SendMessage("Info: Oasis teleport requirements: 250 Terra coins, Level 30, Warehouse teleport pad.", Color.Goldenrod);
                 return;
@@ -184,6 +327,16 @@ namespace RPG
                         args.Player.SendMessage("You have been teleported to the Adventure Tower.", Color.Goldenrod);
                     }
                     break;
+                #endregion
+
+                #region Tutorial teleport
+                case "tutorial":
+                    {
+                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6223 962");
+                        args.Player.SendMessage("Yoou have been teleported to the Tutorial zone.", Color.Goldenrod);
+                    }
+                    break;
+
                 #endregion
 
                 #region Oasis teleport
@@ -207,6 +360,7 @@ namespace RPG
                 args.Player.SendMessage("Info: Each adventure subcommand can be used at the sign, at the correct place.", Color.Goldenrod);
                 args.Player.SendMessage("Example: You are in the pyramid first sign. /adventure pyramid1", Color.Goldenrod);
                 args.Player.SendMessage("Info: Each command has a unique cooldown of one day(24 hours).", Color.Goldenrod);
+                args.Player.SendMessage("Info: Be sure to have at least 4 free inventory slots!", Color.Goldenrod);
                 return;
             }
 
@@ -1234,6 +1388,349 @@ namespace RPG
                     }
                     break;
                 #endregion
+
+                #region Space1
+                case "space1":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.space1region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.space1cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.space1cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 ");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 117 10");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 179 15");
+                                args.Player.SendMessage("You just looted a Golden Key, 10 Meteorite Bars, and 5 Emeralds!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.space1cd = Config.contents.space1cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Space2
+                case "space2":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.space2region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.space2cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.space2cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 75 10");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 181 5");
+                                args.Player.SendMessage("You just looted a Golden Key, 10 Fallen Stars, and 5 Amethysts!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.space2cd = Config.contents.space2cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Space3
+                case "space3":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.space3region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.space3cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.space3cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 75 10");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 177 5");
+                                args.Player.SendMessage("You just looted a Golden Key, 10 Fallen Stars, and 5 Sapphires!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.space3cd = Config.contents.space3cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Space4
+                case "space4":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.space4region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.space4cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.space4cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 117 15");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 178 5");
+                                args.Player.SendMessage("You just looted a Golden Key, 15 Meteorite Bars, and 5 Rubies!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.space4cd = Config.contents.space4cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Hallow1
+                case "hallow1":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallow1region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
+                            return;
+                        }
+
+                        if (player.hallow1cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow1cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 5 Greater Healing Potions!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.hallow1cd = Config.contents.hallow1cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Hallow2
+                case "hallow2":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallow2region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
+                            return;
+                        }
+
+                        if (player.hallow2cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow2cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1ó2");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3548 15");
+                                args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 15 Happy Grenades!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.hallow2cd = Config.contents.hallow2cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Hallow3
+                case "hallow3":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallow3region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.hallow3cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow3cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1774 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                args.Player.SendMessage("You just looted 2 Golden Keys, 5 Greater Healing Potions, and a Goodie Bag!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.hallow3cd = Config.contents.hallow3cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Hallow4
+                case "hallow4":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallow4region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.hallow4cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow4cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 5 Greater Healing Potions!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.hallow4cd = Config.contents.hallow4cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+
+                #region Hallow5
+                case "hallow5":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallow5region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (player.hallow5cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow5cd));
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 5 Greater Healing Potions!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.hallow5cd = Config.contents.hallow5cd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                            }
+                        }
+                    }
+                    break;
+                #endregion                
+                
             }
         }
         #endregion

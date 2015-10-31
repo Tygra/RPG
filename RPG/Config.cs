@@ -170,6 +170,41 @@ namespace RPG
 
                 public string jadv5region = "jadv5";
                 public int jadv5cd = 86400;
+
+                public string space1region = "space1";
+                public int space1cd = 86400;
+
+                public string space2region = "space2";
+                public int space2cd = 86400;
+
+                public string space3region = "space3";
+                public int space3cd = 86400;
+
+                public string space4region = "space4";
+                public int space4cd = 86400;
+
+                public string hallow1region = "hallow1";
+                public int hallow1cd = 86400;
+
+                public string hallow2region = "hallow2";
+                public int hallow2cd = 86400;
+
+                public string hallow3region = "hallow3";
+                public int hallow3cd = 432000;
+
+                public string hallow4region = "hallow4";
+                public int hallow4cd = 86400;
+
+                public string hallow5region = "hallow5";
+                public int hallow5cd = 86400;
+
+                public string tutclassregion = "tutclass";
+                public string tutgearregion = "tutgear";
+                public string tutmineregion = "tutmine";
+                public string tuttraderegion = "tuttrade";
+                public string tuthouseregion = "tuthouse";
+                public string dropretryregion = "dropretry";
+                public string tutdropregion = "tutdrop";
             }
 
         #endregion
