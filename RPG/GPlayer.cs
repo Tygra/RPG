@@ -27,6 +27,19 @@ namespace RPG
         public int ice4cd { get; set; }
         public int ice5cd { get; set; }
         public int ice6cd { get; set; }
+        public int corr1cd { get; set; }
+        public int corr2cd { get; set; }
+        public int corr3cd { get; set; }
+        public int corr4cd { get; set; }
+        public int crim1cd { get; set; }
+        public int crim2cd { get; set; }
+        public int crim3cd { get; set; }
+        public int crim4cd { get; set; }
+        public int jadv1cd { get; set; }
+        public int jadv2cd { get; set; }
+        public int jadv3cd { get; set; }
+        public int jadv4cd { get; set; }
+        public int jadv5cd { get; set; }
 
         public GPlayer(int index)
         {

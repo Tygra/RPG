@@ -131,6 +131,45 @@ namespace RPG
 
                 public string ice6region = "ice6";
                 public int ice6cd = 86400;
+
+                public string corr1region = "corr1";
+                public int corr1cd = 86400;
+
+                public string corr2region = "corr2";
+                public int corr2cd = 86400;
+
+                public string corr3region = "corr3";
+                public int corr3cd = 86400;
+
+                public string corr4region = "corr4";
+                public int corr4cd = 86400;
+
+                public string crim1region = "crim1";
+                public int crim1cd = 86400;
+
+                public string crim2region = "crim2";
+                public int crim2cd = 86400;
+
+                public string crim3region = "crim3";
+                public int crim3cd = 86400;
+
+                public string crim4region = "crim4";
+                public int crim4cd = 86400;
+
+                public string jadv1region = "jadv1";
+                public int jadv1cd = 86400;
+
+                public string jadv2region = "jadv2";
+                public int jadv2cd = 86400;
+
+                public string jadv3region = "jadv3";
+                public int jadv3cd = 86400;
+
+                public string jadv4region = "jadv4";
+                public int jadv4cd = 86400;
+
+                public string jadv5region = "jadv5";
+                public int jadv5cd = 86400;
             }
 
         #endregion
