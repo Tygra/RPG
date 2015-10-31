@@ -143,28 +143,27 @@ namespace RPG
                 case "pyramid1":
                     {
                         var player = Playerlist[args.Player.Index];
-                        if (player.pyramid1cd == 0)
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid1region);
+                        if (args.Player.CurrentRegion != region)
                         {
-                                Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid1region);
-                                if (args.Player.CurrentRegion != region)
-                                {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
 
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                    args.Player.SendMessage("You just looted some shit", Color.Goldenrod);
-                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                    {
-                                        player.pyramid1cd = Config.contents.pyramid1cd;
-                                    }
-                                    
-                                }
-                                args.Player.SendErrorMessage("You are not in the right region. You should be in hell, where you belong.");
-                                return;
+                        if (player.pyramid1cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.pyramid1cd));
+                            return;
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.pyramid1cd));
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
+                            args.Player.SendMessage("You just looted xy", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.pyramid1cd = Config.contents.pyramid1cd;
+                            }
                         }
-
                     }
                     break;
             }
