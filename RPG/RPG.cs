@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
-using TShockAPI.Hooks;
 using TShockAPI.DB;
 using Wolfje.Plugins.SEconomy;
 using Wolfje.Plugins.SEconomy.Journal;
@@ -25,6 +24,7 @@ namespace RPG
         public DateTime SLastCheck = DateTime.UtcNow;
         public GPlayer[] Playerlist = new GPlayer[256];
         DateTime DLastCheck = DateTime.UtcNow;
+        public TShockAPI.DB.Region Region { get; set; }
         public override string Name
         {
             get
@@ -70,7 +70,10 @@ namespace RPG
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
            // Commands.ChatCommands.Add(new Command(ilevel, "ilevel", "il"));
            // Commands.ChatCommands.Add(new Command(clevel, "clevel", "cl"));
-            ReadConfig();
+            if (!Config.ReadConfig())
+            {
+                TShock.Log.ConsoleError("Delete config because it failed to load.");
+            }
         }
         #endregion
 
@@ -142,13 +145,7 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         if (player.pyramid1cd == 0)
                         {
-                            if (Config.contents.EnableRegionRestriciton)
-                            {
-                                Region region;
-                                if (Config.contents.DeathandDespair)
-                                    region = TShock.Regions.GetRegionByName(Config.contents.DeathandDespair);
-                                else
-                                    region = quest.Region;
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid1region);
                                 if (args.Player.CurrentRegion != region)
                                 {
 
@@ -158,11 +155,10 @@ namespace RPG
                                     {
                                         player.pyramid1cd = Config.contents.pyramid1cd;
                                     }
-                                    args.Player.SendErrorMessage("You are not in the right region. You should be in hell, where you belong.");
-                                    return;
+                                    
                                 }
-                                
-                        }
+                                args.Player.SendErrorMessage("You are not in the right region. You should be in hell, where you belong.");
+                                return;
                         }
                         else
                         {
