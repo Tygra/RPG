@@ -89,10 +89,48 @@ namespace RPG
             public class Contents
             {
                 public bool SEconomy = true;
-                public bool EnableRegionRestriciton = true;
-                public bool DeathandDespair = false;
+
                 public string pyramid1region = "pyramid1";
-                public int pyramid1cd = 10;
+                public int pyramid1cd = 86400;
+
+                public string pyramid2region = "pyramid2";
+                public int pyramid2cd = 86400;
+
+                public string pyramid3region = "pyramid3";
+                public int pyramid3cd = 86400;
+
+                public string pyramid4region = "pyramid4";
+                public int pyramid4cd = 86400;
+
+                public string pyramid5region = "pyramid5";
+                public int pyramid5cd = 86400;
+
+                public string pyramid6region = "pyramid6";
+                public int pyramid6cd = 86400;
+
+                public string pyramid7region = "pyramid7";
+                public int pyramid7cd = 86400;
+
+                public string pyramid8region = "pyramid8";
+                public int pyramid8cd = 86400;
+
+                public string ice1region = "ice1";
+                public int ice1cd = 86400;
+
+                public string ice2region = "ice2";
+                public int ice2cd = 86400;
+
+                public string ice3region = "ice3";
+                public int ice3cd = 86400;
+
+                public string ice4region = "ice4";
+                public int ice4cd = 86400;
+
+                public string ice5region = "ice5";
+                public int ice5cd = 86400;
+
+                public string ice6region = "ice6";
+                public int ice6cd = 86400;
             }
 
         #endregion
