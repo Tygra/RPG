@@ -214,6 +214,24 @@ namespace RPG
                 public int giroreward = 150;
 
                 public string storyregion = "spawn";
+
+                public string greekoneregion = "greekone";
+                public int greekonecd = 604800;
+
+                public string greektworegion = "greektwo";
+                public int greektwocd = 604800;
+
+                public string lab1region = "lab1";
+                public int lab1cd = 604800;
+
+                public string lab2region = "lab2";
+                public int lab2cd = 604800;
+
+                public string hiddenregion = "hidden";
+                public int hiddencd = 640800;
+
+                public string millregion = "mill";
+                public int millcd = 604800;
             }
 
         #endregion

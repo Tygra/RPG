@@ -19,8 +19,6 @@ namespace RPG
 {
     [ApiVersion(1, 22)]
     //To-do
-    //Story lab1 lab2 greekone greektwo hidden mill
-    //Quests
     //Clevel
     //Ilevel
     //Trials
@@ -275,6 +273,26 @@ namespace RPG
                     {
                         player.girocd--;
                     }
+                    if (player.greekonecd > 0)
+                    {
+                        player.greekonecd--;
+                    }
+                    if (player.greektwocd > 0)
+                    {
+                        player.greektwocd--;
+                    }
+                    if (player.lab1cd > 0)
+                    {
+                        player.lab1cd--;
+                    }
+                    if (player.lab2cd > 0)
+                    {
+                        player.lab2cd--;
+                    }
+                    if (player.hiddencd > 0)
+                    {
+                        player.hiddencd--;
+                    }
                 }
             }
         }
@@ -466,7 +484,185 @@ namespace RPG
 
         private void Story(CommandArgs args)
         {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendMessage("If want to start the story use /teleport story.", Color.Goldenrod);
+                args.Player.SendMessage("Sometimes you need to read the signs twice. There are hints which will lead you to the next part.", Color.Goldenrod);
+                args.Player.SendMessage("For a tutorial on how to do the first part check www.geldar.net Tutorials forum.", Color.Goldenrod);
+                return;
+            }
 
+            switch (args.Parameters[0])
+            {
+                #region greekone
+                case "greekone":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.greekoneregion);
+                        if (player.greekonecd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.greektwocd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead.");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead.");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "sudo -f " + args.Player.Name + " /item 3199 1");
+                            args.Player.SendMessage("You just looted an Ice Mirror", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.greekonecd = Config.contents.greekonecd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region greekone
+                case "greektwo":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.greektworegion);
+                        if (player.greektwocd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.greektwocd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3520 1");
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 19 12");
+                            args.Player.SendMessage("You just looted a Gold Broadsword and 12 Gold Bars!", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.greektwocd = Config.contents.greektwocd;
+                            }
+                        }
+
+                    }
+                    break;
+                #endregion
+
+                #region hidden
+                case "hidden":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hiddenregion);
+                        if (player.hiddencd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hiddencd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("Youa re not in the right region. Requirement: The Forest of the Dead");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("Youa re not in the right region. Requirement: The Forest of the Dead");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1579 1");
+                            args.Player.SendMessage("You just looted Flurry Boots!", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.hiddencd = Config.contents.hiddencd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region lab1
+                case "lab1":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.lab1region);
+                        if (player.lab1cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab1cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
+                            args.Player.SendMessage("You just loote Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.lab1cd = Config.contents.lab1cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region lab2
+                case "lab2":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.lab2region);
+                        if (player.lab2cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab2cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        else
+                        {
+                            args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                            TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.lab2cd = Config.contents.lab2cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+            }
         }
 
         #endregion
@@ -484,6 +680,7 @@ namespace RPG
 
             switch (args.Parameters[0])
             {
+                #region giro
                 case "giro":
                     {
                         var player = Playerlist[args.Player.Index];
@@ -518,6 +715,41 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
+
+                #region mill
+                case "mill":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.millregion);
+                        if (player.millcd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.millcd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Melody's Farmstead.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Melody's Farmstead.");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1238 1");
+                            args.Player.SendMessage("You just looted a Sapphire Hook!", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.millcd = Config.contents.millcd;
+                            }
+                        }
+                    }
+                    break;
+
+                #endregion
             }
 
         }

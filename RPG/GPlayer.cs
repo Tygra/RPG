@@ -50,6 +50,12 @@ namespace RPG
         public int hallow4cd { get; set; }
         public int hallow5cd { get; set; }
         public int girocd { get; set; }
+        public int greekonecd { get; set; }
+        public int greektwocd { get; set; }
+        public int lab1cd { get; set; }
+        public int lab2cd { get; set; }
+        public int hiddencd { get; set; }
+        public int millcd { get; set; }
 
         public GPlayer(int index)
         {
