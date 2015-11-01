@@ -19,11 +19,12 @@ namespace RPG
 {
     [ApiVersion(1, 22)]
     //To-do
-    //Oasis teleport
-    //SEconomy payment
-    //Story
+    //Story lab1 lab2 greekone greektwo hidden mill
+    //Quests
     //Clevel
     //Ilevel
+    //Trials
+    //Adventure cooldown to first instead of three
     public class RPG : TerrariaPlugin
     {
         #region Info & other things
@@ -74,13 +75,14 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.level5", Adv, "adventure"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Teleport, "teleport"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
-            Commands.ChatCommands.Add(new Command("geldar.level1", Tutorial, "tutorial"));
+            Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Quests, "quest"));
+            //Commands.ChatCommands.Add(new Command("geldar.trial", Trial, "trial"));
+            Commands.ChatCommands.Add(new Command(Ilevel, "ilevel", "il"));
+            Commands.ChatCommands.Add(new Command(Clevel, "Clevel", "cl"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
-           // Commands.ChatCommands.Add(new Command(ilevel, "ilevel", "il"));
-           // Commands.ChatCommands.Add(new Command(clevel, "clevel", "cl"));
             if (!Config.ReadConfig())
             {
                 TShock.Log.ConsoleError("Delete config because it failed to load.");
@@ -157,6 +159,122 @@ namespace RPG
                     {
                         player.pyramid8cd--;
                     }
+                    if (player.ice1cd > 0)
+                    {
+                        player.ice1cd--;
+                    }
+                    if (player.ice2cd > 0)
+                    {
+                        player.ice2cd--;
+                    }
+                    if (player.ice3cd > 0)
+                    {
+                        player.ice3cd--;
+                    }
+                    if (player.ice4cd > 0)
+                    {
+                        player.ice4cd--;
+                    }
+                    if (player.ice5cd > 0)
+                    {
+                        player.ice5cd--;
+                    }
+                    if (player.ice6cd > 0)
+                    {
+                        player.ice6cd--;
+                    }
+                    if (player.corr1cd > 0)
+                    {
+                        player.corr1cd--;
+                    }
+                    if (player.corr2cd > 0)
+                    {
+                        player.corr2cd--;
+                    }
+                    if (player.corr3cd > 0)
+                    {
+                        player.corr3cd--;
+                    }
+                    if (player.corr4cd > 0)
+                    {
+                        player.corr4cd--;
+                    }
+                    if (player.crim1cd > 0)
+                    {
+                        player.crim1cd--;
+                    }
+                    if (player.crim2cd > 0)
+                    {
+                        player.crim2cd--;
+                    }
+                    if (player.crim3cd > 0)
+                    {
+                        player.crim3cd--;
+                    }
+                    if (player.crim4cd > 0)
+                    {
+                        player.crim4cd--;
+                    }
+                    if (player.jadv1cd > 0)
+                    {
+                        player.jadv1cd--;
+                    }
+                    if (player.jadv2cd > 0)
+                    {
+                        player.jadv2cd--;
+                    }
+                    if (player.jadv3cd > 0)
+                    {
+                        player.jadv3cd--;
+                    }
+                    if (player.jadv4cd > 0)
+                    {
+                        player.jadv4cd--;
+                    }
+                    if (player.jadv5cd > 0)
+                    {
+                        player.jadv5cd--;
+                    }
+                    if (player.space1cd > 0)
+                    {
+                        player.space1cd--;
+                    }
+                    if (player.space2cd > 0)
+                    {
+                        player.space2cd--;
+                    }
+                    if (player.space3cd > 0)
+                    {
+                        player.space3cd--;
+                    }
+                    if (player.space4cd > 0)
+                    {
+                        player.space4cd--;
+                    }
+                    if (player.hallow1cd > 0)
+                    {
+                        player.hallow1cd--;
+                    }
+                    if (player.hallow2cd > 0)
+                    {
+                        player.hallow2cd--;
+                    }
+                    if (player.hallow3cd > 0)
+                    {
+                        player.hallow3cd--;
+                    }
+                    if (player.hallow4cd > 0)
+                    {
+                        player.hallow4cd--;
+                    }
+                    if (player.hallow5cd > 0)
+                    {
+                        player.hallow5cd--;
+                    }
+                    if (player.girocd > 0)
+                    {
+                        player.girocd--;
+                    }
                 }
             }
         }
@@ -178,8 +296,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutclassregion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Class tutorials");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Class tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Class tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -194,8 +320,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutgearregion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Gear tutorials.");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Gear tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Gear tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -210,8 +344,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Mining tutorials.");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Mining tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Mining tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -226,8 +368,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tuttraderegion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Trading tutorials.");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Trading tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Trading tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -242,8 +392,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tuthouseregion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Housing tutorials.");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Housing tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Housing tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -258,8 +416,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the Itemdrop tutorials.");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Itemdrop tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Itemdrop tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -274,8 +440,16 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You need to be in the Tutorial zone at the correct shaft of the Itemdrop tutorials.");
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the correct shaft of the Itemdrop tutorials.");
                             args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the correct shaft of the Itemdrop tutorials.");
+                            args.Player.SendMessage("Stand on the sign when you execute the command.", Color.Goldenrod);
+                            return;
                         }
 
                         else
@@ -300,6 +474,51 @@ namespace RPG
         #region Quests
         private void Quests(CommandArgs args)
         {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendMessage("Each quest has it's own subcommand, which can be found at the quest's destination.", Color.Goldenrod);
+                args.Player.SendMessage("To finish some of the quests you need certain items to be in your inventory.", Color.Goldenrod);
+                args.Player.SendMessage("You can check the available quests on the notice boards next to spawn.", Color.Goldenrod);
+                return;
+            }
+
+            switch (args.Parameters[0])
+            {
+                case "giro":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.giroregion);
+                        if (player.girocd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.girocd));
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Professor Giro's house.");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Professor Giro's house.");
+                            return;
+                        }
+
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.giroreward, BankAccountTransferOptions.AnnounceToReceiver, "You got 150 Terra Coins", "Giro reward");
+                            if(!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.girocd = Config.contents.girocd;
+                            }
+                        }
+                    }
+                    break;
+            }
 
         }
 
@@ -313,6 +532,7 @@ namespace RPG
                 args.Player.SendMessage("Info: Use the commands below.", Color.Goldenrod);
                 args.Player.SendMessage("Info: /teleport adventure - Teleports you to the adventure tower.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /teleport tutorial - Teleports you to the Tutorial zone.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /teleport story - Teleports you to the very first part of the story.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /teleport oasis - Teleports you to the Poised Oasis.", Color.SkyBlue);
                 args.Player.SendMessage("Info: Oasis teleport requirements: 250 Terra coins, Level 30, Warehouse teleport pad.", Color.Goldenrod);
                 return;
@@ -342,8 +562,63 @@ namespace RPG
                 #region Oasis teleport
                 case "oasis":
                     {
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.oasiscost;
+                        Money moneyamount2 = Config.contents.oasiscost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to teleport to the oasis. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
 
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.oasisregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Warehouse Teleportpad");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Warehouse Teleportpad");
+                            return;
+                        }
+
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the oasis teleport.", moneyamount2, args.Player.Name), string.Format("Oasis Teleport"));
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 1345 456");
+                            args.Player.SendMessage("You've paid 250 Terra Coins to be teleported to the Poisoned Oasis.", Color.Goldenrod);
+                        }
                     }
+                    break;
+
+                #endregion
+
+                #region Story teleport
+                case "story":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.storyregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Spawn/Landfall");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Spawn/Landfall");
+                            return;
+                        }
+
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6096 659");
+                        }
+                    }   
                     break;
 
                 #endregion
@@ -373,6 +648,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid1region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
                             return;
@@ -416,6 +697,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
                         if (player.pyramid2cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.pyramid2cd));
@@ -449,6 +736,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid3region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
                             return;
@@ -493,6 +786,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
                         if (player.pyramid4cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.pyramid4cd));
@@ -527,6 +826,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid5region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
                             return;
@@ -571,6 +876,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
                         if (player.pyramid6cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.pyramid6cd));
@@ -604,6 +915,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.pyramid7region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
                             return;
@@ -647,6 +964,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Pyramid adventure");
+                            return;
+                        }
+
                         if (player.pyramid8cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.pyramid8cd));
@@ -680,6 +1003,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.ice1region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
                             return;
@@ -723,6 +1052,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
+                            return;
+                        }
+
                         if (player.ice2cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.ice2cd));
@@ -756,6 +1091,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.ice3region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
                             return;
@@ -799,6 +1140,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
+                            return;
+                        }
+
                         if (player.ice4cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.ice4cd));
@@ -832,6 +1179,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.ice5region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
                             return;
@@ -875,6 +1228,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Ice adventure");
+                            return;
+                        }
+
                         if (player.ice6cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.ice6cd));
@@ -913,6 +1272,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Corruption adventure");
+                            return;
+                        }
+
                         if (player.corr1cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.corr1cd));
@@ -945,6 +1310,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.corr2region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Corruption adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Corruption adventure");
                             return;
@@ -988,6 +1359,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Corruption adventure");
+                            return;
+                        }
+
                         if (player.corr3cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.corr3cd));
@@ -1020,6 +1397,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.corr4region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Corruption adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Corruption adventure");
                             return;
@@ -1063,6 +1446,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Crimsom adventure");
+                            return;
+                        }
+
                         if (player.crim1cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.crim1cd));
@@ -1098,6 +1487,12 @@ namespace RPG
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Crimson adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Crimsom adventure");
                             return;
                         }
 
@@ -1138,6 +1533,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Crimsom adventure");
+                            return;
+                        }
+
                         if (player.crim3cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.crim3cd));
@@ -1175,6 +1576,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Crimsom adventure");
+                            return;
+                        }
+
                         if (player.crim4cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.crim4cd));
@@ -1209,6 +1616,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.jadv1region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
                             return;
@@ -1252,6 +1665,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
+                            return;
+                        }
+
                         if (player.jadv2cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.jadv2cd));
@@ -1284,6 +1703,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.jadv3region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
                             return;
@@ -1326,6 +1751,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
+                            return;
+                        }
+
                         if (player.jadv4cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.jadv4cd));
@@ -1363,6 +1794,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Jungle adventure");
+                            return;
+                        }
+
                         if (player.jadv5cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.jadv5cd));
@@ -1395,6 +1832,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.space1region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
                             return;
@@ -1438,6 +1881,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
                         if (player.space2cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.space2cd));
@@ -1471,6 +1920,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.space3region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
                             return;
@@ -1514,6 +1969,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
                         if (player.space4cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.space4cd));
@@ -1547,6 +2008,12 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.hallow1region);
                         if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
                             return;
@@ -1590,6 +2057,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
+                            return;
+                        }
+
                         if (player.hallow2cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow2cd));
@@ -1625,6 +2098,12 @@ namespace RPG
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Space adventure");
+                            return;
+                        }
+
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
                             return;
                         }
 
@@ -1666,6 +2145,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
+                            return;
+                        }
+
                         if (player.hallow4cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow4cd));
@@ -1704,6 +2189,12 @@ namespace RPG
                             return;
                         }
 
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Hallow adventure");
+                            return;
+                        }
+
                         if (player.hallow5cd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hallow5cd));
@@ -1732,6 +2223,21 @@ namespace RPG
                 #endregion                
                 
             }
+        }
+        #endregion
+
+        #region Clevel
+        private void Clevel(CommandArgs args)
+        {
+
+        }
+
+        #endregion
+
+        #region Ilevel
+        private void Ilevel(CommandArgs args)
+        {
+
         }
         #endregion
 

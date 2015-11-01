@@ -205,6 +205,15 @@ namespace RPG
                 public string tuthouseregion = "tuthouse";
                 public string dropretryregion = "dropretry";
                 public string tutdropregion = "tutdrop";
+
+                public string oasisregion = "oasis";
+                public int oasiscost = 250;
+
+                public string giroregion = "sideq1";
+                public int girocd = 259200;
+                public int giroreward = 150;
+
+                public string storyregion = "spawn";
             }
 
         #endregion

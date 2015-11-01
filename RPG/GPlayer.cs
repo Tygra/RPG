@@ -49,6 +49,7 @@ namespace RPG
         public int hallow3cd { get; set; }
         public int hallow4cd { get; set; }
         public int hallow5cd { get; set; }
+        public int girocd { get; set; }
 
         public GPlayer(int index)
         {
