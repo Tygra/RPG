@@ -22,6 +22,8 @@ namespace RPG
     //Clevel
     //Ilevel
     //Trials
+    //Test shitty trial loops
+    //Trial sign update
     //Adventure cooldown to first instead of three
     public class RPG : TerrariaPlugin
     {
@@ -75,7 +77,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
             Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Quests, "quest"));
-            //Commands.ChatCommands.Add(new Command("geldar.trial", Trial, "trial"));
+            Commands.ChatCommands.Add(new Command("geldar.trial", Trial, "trial"));
             Commands.ChatCommands.Add(new Command(Ilevel, "ilevel", "il"));
             Commands.ChatCommands.Add(new Command(Clevel, "Clevel", "cl"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
@@ -277,9 +279,9 @@ namespace RPG
                     {
                         player.greekonecd--;
                     }
-                    if (player.greektwocd > 0)
+                    if (player.cavecd > 0)
                     {
-                        player.greektwocd--;
+                        player.cavecd--;
                     }
                     if (player.lab1cd > 0)
                     {
@@ -304,11 +306,44 @@ namespace RPG
             if(args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Info: If you wish to be teleported to the tutorial zone, use /teleport tutorial", Color.Goldenrod);
+                args.Player.SendMessage("Info: For some housing information use /tutorial house.", Color.Goldenrod);
+                args.Player.SendMessage("Info: For a trading tutorial use /tutorial trading.", Color.Goldenrod);
                 return;
             }
 
             switch (args.Parameters[0])
             {
+                #region house
+                case "house":
+                    {
+                        args.Player.SendMessage("--------------------------------------- Housing Tutorial ---------------------------------------", Color.Goldenrod);
+                        args.Player.SendMessage("You areallowed to have a house from level 20, either in the above or the underground zone.", Color.SkyBlue);
+                        args.Player.SendMessage("The maximum size allowed is 15 blocks wide,12 blocks high, walls included.", Color.SkyBlue);
+                        args.Player.SendMessage("Follow the guidelines at /house set 1 and /house set 2.", Color.SkyBlue);
+                        args.Player.SendMessage("After you marked the spots use /house add housename. Change housename to your desired house name.", Color.SkyBlue);
+                        args.Player.SendMessage("Don't forget to check the housing rules either on our website or with /rules.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region trading
+                case "trading":
+                    {
+                        args.Player.SendMessage("--------------------------------------- Trading Tutorial ---------------------------------------", Color.Goldenrod);
+                        args.Player.SendMessage("From level 5 you can sell and buy item on trade.", Color.SkyBlue);
+                        args.Player.SendMessage("Example: /trade add \"cactus sword\" 1 100.", Color.SkyBlue);
+                        args.Player.SendMessage("This case you are selling 1 Cactus sword for 100 Terra Coins.", Color.SkyBlue);
+                        args.Player.SendMessage("If the item name is two or more word you will need quotation marks around the item name.", Color.SkyBlue);
+                        args.Player.SendMessage("/trade check - to check your listed trades; /trade list - to check the full trade list", Color.SkyBlue);
+                        args.Player.SendMessage("/trade collect - to collect money from finished trades; /trade cancel ID - to cancel a trade.", Color.SkyBlue);
+                        args.Player.SendMessage("/trade accept ID - to buy something. You can get the ID from trade list or /trade search.", Color.SkyBlue);
+                        args.Player.SendMessage("You will need qoutation marks when using /trade search \"item name\" too.", Color.SkyBlue);
+                        args.Player.SendMessage("Press enter and use the up arrow to scroll the chat upwards.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region tutclass
                 case "tutclass":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutclassregion);
@@ -332,7 +367,9 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
 
+                #region tutgear
                 case "tutgear":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutgearregion);
@@ -356,7 +393,9 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
 
+                #region tutmine
                 case "tutmine":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
@@ -380,7 +419,9 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
 
+                #region tuttrade
                 case "tuttrade":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tuttraderegion);
@@ -404,7 +445,9 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
 
+                #region tuthouse
                 case "tuthouse":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tuthouseregion);
@@ -428,7 +471,9 @@ namespace RPG
                         }
                     }
                     break;
+                    #endregion
 
+                #region dropretry
                 case "dropretry":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
@@ -452,7 +497,9 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
 
+                #region tutdrop
                 case "tutdrop":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
@@ -476,6 +523,76 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
+            }
+        }
+        #endregion
+
+        #region Trials
+        private void Trial(CommandArgs args)
+        {            
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendMessage("Info: At level 29, 59, 69 and 79 you have to complete a trial. Below you can find the available commands.", Color.Goldenrod);
+                args.Player.SendMessage("Info: If you wish to skip the trials use /trial skip to get more information about it.", Color.Goldenrod);
+                args.Player.SendMessage("Info: The commands to finish the trial can be found on the last sign of the trial.", Color.Goldenrod);
+
+                return;
+            }
+
+            switch (args.Parameters[0])
+            {
+                #region Trial 30
+                case "trial30":
+                    {
+                        #region Trial 30 region check
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.trial30region);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check story signs to get hints.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check story signs to get hints.");
+                            return;
+                        }
+                        #endregion
+
+                        #region Trial 30 mage
+                        if (args.Player.Group.Name == Config.contents.trial30magegroup)
+                        {
+
+                        }
+                        #endregion
+
+                        #region Trial 30 warrior
+                        if (args.Player.Group.Name == Config.contents.trial30warriorgroup)
+                        {
+
+                        }
+                        #endregion
+
+                        #region Trial 30 ranger
+                        if (args.Player.Group.Name == Config.contents.trial30rangergroup)
+                        {
+
+                        }
+                        #endregion
+
+                        #region Trial 30 summoner
+                        else
+                        {
+
+                        }
+                        #endregion
+                    }
+                    break;
+                #endregion
+
+                #region Trial skip
+
+                #endregion
             }
         }
         #endregion
@@ -501,7 +618,7 @@ namespace RPG
                         Region region = TShock.Regions.GetRegionByName(Config.contents.greekoneregion);
                         if (player.greekonecd != 0)
                         {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.greektwocd));
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.greekonecd));
                             return;
                         }
                         if (args.Player.CurrentRegion != region)
@@ -524,41 +641,6 @@ namespace RPG
                                 player.greekonecd = Config.contents.greekonecd;
                             }
                         }
-                    }
-                    break;
-                #endregion
-
-                #region greekone
-                case "greektwo":
-                    {
-                        var player = Playerlist[args.Player.Index];
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.greektworegion);
-                        if (player.greektwocd != 0)
-                        {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.greektwocd));
-                            return;
-                        }
-                        if (args.Player.CurrentRegion != region)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
-                            return;
-                        }
-                        else
-                        {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3520 1");
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 19 12");
-                            args.Player.SendMessage("You just looted a Gold Broadsword and 12 Gold Bars!", Color.Goldenrod);
-                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                            {
-                                player.greektwocd = Config.contents.greektwocd;
-                            }
-                        }
-
                     }
                     break;
                 #endregion
@@ -707,7 +789,7 @@ namespace RPG
                         {
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
-                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.giroreward, BankAccountTransferOptions.AnnounceToReceiver, "You got 150 Terra Coins", "Giro reward");
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.giroreward, BankAccountTransferOptions.AnnounceToReceiver, "Professor Giro Reward", "Giro reward");
                             if(!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.girocd = Config.contents.girocd;
@@ -746,6 +828,42 @@ namespace RPG
                                 player.millcd = Config.contents.millcd;
                             }
                         }
+                    }
+                    break;
+
+                #endregion
+
+                #region gloomy cave
+                case "cave":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.caveregion);
+                        if (player.cavecd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.cavecd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3520 1");
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 19 12");
+                            args.Player.SendMessage("You just looted a Gold Broadsword and 12 Gold Bars!", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.cavecd = Config.contents.cavecd;
+                            }
+                        }
+
                     }
                     break;
 
@@ -2461,7 +2579,10 @@ namespace RPG
         #region Clevel
         private void Clevel(CommandArgs args)
         {
+            if (args.Parameters.Count < 1)
+            {
 
+            }
         }
 
         #endregion

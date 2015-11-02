@@ -51,7 +51,7 @@ namespace RPG
         public int hallow5cd { get; set; }
         public int girocd { get; set; }
         public int greekonecd { get; set; }
-        public int greektwocd { get; set; }
+        public int cavecd { get; set; }
         public int lab1cd { get; set; }
         public int lab2cd { get; set; }
         public int hiddencd { get; set; }
