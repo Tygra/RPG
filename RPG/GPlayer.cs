@@ -56,6 +56,9 @@ namespace RPG
         public int lab2cd { get; set; }
         public int hiddencd { get; set; }
         public int millcd { get; set; }
+        public int facepalmcd { get; set; }
+        public int slapallcd { get; set; }
+        
 
         public GPlayer(int index)
         {

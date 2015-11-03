@@ -235,6 +235,9 @@ namespace RPG
                 public string millregion = "mill";
                 public int millcd = 604800;
 
+                public int facepalmcd = 30;
+                public int slapallcd = 3600;
+
                 public string trial30region = "trial";
                 public string trial30magegroup = "mage29";
                 public string trial30warriorgroup = "warrior29";
@@ -242,16 +245,15 @@ namespace RPG
                 public string trial30summonergroup = "summoner29";
                 public string trialskipregion = "trialskip";
                 public int trial30skipcost = 50000;
-                public int trial60skipcost = 200000;
-
-                public class Trial60
-                {
-                    public string trial60mageregion = "trial60mage";
-                    public string trial60warriorregion = "trial60warrior";
-                    public string trial60rangerregion = "trial60ranger";
-                    public string trial60summonerregion = "trial60summoner";
-                    public int trial60cost = 12000;
-                }
+                public int trial60skipcost = 200000;                
+            }
+            public class Trial60
+            {
+                public string trial60mageregion = "trial60mage";
+                public string trial60warriorregion = "trial60warrior";
+                public string trial60rangerregion = "trial60ranger";
+                public string trial60summonerregion = "trial60summoner";
+                public int trial60cost = 12000;
             }
 
         #endregion

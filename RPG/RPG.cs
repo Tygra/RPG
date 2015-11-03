@@ -25,6 +25,7 @@ namespace RPG
     //Test shitty trial loops
     //Trial sign update
     //Adventure cooldown to first instead of three
+    //Vip buff/info
     public class RPG : TerrariaPlugin
     {
         #region Info & other things
@@ -34,33 +35,14 @@ namespace RPG
         DateTime DLastCheck = DateTime.UtcNow;
         public TShockAPI.DB.Region Region { get; set; }
         public override string Name
-        {
-            get
-            {
-                return "RPG Commands";
-            }
-        }
+        { get { return "RPG Commands"; } }
         public override string Author
-        {
-            get
-            {
-                return "Tygra";
-            }
-        }
+        { get { return "Tygra"; } }
         public override string Description
-        {
-            get
-            {
-                return "Geldar RPG Commands";
-            }
-        }
+        { get { return "Geldar RPG Commads"; } }
         public override Version Version
-        {
-            get
-            {
-                return new Version("1.0");
-            }
-        }
+        { get { return new Version(1, 0); } }
+
         public RPG(Main game)
             : base(game)
         {
@@ -80,6 +62,14 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.trial", Trial, "trial"));
             Commands.ChatCommands.Add(new Command(Ilevel, "ilevel", "il"));
             Commands.ChatCommands.Add(new Command(Clevel, "Clevel", "cl"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Exban, "exban"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Exui, "exui"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Clearall, "ca"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", ResetWorldStats, "resetworldstats"));
+            Commands.ChatCommands.Add(new Command(staff, "staff"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Facepalm, "facepalm"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Slapall, "slapall"));
+            Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -295,9 +285,208 @@ namespace RPG
                     {
                         player.hiddencd--;
                     }
+                    if (player.facepalmcd > 0)
+                    {
+                        player.facepalmcd--;
+                    }
+                    if (player.slapallcd > 0)
+                    {
+                        player.slapallcd--;
+                    }
                 }
             }
         }
+        #endregion
+
+        #region Staffcommands
+
+        #region Extended ban
+        private void Exban(CommandArgs args)
+        {
+            if (args.Parameters.Count != 1)
+            {
+                args.Player.SendErrorMessage("Invalid syntax: /exban \"<player name>\"");
+            }
+            else
+            {
+                string text = args.Parameters[0];
+                Ban banByName = TShock.Bans.GetBanByName(text, true);
+                if (banByName == null)
+                {
+                    args.Player.SendErrorMessage("No bans by this name were found.");
+                }
+                else
+                {
+                    args.Player.SendInfoMessage(string.Concat(new string[] { "Account name: ", banByName.Name, " (", banByName.IP, ")" }));
+                    args.Player.SendInfoMessage("Date banned: " + banByName.Date);
+                    if (banByName.Expiration != "")
+                    {
+                        args.Player.SendInfoMessage("Expiration date: " + banByName.Expiration);
+                    }
+                    args.Player.SendInfoMessage("Banned by: " + banByName.BanningUser);
+                    args.Player.SendInfoMessage("Reason: " + banByName.Reason);
+                }
+            }
+        }
+        #endregion
+
+        #region Exui
+        private void Exui(CommandArgs args)
+        {
+            if (args.Parameters.Count == 1)
+            {
+                string text = string.Join(" ", args.Parameters);
+                if (text != null & text != "")
+                {
+                    User userByName = TShock.Users.GetUserByName(text);
+                    if (userByName != null)
+                    {
+                        args.Player.SendMessage("Query result: ", Color.Goldenrod);
+                        args.Player.SendMessage(string.Format("User {0} exists.", text), Color.SkyBlue);
+                        try
+                        {
+                            DateTime dateTime = DateTime.Parse(userByName.Registered);
+                            DateTime dateTime2 = DateTime.Parse(userByName.LastAccessed);
+                            List<string> list = JsonConvert.DeserializeObject<List<string>>(userByName.KnownIps);
+                            string arg = list[list.Count - 1];
+                            args.Player.SendMessage(string.Format("{0}'s group is {1}.", text, userByName.Group), Color.SkyBlue);
+                            args.Player.SendMessage(string.Format("{0}'s last known IP is {1}.", text, arg), Color.SkyBlue);
+                            args.Player.SendMessage(string.Format("{0} registered on {1}.", text, dateTime.ToShortDateString()), Color.SkyBlue);
+                            args.Player.SendMessage(string.Format("{0} was last seen {1}.", text, dateTime2.ToShortDateString(), dateTime2.ToShortTimeString()), Color.SkyBlue);
+                        }
+                        catch
+                        {
+                            DateTime dateTime = DateTime.Parse(userByName.Registered);
+                            args.Player.SendMessage(string.Format("{0}'s group is {1}.", text, userByName.Group), Color.SkyBlue);
+                            args.Player.SendMessage(string.Format("{0} registered on {1}.", text, dateTime.ToShortDateString()), Color.SkyBlue);
+                        }
+                    }
+                    else
+                    { args.Player.SendMessage(string.Format("User {0} does not exist.", text), Color.DeepPink); }
+                }
+                else
+                { args.Player.SendErrorMessage("Syntax: /exui <player name>."); }
+            }
+            else
+            { args.Player.SendErrorMessage("Syntax: /exui <player name>"); }
+        }
+        #endregion
+
+        #region Clearall
+        private void Clearall(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "/clear item 9000");
+            TShockAPI.Commands.HandleCommand(args.Player, "/clear projectile 9000");
+        }
+        #endregion
+
+        #region ResetWorldStats
+
+        public static void ResetWorldStats(CommandArgs args)
+        {
+            NPC.downedBoss1 = false;
+            NPC.downedBoss2 = false;
+            NPC.downedBoss3 = false;
+            NPC.downedQueenBee = false;
+            NPC.downedSlimeKing = false;
+            NPC.downedMechBossAny = false;
+            NPC.downedMechBoss1 = false;
+            NPC.downedMechBoss2 = false;
+            NPC.downedMechBoss3 = false;
+            NPC.downedFishron = false;
+            NPC.downedMartians = false;
+            NPC.downedAncientCultist = false;
+            NPC.downedMoonlord = false;
+            NPC.downedHalloweenKing = false;
+            NPC.downedHalloweenTree = false;
+            NPC.downedChristmasIceQueen = false;
+            NPC.downedChristmasSantank = false;
+            NPC.downedChristmasTree = false;
+            NPC.downedPlantBoss = false;
+            NPC.downedGoblins = false;
+            NPC.downedClown = false;
+            NPC.downedFrost = false;
+            NPC.downedPirates = false;
+            NPC.savedAngler = false;
+            NPC.downedGolemBoss = false;
+            WorldGen.shadowOrbSmashed = false;
+            WorldGen.altarCount = 0;
+            WorldGen.shadowOrbCount = 0;
+            args.Player.SendSuccessMessage("The World Generation stats have been reset.");
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Other commands
+
+        #region staff
+        public void staff(CommandArgs args)
+        {
+            List<TSPlayer> list = new List<TSPlayer>(TShock.Players).FindAll((TSPlayer t) => t != null && t.Group.HasPermission("geldar.mod"));
+            if (list.Count == 0)
+            {
+                args.Player.SendErrorMessage("No staff members currently online. If you have a problem check our website at www.geldar.net.");
+            }
+            else
+            {
+                args.Player.SendMessage("[Currently online staff members]", Color.Goldenrod);
+                foreach (TSPlayer current in list)
+                {
+                    if (current != null)
+                    {
+                        Color color = new Color((int)current.Group.R, (int)current.Group.G, (int)current.Group.B);
+                        args.Player.SendMessage(string.Format("{0}{1}", current.Group.Prefix, current.Name), color);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Facepalm
+        private void Facepalm(CommandArgs args)
+        {
+            var player = Playerlist[args.Player.Index];
+            if (player.facepalmcd != 0)
+            {
+                args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.facepalmcd));
+                args.Player.SendErrorMessage("Chill, facepalming repeatedly can be fatal.");
+                return;
+            }
+            else
+            {
+                TSPlayer.All.SendMessage(string.Format("{0} facepalmed.", args.Player.Name), Color.Goldenrod);
+                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                {
+                    player.facepalmcd = Config.contents.facepalmcd;
+                }
+            }
+        }
+        #endregion
+
+        #region Slapall
+        private void Slapall(CommandArgs args)
+        {
+            var player = Playerlist[args.Player.Index];
+            if (player.slapallcd != 0)
+            {
+                args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.slapallcd));
+                args.Player.SendErrorMessage("The slapdemic has to wait");
+                return;
+            }
+            else
+            {                
+                TSPlayer.All.DamagePlayer(1);
+                TSPlayer.All.SendMessage(string.Format("{0} slapped everyone.", args.Player.Name), Color.Goldenrod);
+                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                {
+                    player.slapallcd = Config.contents.slapallcd;
+                }
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Tutorial
@@ -2589,6 +2778,13 @@ namespace RPG
 
         #region Ilevel
         private void Ilevel(CommandArgs args)
+        {
+
+        }
+        #endregion
+
+        #region VIP
+        private void VIP(CommandArgs args)
         {
 
         }
