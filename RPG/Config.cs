@@ -22,8 +22,6 @@ namespace RPG
     {
         public static Contents contents;
 
-        public static Trial60 trial60;
-
         #region Config create
 
         public static void CreateConfig()
@@ -243,16 +241,26 @@ namespace RPG
                 public string trial30warriorgroup = "warrior29";
                 public string trial30rangergroup = "ranger29";
                 public string trial30summonergroup = "summoner29";
+                public string lab1magegroup = "mage29_1";
+                public string lab1rangergroup = "ranger29_1";
+                public string lab1warriorgroup = "warrior29_1";
+                public string lab1summonergroup = "summoner29_1";
+                public string lab2magegroup = "mage29_2";
+                public string lab2rangergroup = "ranger29_2";
+                public string lab2warriorgroup = "warrior29_2";
+                public string lab2summonergroup = "summoner29_2";
                 public string trialskipregion = "trialskip";
                 public int trial30skipcost = 50000;
                 public int trial60skipcost = 200000;                
-            }
-            public class Trial60
-            {
+            
                 public string trial60mageregion = "trial60mage";
                 public string trial60warriorregion = "trial60warrior";
                 public string trial60rangerregion = "trial60ranger";
                 public string trial60summonerregion = "trial60summoner";
+                public string trial60magegroup = "mage59";
+                public string trial60rangergroup = "ranger59";
+                public string trial60warriorgroup = "warrior59";
+                public string trial60summonergroup = "summoner59";
                 public int trial60cost = 12000;
             }
 
