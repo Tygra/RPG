@@ -58,6 +58,8 @@ namespace RPG
         public int millcd { get; set; }
         public int facepalmcd { get; set; }
         public int slapallcd { get; set; }
+        public int giftcd { get; set; }
+        public int mgcd { get; set; }
         
 
         public GPlayer(int index)
