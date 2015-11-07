@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*  
+ *  The plugin has some features which I got from other authors.
+ *  I don't claim any overship over those elements which were made by someone else.
+ *  The plugin has been customized to fit our need at Geldar,
+ *  and because of this, it's useless for anyone else.
+*/
+
+using System;
 using System.IO;
 using System.ComponentModel;
 using System.Timers;
@@ -18,10 +25,6 @@ using Newtonsoft.Json;
 namespace RPG
 {
     [ApiVersion(1, 22)]
-    //To-do
-    //Test shitty trial loops
-    //Trial sign update
-    //Vip info
     public class RPG : TerrariaPlugin
     {
         #region Info & other things
@@ -1988,6 +1991,41 @@ namespace RPG
                     break;
 
                 #endregion
+
+                #region VIP1 teleport
+                case "vip":
+                    {
+                        if (!args.Player.Group.HasPermission("geldar.vip"))
+                        {
+                            args.Player.SendErrorMessage("You don't have permission to use this teleport.");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 5690 543");
+                            args.Player.SendMessage("You have been teleported to the aboveground VIP housing.", Color.Goldenrod);
+                        }                        
+                    }
+                    break;
+                #endregion
+
+                #region VIP2 teleport
+                case "vip2":
+                    {
+                        if (!args.Player.Group.HasPermission("geldar.vip"))
+                        {
+                            args.Player.SendErrorMessage("You don't have permission to use this teleport.");
+                            return;
+                        }
+                        else
+                        {
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 5769 834");
+                            args.Player.SendMessage("You have been teleported to the underground VIP housing.", Color.Goldenrod);
+                        }
+                    }
+                    break;
+
+                #endregion
             }
         }
 
@@ -3559,7 +3597,89 @@ namespace RPG
         #region VIP
         private void VIP(CommandArgs args)
         {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendMessage("Use the commands below.", Color.Goldenrod);
+                args.Player.SendMessage("/teleport vip1 - Teleports you to the aboveground vip housing.", Color.Goldenrod);
+                args.Player.SendMessage("/teleport vip2 - Teleports you to the underground vip housing.", Color.Goldenrod);
+                args.Player.SendMessage("/vip info - General Info about VIP ranks.", Color.Goldenrod);
+                args.Player.SendMessage("/vip <elite/champion/king/supreme/ultimate>", Color.Goldenrod);
+                args.Player.SendMessage("You can contact us at admin@geldar.net", Color.Goldenrod);
+                args.Player.SendMessage("Press enter and use the up arrow to scroll the chat.", Color.Goldenrod);
+                return;
+            }
 
+            switch (args.Parameters[0])
+            {
+                #region Info
+                case "info":
+                    {
+                        args.Player.SendMessage("Here are some basic things to know about the VIP status.", Color.Goldenrod);
+                        args.Player.SendMessage("As a VIP you still need to folow the rules. You can check some of them at /geldar.", Color.Goldenrod);
+                        args.Player.SendMessage("If you make a non-VIP character you still need to use your VIP house with that character.", Color.Goldenrod);
+                        args.Player.SendMessage("You can add your non-VIP to your VIP house with /house allow \"player name>\" \"houes name\".", Color.Goldenrod);
+                        args.Player.SendMessage("You can contact us at admin@geldar.net or on the forums at www.geldar.net.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region Elite
+                case "elite":
+                    {
+                        args.Player.SendMessage("You are allowed to have a 20x20 house with no chest amount restriction.", Color.Goldenrod);
+                        args.Player.SendMessage("You can join anytime, even if the server if full.", Color.Goldenrod);
+                        args.Player.SendMessage("Elite prefix and Royal-blue chat color.", Color.Goldenrod);
+                        args.Player.SendMessage("No leveling system, no item restirction, you can start invasions with items.", Color.Goldenrod);                 
+                    }
+                    break;
+                #endregion
+
+                #region Champion
+                case "champion":
+                    {
+                        args.Player.SendMessage("All the Elite rank benefits.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 25x25 house with no chest amount restriction.", Color.Goldenrod);
+                        args.Player.SendMessage("You can summon the Collector's Edition Bunny with /bunny.", Color.Goldenrod);
+                        args.Player.SendMessage("Champion prefix and Orange chat color.", Color.Goldenrod);
+                        args.Player.SendMessage("Teleport back where you died with /b.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region King
+                case "king":
+                    {
+                        args.Player.SendMessage("All the Elite and Champion rank benefits.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.Goldenrod);
+                        args.Player.SendMessage("King prefix and chat color of your liking.", Color.Goldenrod);
+                        args.Player.SendMessage("You can use /home and /tp with all subcommands.", Color.Goldenrod);
+                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region Supreme
+                case "supreme":
+                    {
+                        args.Player.SendMessage("All the Elite, Champion and King rank benefits.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.Goldenrod);
+                        args.Player.SendMessage("One pet of your choice.", Color.Goldenrod);
+                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region Ultimate
+                case "ultimate":
+                    {
+                        args.Player.SendMessage("All the Elite, Champion, King and Supreme rank benefits.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.Goldenrod);
+                        args.Player.SendMessage("One mount of your choice.", Color.Goldenrod);
+                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.Goldenrod);
+                    }
+                    break;
+                    #endregion
+            }
         }
         #endregion
 
