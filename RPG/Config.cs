@@ -247,6 +247,7 @@ namespace RPG
                 public string giftregion = "gift";
                 public int giftitem1 = 1922;
                 public int giftitem2 = 1869;
+                public int giftreward = 50;
 
                 public int mgcd = 30;
                 public int mgcost = 1000;

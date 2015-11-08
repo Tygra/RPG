@@ -69,6 +69,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.mod", Slapall, "slapall"));
             Commands.ChatCommands.Add(new Command("geldar.admin", Gift, "gift"));
             Commands.ChatCommands.Add(new Command("geldar.champion", Bunny, "bunny"));
+            Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
             Commands.ChatCommands.Add(new Command("geldar.level30", MonsterGamble, "monstergamble", "mg"));
             Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
             Commands.ChatCommands.Add(new Command("geldar.vip", Buffme, "buffme"));
@@ -478,6 +479,13 @@ namespace RPG
         }
         #endregion
 
+        #region BankBal
+        private void BankBal(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, " /bank bal");
+        }
+        #endregion
+
         #region Facepalm
         private void Facepalm(CommandArgs args)
         {
@@ -854,7 +862,7 @@ namespace RPG
                 #region dropretry
                 case "dropretry":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.dropretryregion);
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the Itemdrop tutorials.");
@@ -880,7 +888,7 @@ namespace RPG
                 #region tutdrop
                 case "drop":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutmineregion);
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.tutdropregion);
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You need to be in the Tutorial zone, at the correct shaft of the Itemdrop tutorials.");
@@ -914,12 +922,159 @@ namespace RPG
                 args.Player.SendMessage("Info: At level 29, 59, 69 and 79 you have to complete a trial. Below you can find the available commands.", Color.Goldenrod);
                 args.Player.SendMessage("Info: If you wish to skip the trials use /trial skip to get more information about it.", Color.Goldenrod);
                 args.Player.SendMessage("Info: The commands to finish the trial can be found on the last sign of the trial.", Color.Goldenrod);
-
                 return;
             }
 
             switch (args.Parameters[0])
             {
+                #region lab1
+                case "lab1":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.lab1region);
+                        if (player.lab1cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab1cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30summonergroup)
+                        {
+                            if (args.Player.Group.Name == Config.contents.trial30magegroup)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage29_1");
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab1cd = Config.contents.lab1cd;
+                                }
+                            }
+                            if (args.Player.Group.Name == Config.contents.trial30rangergroup)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger29_1");
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab1cd = Config.contents.lab1cd;
+                                }
+                            }
+                            if (args.Player.Group.Name == Config.contents.trial30warriorgroup)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior29_1");
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab1cd = Config.contents.lab1cd;
+                                }
+                            }
+                            else if (args.Player.Group.Name == Config.contents.trial30summonergroup)
+                            {
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner29_1");
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab1cd = Config.contents.lab1cd;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You need to be level 29 to start the trial.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region lab2
+                case "lab2":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.lab2region);
+                        if (player.lab2cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab2cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
+                            return;
+                        }
+                        if (args.Player.Group.Name == Config.contents.lab1magegroup || args.Player.Group.Name == Config.contents.lab1rangergroup || args.Player.Group.Name == Config.contents.lab1warriorgroup || args.Player.Group.Name == Config.contents.lab1summonergroup)
+                        {
+                            if (args.Player.Group.Name == Config.contents.lab1magegroup)
+                            {
+                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage29_2");
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab2cd = Config.contents.lab2cd;
+                                }
+                            }
+                            if (args.Player.Group.Name == Config.contents.lab1rangergroup)
+                            {
+                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger29_2");
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab2cd = Config.contents.lab2cd;
+                                }
+                            }
+                            if (args.Player.Group.Name == Config.contents.lab1warriorgroup)
+                            {
+                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior29_2");
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab2cd = Config.contents.lab2cd;
+                                }
+                            }
+                            if (args.Player.Group.Name == Config.contents.lab1summonergroup)
+                            {
+                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
+                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner29_2");
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.lab2cd = Config.contents.lab2cd;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You need to complete the frist part of the trial before this.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
                 #region Trial 30
                 case "trial30":
                     {
@@ -1165,7 +1320,7 @@ namespace RPG
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
                                         TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner60");
-                                        TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Archon", Color.SkyBlue);
+                                        TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Animist", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
                                 }
@@ -1183,6 +1338,17 @@ namespace RPG
                 #endregion
 
                 #region Trial skip
+
+                #region Skipinfo
+                case "skip":
+                    {
+                        args.Player.SendMessage("You can skip the trials but it iwll cost you a hefty amount of Terra Coins.", Color.Goldenrod);
+                        args.Player.SendMessage("The level 30 trial skip costs 50 000 Terra Coins.", Color.Goldenrod);
+                        args.Player.SendMessage("The level 60 trial skip costs 200 000 Terra Coins.", Color.Goldenrod);
+                        args.Player.SendMessage("To avoid accidental skips you need to be at Melody's Farmstead in the room marked with a T.", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
 
                 #region Level 30 trial skip
                 case "skip30":
@@ -1344,7 +1510,7 @@ namespace RPG
 
                         else
                         {
-                            args.Player.SendErrorMessage("You need to be level 29");
+                            args.Player.SendErrorMessage("You need to be level 29.");
                             return;
                         }
 
@@ -1513,6 +1679,11 @@ namespace RPG
                             }
                             #endregion
                         }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You need to be level 59.");
+                            return;
+                        }
                     }
                     break;
                     #endregion
@@ -1572,7 +1743,7 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "sudo -f " + args.Player.Name + " /item 3199 1");
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3199 1");
                             args.Player.SendMessage("You just looted an Ice Mirror", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
@@ -1595,12 +1766,12 @@ namespace RPG
                         }
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("Youa re not in the right region. Requirement: The Forest of the Dead");
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
                             return;
                         }
                         if (args.Player.CurrentRegion == null)
                         {
-                            args.Player.SendErrorMessage("Youa re not in the right region. Requirement: The Forest of the Dead");
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: The Forest of the Dead");
                             return;
                         }
                         else
@@ -1614,155 +1785,7 @@ namespace RPG
                         }
                     }
                     break;
-                #endregion
-
-                #region lab1
-                case "lab1":
-                    {
-                        var player = Playerlist[args.Player.Index];
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.lab1region);
-                        if (player.lab1cd != 0)
-                        {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab1cd));
-                            return;
-                        }
-                        if (args.Player.CurrentRegion != region)
-                        {
-                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
-                            return;
-                        }
-                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30summonergroup)
-                        {
-                            if (args.Player.Group.Name == Config.contents.trial30magegroup)
-                            {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
-                            }
-                            if (args.Player.Group.Name == Config.contents.trial30rangergroup)
-                            {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
-                            }
-                            if (args.Player.Group.Name == Config.contents.trial30warriorgroup)
-                            {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
-                            }
-                            else if (args.Player.Group.Name == Config.contents.trial30summonergroup)
-                            {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            args.Player.SendErrorMessage("You need to be level 29 to start the trial.");
-                            return;
-                        }
-                    }
-                    break;
-                #endregion
-
-                #region lab2
-                case "lab2":
-                    {
-                        var player = Playerlist[args.Player.Index];
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.lab2region);
-                        if (player.lab2cd != 0)
-                        {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab2cd));
-                            return;
-                        }
-                        if (args.Player.CurrentRegion != region)
-                        {
-                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
-                            return;
-                        }
-                        if (args.Player.Group.Name == Config.contents.lab1magegroup || args.Player.Group.Name == Config.contents.lab1rangergroup || args.Player.Group.Name == Config.contents.lab1warriorgroup || args.Player.Group.Name == Config.contents.lab1summonergroup)
-                        {
-                            if (args.Player.Group.Name == Config.contents.lab1magegroup)
-                            {
-                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
-                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
-                            }
-                            if (args.Player.Group.Name == Config.contents.lab1rangergroup)
-                            {
-                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
-                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
-                            }
-                            if (args.Player.Group.Name == Config.contents.lab1warriorgroup)
-                            {
-                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
-                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
-                            }
-                            if (args.Player.Group.Name == Config.contents.lab1summonergroup)
-                            {
-                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
-                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            args.Player.SendErrorMessage("You need to complete the frist part of the trial before this.");
-                            return;
-                        }
-                    }
-                    break;
-                #endregion
+                #endregion                    
             }
         }
 
@@ -1809,6 +1832,7 @@ namespace RPG
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.giroreward, BankAccountTransferOptions.AnnounceToReceiver, "Professor Giro Reward", "Giro reward");
+                            args.Player.SendMessage("You found 150 Terra Coins laying around in a chest.", Color.Goldenrod);
                             if(!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.girocd = Config.contents.girocd;
@@ -1937,6 +1961,11 @@ namespace RPG
                         var player = Playerlist[args.Player.Index];
                         Money moneyamount = -Config.contents.oasiscost;
                         Money moneyamount2 = Config.contents.oasiscost;
+                        if (!args.Player.Group.HasPermission("geldar.level30"))
+                        {
+                            args.Player.SendErrorMessage("You need to be level 30 to use this command.");
+                            return;
+                        }
                         if (playeramount < moneyamount2)
                         {
                             args.Player.SendErrorMessage("You need {0} to teleport to the oasis. You have {1}.", moneyamount2, selectedPlayer.Balance);
@@ -1993,7 +2022,7 @@ namespace RPG
                 #endregion
 
                 #region VIP1 teleport
-                case "vip":
+                case "vip1":
                     {
                         if (!args.Player.Group.HasPermission("geldar.vip"))
                         {
@@ -3600,11 +3629,11 @@ namespace RPG
             if (args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Use the commands below.", Color.Goldenrod);
-                args.Player.SendMessage("/teleport vip1 - Teleports you to the aboveground vip housing.", Color.Goldenrod);
-                args.Player.SendMessage("/teleport vip2 - Teleports you to the underground vip housing.", Color.Goldenrod);
-                args.Player.SendMessage("/vip info - General Info about VIP ranks.", Color.Goldenrod);
-                args.Player.SendMessage("/vip <elite/champion/king/supreme/ultimate>", Color.Goldenrod);
-                args.Player.SendMessage("You can contact us at admin@geldar.net", Color.Goldenrod);
+                args.Player.SendMessage("/teleport vip1 - Teleports you to the aboveground vip housing.", Color.SkyBlue);
+                args.Player.SendMessage("/teleport vip2 - Teleports you to the underground vip housing.", Color.SkyBlue);
+                args.Player.SendMessage("/vip info - General Info about VIP ranks.", Color.SkyBlue);
+                args.Player.SendMessage("/vip <elite/champion/king/supreme/ultimate>", Color.SkyBlue);
+                args.Player.SendMessage("You can contact us at admin@geldar.net", Color.SkyBlue);
                 args.Player.SendMessage("Press enter and use the up arrow to scroll the chat.", Color.Goldenrod);
                 return;
             }
@@ -3615,10 +3644,10 @@ namespace RPG
                 case "info":
                     {
                         args.Player.SendMessage("Here are some basic things to know about the VIP status.", Color.Goldenrod);
-                        args.Player.SendMessage("As a VIP you still need to folow the rules. You can check some of them at /geldar.", Color.Goldenrod);
-                        args.Player.SendMessage("If you make a non-VIP character you still need to use your VIP house with that character.", Color.Goldenrod);
-                        args.Player.SendMessage("You can add your non-VIP to your VIP house with /house allow \"player name>\" \"houes name\".", Color.Goldenrod);
-                        args.Player.SendMessage("You can contact us at admin@geldar.net or on the forums at www.geldar.net.", Color.Goldenrod);
+                        args.Player.SendMessage("As a VIP you still need to folow the rules. You can check some of them at /geldar.", Color.SkyBlue);
+                        args.Player.SendMessage("If you make a non-VIP character you still need to use your VIP house with that character.", Color.SkyBlue);
+                        args.Player.SendMessage("You can add your non-VIP to your VIP house with /house allow \"player name>\" \"house name\".", Color.SkyBlue);
+                        args.Player.SendMessage("You can contact us at admin@geldar.net or on the forums at www.geldar.net.", Color.SkyBlue);
                     }
                     break;
                 #endregion
@@ -3627,9 +3656,9 @@ namespace RPG
                 case "elite":
                     {
                         args.Player.SendMessage("You are allowed to have a 20x20 house with no chest amount restriction.", Color.Goldenrod);
-                        args.Player.SendMessage("You can join anytime, even if the server if full.", Color.Goldenrod);
-                        args.Player.SendMessage("Elite prefix and Royal-blue chat color.", Color.Goldenrod);
-                        args.Player.SendMessage("No leveling system, no item restirction, you can start invasions with items.", Color.Goldenrod);                 
+                        args.Player.SendMessage("You can join anytime, even if the server if full.", Color.SkyBlue);
+                        args.Player.SendMessage("Elite prefix and Royal-blue chat color.", Color.SkyBlue);
+                        args.Player.SendMessage("No leveling system, no item restirction, you can start invasions with items.", Color.SkyBlue);                 
                     }
                     break;
                 #endregion
@@ -3638,10 +3667,10 @@ namespace RPG
                 case "champion":
                     {
                         args.Player.SendMessage("All the Elite rank benefits.", Color.Goldenrod);
-                        args.Player.SendMessage("You are allowed to have a 25x25 house with no chest amount restriction.", Color.Goldenrod);
-                        args.Player.SendMessage("You can summon the Collector's Edition Bunny with /bunny.", Color.Goldenrod);
-                        args.Player.SendMessage("Champion prefix and Orange chat color.", Color.Goldenrod);
-                        args.Player.SendMessage("Teleport back where you died with /b.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 25x25 house with no chest amount restriction.", Color.SkyBlue);
+                        args.Player.SendMessage("You can summon the Collector's Edition Bunny with /bunny.", Color.SkyBlue);
+                        args.Player.SendMessage("Champion prefix and Orange chat color.", Color.SkyBlue);
+                        args.Player.SendMessage("Teleport back where you died with /b.", Color.SkyBlue);
                     }
                     break;
                 #endregion
@@ -3650,10 +3679,10 @@ namespace RPG
                 case "king":
                     {
                         args.Player.SendMessage("All the Elite and Champion rank benefits.", Color.Goldenrod);
-                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.Goldenrod);
-                        args.Player.SendMessage("King prefix and chat color of your liking.", Color.Goldenrod);
-                        args.Player.SendMessage("You can use /home and /tp with all subcommands.", Color.Goldenrod);
-                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.SkyBlue);
+                        args.Player.SendMessage("King prefix and chat color of your liking.", Color.SkyBlue);
+                        args.Player.SendMessage("You can use /home and /tp with all subcommands.", Color.SkyBlue);
+                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.SkyBlue);
                     }
                     break;
                 #endregion
@@ -3662,9 +3691,9 @@ namespace RPG
                 case "supreme":
                     {
                         args.Player.SendMessage("All the Elite, Champion and King rank benefits.", Color.Goldenrod);
-                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.Goldenrod);
-                        args.Player.SendMessage("One pet of your choice.", Color.Goldenrod);
-                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.SkyBlue);
+                        args.Player.SendMessage("One pet of your choice.", Color.SkyBlue);
+                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.SkyBlue);
                     }
                     break;
                 #endregion
@@ -3673,9 +3702,9 @@ namespace RPG
                 case "ultimate":
                     {
                         args.Player.SendMessage("All the Elite, Champion, King and Supreme rank benefits.", Color.Goldenrod);
-                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.Goldenrod);
-                        args.Player.SendMessage("One mount of your choice.", Color.Goldenrod);
-                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.Goldenrod);
+                        args.Player.SendMessage("You are allowed to have a 30x30 house with no chest amount restriction.", Color.SkyBlue);
+                        args.Player.SendMessage("One mount of your choice.", Color.SkyBlue);
+                        args.Player.SendMessage("For available buff commands for your rank use /buffme.", Color.SkyBlue);
                     }
                     break;
                     #endregion
@@ -3686,16 +3715,16 @@ namespace RPG
         #region Buffme
         private void Buffme(CommandArgs args)
         {
-            if (args.Parameters.Count > 1)
+            if (args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Use the commands below to buff youself. Minimum rank for the commands is King.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme sixthsense - Required rank: King or above.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme defense - Require rank: Supreme or above.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme misc - Required rank: Supreme or above.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme melee - Required rank : Ultimate.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme ranged - Required rank : Ultimate.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme magic - Required rank : Ultimate.", Color.Goldenrod);
-                args.Player.SendMessage("Info: /buffme summoner - Required rank : Ultimate.", Color.Goldenrod);
+                args.Player.SendMessage("Info: /buffme sixthsense - Required rank: King or above.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /buffme defense - Require rank: Supreme or above.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /buffme misc - Required rank: Supreme or above.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /buffme melee - Required rank : Ultimate.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /buffme ranged - Required rank : Ultimate.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /buffme magic - Required rank : Ultimate.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /buffme summoner - Required rank : Ultimate.", Color.SkyBlue);
                 args.Player.SendMessage("Press enter then the up arrow to scroll the chat", Color.Goldenrod);
                 return;
             }
@@ -3712,10 +3741,10 @@ namespace RPG
                         }
                         else
                         {
-                            args.Player.SetBuff(12);
-                            args.Player.SetBuff(11);
-                            args.Player.SetBuff(17);
-                            args.Player.SetBuff(111);
+                            args.Player.SetBuff(12, 14400);
+                            args.Player.SetBuff(11, 18000);
+                            args.Player.SetBuff(17, 18000);
+                            args.Player.SetBuff(111, 36000);
                             args.Player.SendMessage("You have been buffed with Night Owl, Hunter, Dangersense and Shine Potion.", Color.Goldenrod);
                         }
                     }
@@ -3733,14 +3762,14 @@ namespace RPG
                         }
                         else
                         {
-                            args.Player.SetBuff(5);
-                            args.Player.SetBuff(1);
-                            args.Player.SetBuff(113);
-                            args.Player.SetBuff(124);
-                            args.Player.SetBuff(3);
-                            args.Player.SetBuff(114);
-                            args.Player.SetBuff(2);
-                            args.Player.SetBuff(116);
+                            args.Player.SetBuff(5, 18000);
+                            args.Player.SetBuff(1, 14400);
+                            args.Player.SetBuff(113, 18000);
+                            args.Player.SetBuff(124, 54000);
+                            args.Player.SetBuff(3, 14400);
+                            args.Player.SetBuff(114, 14400);
+                            args.Player.SetBuff(2, 18000);
+                            args.Player.SetBuff(116, 14400);
                             args.Player.SendMessage("You have been buffed with Obisidian Skin, Warmth, Inferno, Swiftness, Endurance, Regeneration, Lifeforce and Ironskin Potion.", Color.Goldenrod);
                         }
                     }
@@ -3757,15 +3786,15 @@ namespace RPG
                         }
                         else
                         {
-                            args.Player.SetBuff(122);
-                            args.Player.SetBuff(121);
-                            args.Player.SetBuff(123);
-                            args.Player.SetBuff(109);
-                            args.Player.SetBuff(104);
-                            args.Player.SetBuff(9);
-                            args.Player.SetBuff(4);
-                            args.Player.SetBuff(15);
-                            args.Player.SetBuff(106);
+                            args.Player.SetBuff(122, 14400);
+                            args.Player.SetBuff(121, 28800);
+                            args.Player.SetBuff(123, 10800);
+                            args.Player.SetBuff(109, 28800);
+                            args.Player.SetBuff(104, 28800);
+                            args.Player.SetBuff(9, 18000);
+                            args.Player.SetBuff(4, 7200);
+                            args.Player.SetBuff(15, 18000);
+                            args.Player.SetBuff(106, 18000);
                             args.Player.SendMessage("You have been buffed with Water Walking, Fishing, Crate, Sonar, Gills, Mining, Spelunker, Flipper and Calming Potion", Color.Goldenrod);
                         }
                     }
@@ -3859,7 +3888,6 @@ namespace RPG
         #region Geldar
         private void Geldar(CommandArgs args)
         {
-            //Don't judge, coun't do the 2 parameter command tree
             if (args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Info: For the most basic commands use /geldar info.", Color.Goldenrod);
@@ -3871,20 +3899,23 @@ namespace RPG
             
             switch (args.Parameters[0])
             {
+                #region Info
                 case "info":
                     {
                         args.Player.SendMessage("Welcome to our server, Geldar.", Color.Goldenrod);
                         args.Player.SendMessage("Info: You need level 10 for mining and level 20 to have a house.", Color.SkyBlue);
                         args.Player.SendMessage("Houses can be built above or under spawn.", Color.SkyBlue);
                         args.Player.SendMessage("Info: You can use /spawn to teleport to the map's spawnpoint.", Color.SkyBlue);
-                        args.Player.SendMessage("Info: The server uses an ingame serverside currency name Terra coins.", Color.SkyBlue);
+                        args.Player.SendMessage("Info: The server uses an ingame serverside currency name Terra Coins.", Color.SkyBlue);
                         args.Player.SendMessage("Info: You need these Terra Coins (tc) to level up, trade, or use ceratin commands.", Color.SkyBlue);
-                        args.Player.SendMessage("Info: To check your tc balance use /bank bal. Earn tc by killing monsters.", Color.SkyBlue);
+                        args.Player.SendMessage("Info: To check your tc balance use /bank bal or /bb. Earn tc by killing monsters.", Color.SkyBlue);
                         args.Player.SendMessage("Info: For tutorials please use /tutorial.", Color.SkyBlue);
                         args.Player.SendMessage("Press enter to scroll the chat.", Color.Goldenrod);
                     }
                     break;
+                #endregion
 
+                #region General
                 case "general":
                     {
                         args.Player.SendMessage("------------------------ General Rules ------------------------", Color.Goldenrod);
@@ -3900,7 +3931,9 @@ namespace RPG
                         args.Player.SendMessage("Press enter to scroll the chat.", Color.Goldenrod);
                     }
                     break;
+                #endregion
 
+                #region Chat
                 case "chat":
                     {
                         args.Player.SendMessage("------------------------ Chat Rules ------------------------", Color.Goldenrod);
@@ -3913,7 +3946,9 @@ namespace RPG
                         args.Player.SendMessage("Press enter to scroll the chat.", Color.Goldenrod);
                     }
                     break;
+                #endregion
 
+                #region Housing
                 case "housing":
                     {
                         args.Player.SendMessage("------------------------ Housing Rules ------------------------", Color.Goldenrod);
@@ -3928,7 +3963,9 @@ namespace RPG
                         args.Player.SendMessage("Press enter to scroll the chat.", Color.Goldenrod);
                     }
                     break;
+                #endregion
 
+                #region Itemdrop
                 case "itemdrop":
                     {
                         args.Player.SendMessage("------------------------ Item Drop Rules ------------------------", Color.Goldenrod);
@@ -3939,6 +3976,7 @@ namespace RPG
                         args.Player.SendMessage("Press enter to scroll the chat.", Color.Goldenrod);
                     }
                     break;
+                    #endregion
             }
         }
         #endregion
