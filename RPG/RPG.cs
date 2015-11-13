@@ -3,6 +3,7 @@
  *  I don't claim any overship over those elements which were made by someone else.
  *  The plugin has been customized to fit our need at Geldar,
  *  and because of this, it's useless for anyone else.
+ *  I know timers are shit, and If someone knows a way to keep them after relog, tell me.
 */
 
 using System;
@@ -117,7 +118,7 @@ namespace RPG
                 LastCheck = DateTime.UtcNow;
                 foreach ( var player in Playerlist)
                 {
-                    if (player == null)
+                    if (player == null || player.TSPlayer == null)
                     {
                         continue;
                     }
@@ -374,13 +375,19 @@ namespace RPG
                         }
                     }
                     else
-                    { args.Player.SendMessage(string.Format("User {0} does not exist.", text), Color.DeepPink); }
+                    {
+                        args.Player.SendMessage(string.Format("User {0} does not exist.", text), Color.Red);
+                    }
                 }
                 else
-                { args.Player.SendErrorMessage("Syntax: /exui \"<player name>\"."); }
+                {
+                    args.Player.SendErrorMessage("Syntax: /exui \"<player name>\"");
+                }
             }
             else
-            { args.Player.SendErrorMessage("Syntax: /exui \"<player name>\"."); }
+            {
+                args.Player.SendErrorMessage("Syntax: /exui \"<player name>\"");
+            }
         }
         #endregion
 
@@ -444,7 +451,7 @@ namespace RPG
             {
                 case "witch":
                     {
-                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /spawnmob 228 1 2585 599");
+                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, " /spawnmob 228 1 2585 599");
                         args.Player.SendSuccessMessage("Do ya feel da voodo?");
                     }
                     break;
@@ -579,7 +586,7 @@ namespace RPG
                     else
                     {
                         Item itemById = TShock.Utils.GetItemById(Config.contents.giftitem2);
-                        tSPlayer.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, itemById.stack, 1);
+                        tSPlayer.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, itemById.stack, 0);
                         tSPlayer.SendInfoMessage("{0} gave you a Present. Merry Christmas!", args.Player.Name, Color.Goldenrod);
                         args.Player.SendSuccessMessage("You gave {0} a Present.", tSPlayer.Name, Color.Goldenrod);
                         if (!args.Player.Group.HasPermission("geldar.bypasscd"))
@@ -749,7 +756,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6221 983");
+                            args.Player.Teleport(6221 * 16, 983 * 16);
                         }
                     }
                     break;
@@ -775,7 +782,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6213 992");
+                            args.Player.Teleport(6213 * 16, 992 * 16);
                         }
                     }
                     break;
@@ -801,7 +808,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6225 1007");
+                            args.Player.Teleport(8225 * 16, 1007 *16);
                         }
                     }
                     break;
@@ -827,7 +834,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6250 1009");
+                            args.Player.Teleport(6250 * 16, 1009 * 16);
                         }
                     }
                     break;
@@ -853,7 +860,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6216 1015");
+                            args.Player.Teleport(6216 * 16, 1015 * 16);
                         }
                     }
                     break;
@@ -879,7 +886,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6216 1015");
+                            args.Player.Teleport(6216 * 16, 1015 * 16);
                         }
                     }
                     break;
@@ -905,7 +912,7 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6230 1030");
+                            args.Player.Teleport(6230 * 16, 1030 * 16);
                         }
                     }
                     break;
@@ -930,13 +937,7 @@ namespace RPG
                 #region lab1
                 case "lab1":
                     {
-                        var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.lab1region);
-                        if (player.lab1cd != 0)
-                        {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab1cd));
-                            return;
-                        }
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
@@ -951,48 +952,44 @@ namespace RPG
                         {
                             if (args.Player.Group.Name == Config.contents.trial30magegroup)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1magegroup);
+                                var player = args.Player;
+                                player.Group = grp;
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30rangergroup)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1rangergroup);
+                                var player = args.Player;
+                                player.Group = grp;
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30warriorgroup)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1warriorgroup);
+                                var player = args.Player;
+                                player.Group = grp;
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             else if (args.Player.Group.Name == Config.contents.trial30summonergroup)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 70 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner29_1");
-                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab1cd = Config.contents.lab1cd;
-                                }
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1summonergroup);
+                                var player = args.Player;
+                                player.Group = grp;
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                               
                             }
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("You need to be level 29 to start the trial.");
+                            args.Player.SendErrorMessage("You has to be level 29 to start the trial.");
                             return;
                         }
                     }
@@ -1001,14 +998,8 @@ namespace RPG
 
                 #region lab2
                 case "lab2":
-                    {
-                        var player = Playerlist[args.Player.Index];
+                    {                        
                         Region region = TShock.Regions.GetRegionByName(Config.contents.lab2region);
-                        if (player.lab2cd != 0)
-                        {
-                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.lab2cd));
-                            return;
-                        }
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
@@ -1023,47 +1014,43 @@ namespace RPG
                         {
                             if (args.Player.Group.Name == Config.contents.lab1magegroup)
                             {
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2magegroup);
+                                var player = args.Player;
+                                player.Group = grp;
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
+
                             }
                             if (args.Player.Group.Name == Config.contents.lab1rangergroup)
                             {
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2rangergroup);
+                                var player = args.Player;
+                                player.Group = grp;
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
+
                             }
                             if (args.Player.Group.Name == Config.contents.lab1warriorgroup)
                             {
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2warriorgroup);
+                                var player = args.Player;
+                                player.Group = grp;
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
+
                             }
                             if (args.Player.Group.Name == Config.contents.lab1summonergroup)
                             {
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2summonergroup);
+                                var player = args.Player;
+                                player.Group = grp;
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /slap " + args.Player.Name);
+                                player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner29_2");
-                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                {
-                                    player.lab2cd = Config.contents.lab2cd;
-                                }
+
                             }
                         }
                         else
@@ -1103,11 +1090,17 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Sorcerer", Color.SkyBlue);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage30");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /firework " + args.Player.Name);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1071 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 4");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 2349 9");
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30magefinish);
+                                var player = args.Player;
+                                player.Group = grp;
+                                int type = 167;
+                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 4, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.trial30item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 9, 0);
                             }
                             #endregion
 
@@ -1117,11 +1110,17 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Marksman", Color.SkyBlue);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger30");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /firework " + args.Player.Name);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1071 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 4");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 2349 9");
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30rangerfinish);
+                                var player = args.Player;
+                                player.Group = grp;
+                                int type = 167;
+                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 4, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.trial30item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 9, 0);
                             }
                             #endregion
 
@@ -1131,11 +1130,17 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Knight", Color.SkyBlue);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior30");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /firework " + args.Player.Name);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1071 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 4");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 2349 9");
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30warriorfinish);
+                                var player = args.Player;
+                                player.Group = grp;
+                                int type = 167;
+                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 4, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.trial30item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 9, 0);
                             }
                             #endregion
 
@@ -1145,11 +1150,17 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Beckoner", Color.SkyBlue);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner30");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /firework " + args.Player.Name);
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1071 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 4");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 2349 9");
+                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30summonerfinish);
+                                var player = args.Player;
+                                player.Group = grp;
+                                int type = 167;
+                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 4, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.trial30item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 9, 0);
                             }
                             #endregion
                         }
@@ -1202,7 +1213,9 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage60");
+                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60magefinish);
+                                        var ply = args.Player;
+                                        ply.Group = grp;
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Archon", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1241,7 +1254,9 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger60");
+                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60rangerfinish);
+                                        var ply = args.Player;
+                                        ply.Group = grp;
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Deadshot", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1280,7 +1295,9 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior60");
+                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60warriorfinish);
+                                        var ply = args.Player;
+                                        ply.Group = grp;
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Blademaster", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1319,7 +1336,9 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner60");
+                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60summonerfinish);
+                                        var ply = args.Player;
+                                        ply.Group = grp;
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Animist", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1387,7 +1406,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage30");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30magefinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1425,7 +1446,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger30");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30rangerfinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1463,7 +1486,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior30");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30warriorfinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1501,7 +1526,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner30");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30summonerfinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1555,7 +1582,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " mage60");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60magefinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Archon", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1594,7 +1623,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " ranger60");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60rangerfinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp; ;
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Deadshot", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1633,7 +1664,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " warrior60");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60warriorfinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Blademaster", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1672,7 +1705,9 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /user group " + args.Player.Name + " summoner60");
+                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60summonerfinish);
+                                    var ply = args.Player;
+                                    ply.Group = grp;
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Animist", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1743,7 +1778,8 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3199 1");
+                            Item itemById = TShock.Utils.GetItemById(Config.contents.greekoneitem);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, itemById.stack, 0);
                             args.Player.SendMessage("You just looted an Ice Mirror", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
@@ -1776,7 +1812,8 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1579 1");
+                            Item itemById = TShock.Utils.GetItemById(Config.contents.hiddenitem);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, itemById.stack, 0);
                             args.Player.SendMessage("You just looted Flurry Boots!", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
@@ -1936,8 +1973,9 @@ namespace RPG
                 #region Adventure teleport
                 case "adventure":
                     {
-                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 445 875");
+                        args.Player.Teleport(445 * 16, 875 * 16);
                         args.Player.SendMessage("You have been teleported to the Adventure Tower.", Color.Goldenrod);
+                        args.Player.SendMessage("Remember to have at least 4 free inventory slots.", Color.Goldenrod);
                     }
                     break;
                 #endregion
@@ -1945,7 +1983,7 @@ namespace RPG
                 #region Tutorial teleport
                 case "tutorial":
                     {
-                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6223 962");
+                        args.Player.Teleport(6223 * 16, 962 * 16);
                         args.Player.SendMessage("Yoou have been teleported to the Tutorial zone.", Color.Goldenrod);
                     }
                     break;
@@ -1988,7 +2026,7 @@ namespace RPG
                         else
                         {
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the oasis teleport.", moneyamount2, args.Player.Name), string.Format("Oasis Teleport"));
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 1345 456");
+                            args.Player.Teleport(1345 * 16, 456 * 16);
                             args.Player.SendMessage("You've paid 250 Terra Coins to be teleported to the Poisoned Oasis.", Color.Goldenrod);
                         }
                     }
@@ -2014,7 +2052,8 @@ namespace RPG
 
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 6096 659");
+                            args.Player.Teleport(6096 * 16, 659 * 16);
+                            args.Player.SendMessage("You have been teleport to the start of the story.", Color.Goldenrod);
                         }
                     }   
                     break;
@@ -2031,7 +2070,7 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 5690 543");
+                            args.Player.Teleport(5690 * 16, 543 * 16);
                             args.Player.SendMessage("You have been teleported to the aboveground VIP housing.", Color.Goldenrod);
                         }                        
                     }
@@ -2048,7 +2087,7 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /tppos 5769 834");
+                            args.Player.Teleport(5769 * 16, 834 * 16);
                             args.Player.SendMessage("You have been teleported to the underground VIP housing.", Color.Goldenrod);
                         }
                     }
@@ -2100,9 +2139,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 159 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 790 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid1item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Shiny Red Balloon and a Snake Banner!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2143,9 +2185,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 791 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 116 40");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid2item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 40, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys, 40 Meteories and an Omega Banner!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2186,10 +2231,14 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 285 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 789 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid3item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
+                                Item itemById4 = TShock.Utils.GetItemById(Config.contents.pyramid3item4);
+                                args.Player.GiveItem(itemById4.type, itemById4.name, itemById4.width, itemById4.height, 5, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, an Aglet an Ankh Banner and 5 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2230,10 +2279,14 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 857 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 791 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 790 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid4item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
+                                Item itemById4 = TShock.Utils.GetItemById(Config.contents.pyramid4item4);
+                                args.Player.GiveItem(itemById4.type, itemById4.name, itemById4.width, itemById4.height, 1, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Sandstorm in a Bottle, and Omega Banner and a Snake Banner!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2274,10 +2327,14 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 848 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 866 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 10");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid5item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid5item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid5item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
+                                Item itemById4 = TShock.Utils.GetItemById(Config.contents.pyramid5item4);
+                                args.Player.GiveItem(itemById4.type, itemById4.name, itemById4.width, itemById4.height, 10, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Pharaoh Set and 10 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2318,9 +2375,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 49 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 791 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid6item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid6item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid6item2);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Band of Regeneration and an Omega Banner!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2361,9 +2421,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 159 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 790 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid7item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid7item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid7item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Shiny Red Balloon and a Snake Banner!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2404,9 +2467,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 159 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 790 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.pyramid8item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.pyramid8item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.pyramid8item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Shiny Red Balloon and a Snake Banner!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2447,9 +2513,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1319 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 3");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.ice1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.ice1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.ice1item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 3, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Snowball Cannon and 3 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2490,9 +2559,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 950 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 3");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.ice2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.ice2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.ice2item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 3, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, Ice Skates and 3 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2533,9 +2605,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 987 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 3");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.ice3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.ice3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.ice3item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 3, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, a Blizzard in a Bottle and 3 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2576,9 +2651,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 724 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 3");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.ice4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.ice4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.ice4item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 3, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, an Ice Blade and 3 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2619,9 +2697,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 997 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 3");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.ice5item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.ice5item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.ice5item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 3, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, an Extractinator and 3 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2662,9 +2743,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 670 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 188 3");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.ice6item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.ice6item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.ice6item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 3, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, an Ice Boomerang and 3 Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2705,8 +2789,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 522 15");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.corr1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.corr1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, and 15 Cursed Flames !", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2747,9 +2833,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 556 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 10");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.corr2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.corr2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.corr2item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 10, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, a Mechanical Worm and 10 Greater Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2790,8 +2879,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1225 10");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.corr3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.corr3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 10, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, and 10 Hallowed Bars!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2832,9 +2923,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1819 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1820 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.corr4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.corr4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.corr4item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, and a Reaper Costume!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2875,9 +2969,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 556 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.crim1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.crim1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.crim1item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, a Mechanical Worm and 5 Greater Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2918,8 +3015,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1225 10");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.crim2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.crim2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 10, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, and 10 Hallowed Bars!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -2960,8 +3059,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1332 15");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.crim3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.crim3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, and 15 Ichor!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3002,10 +3103,14 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 3");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1838 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1839 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1840 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.crim4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 3, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.crim4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.crim4item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
+                                Item itemById4 = TShock.Utils.GetItemById(Config.contents.crim4item4);
+                                args.Player.GiveItem(itemById4.type, itemById4.name, itemById4.width, itemById4.height, 1, 0);
                                 args.Player.SendMessage("You just looted 3 Golden Keys, and a Space Creature Costume!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3046,9 +3151,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3360 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3361 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.jadv1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.jadv1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.jadv1item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 1, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys a Rich Mahogany Leaf Wand and Living Mahogany Wand!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3089,8 +3197,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 753 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.jadv2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.jadv2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys and Seaweed!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3131,8 +3241,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3068 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.jadv3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.jadv3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys and a Guide to Plant Fiber Cordage!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3173,8 +3285,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 964 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.jadv4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.jadv4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys and a Boomstick!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3215,8 +3329,10 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 2204 1");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.jadv5item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.jadv5item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys and a Honey Dispenser!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3257,9 +3373,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 ");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 117 10");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 179 15");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.space1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.space1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 10, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.space1item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 15, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, 10 Meteorite Bars, and 5 Emeralds!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3300,9 +3419,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 75 10");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 181 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.space2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.space2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 10, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.space2item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, 10 Fallen Stars, and 5 Amethysts!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3343,9 +3465,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 75 10");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 177 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.space3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.space3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 10, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.space3item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, 10 Fallen Stars, and 5 Sapphires!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3386,9 +3511,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 117 15");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 178 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.space4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.space4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.space4item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted a Golden Key, 15 Meteorite Bars, and 5 Rubies!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3429,9 +3557,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.hallow1item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.hallow1item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.hallow1item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 5 Greater Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3472,9 +3603,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 1ó2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3548 15");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.hallow2item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.hallow2item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.hallow2item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 15, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 15 Happy Grenades!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3515,9 +3649,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1774 1");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.hallow3item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.hallow3item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 1, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.hallow3item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys, 5 Greater Healing Potions, and a Goodie Bag!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3558,9 +3695,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.hallow4item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.hallow4item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.hallow4item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 5 Greater Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
@@ -3601,9 +3741,12 @@ namespace RPG
                         {
                             if (args.Player.InventorySlotAvailable)
                             {
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 327 2");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1725 15");
-                                TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 499 5");
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.hallow5item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 2, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.hallow5item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 15, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.hallow5item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 5, 0);
                                 args.Player.SendMessage("You just looted 2 Golden Keys, 15 Pumpkins, and 5 Greater Healing Potions!", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {

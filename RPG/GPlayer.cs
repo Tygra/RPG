@@ -3,6 +3,7 @@
  *  I don't claim any overship over those elements which were made by someone else.
  *  The plugin has been customized to fit our need at Geldar,
  *  and because of this, it's useless for anyone else.
+ *  I know timers are shit, and If someone knows a way to keep them after relog, tell me.
 */
 
 using System;
