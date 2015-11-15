@@ -58,7 +58,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.level5", Teleport, "teleport"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
             Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
-            Commands.ChatCommands.Add(new Command("geldar.level5", Quests, "quest"));
+            Commands.ChatCommands.Add(new Command(Quests, "quest"));
             Commands.ChatCommands.Add(new Command("geldar.trial", Trial, "trial"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Exban, "exban"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Exui, "exui"));
@@ -1846,6 +1846,11 @@ namespace RPG
                     {
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.giroregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
                         if (player.girocd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.girocd));
@@ -1919,6 +1924,11 @@ namespace RPG
                     {
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.caveregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
                         if (player.cavecd != 0)
                         {
                             args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.cavecd));
