@@ -463,7 +463,7 @@ namespace RPG
 
         #region Other commands
 
-        #region staff
+        #region Staff
         public void staff(CommandArgs args)
         {
             List<TSPlayer> list = new List<TSPlayer>(TShock.Players).FindAll((TSPlayer t) => t != null && t.Group.HasPermission("geldar.mod"));
@@ -489,7 +489,7 @@ namespace RPG
         #region BankBal
         private void BankBal(CommandArgs args)
         {
-            TShockAPI.Commands.HandleCommand(args.Player, " /bank bal");
+            Commands.HandleCommand(args.Player, "/bank bal");
         }
         #endregion
 
@@ -1901,7 +1901,8 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 1238 1");
+                            Item itemById = TShock.Utils.GetItemById(Config.contents.millitem);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                             args.Player.SendMessage("You just looted a Sapphire Hook!", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
@@ -1935,8 +1936,10 @@ namespace RPG
                         }
                         else
                         {
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 3520 1");
-                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /item 19 12");
+                            Item itemById = TShock.Utils.GetItemById(Config.contents.caveitem2);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                            Item itemById2 = TShock.Utils.GetItemById(Config.contents.caveitem1);
+                            args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 12, 0);
                             args.Player.SendMessage("You just looted a Gold Broadsword and 12 Gold Bars!", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {

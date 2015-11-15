@@ -332,6 +332,8 @@ namespace RPG
                 public int greekonecd = 604800;
 
                 public string caveregion = "greektwo";
+                public int caveitem1 = 3520;
+                public int caveitem2 = 19;
                 public int cavecd = 604800;
 
                 public string lab1region = "lab1";
@@ -346,6 +348,7 @@ namespace RPG
                 public int hiddencd = 640800;
 
                 public string millregion = "mill";
+                public int millitem = 1238;
                 public int millcd = 604800;
 
                 public int facepalmcd = 30;
