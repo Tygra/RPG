@@ -325,6 +325,48 @@ namespace RPG
                 public int girocd = 259200;
                 public int giroreward = 150;
 
+                public string qlab1region = "sideq2";
+                public int qlab1cd = 259200;
+                public int qlab1reward = 150;
+
+                public string qlab2region = "sideq3";
+                public int qlab2cd = 259200;
+                public int qlab2reward = 150;
+
+                public string qlab3region = "sideq4";
+                public int qlab3cd = 259200;
+                public int qlab3reward = 150;
+
+                public string shrine1region = "shrine1";
+                public int shrine1cd = 259200;
+                public int shrine1reward = 50;
+
+                public string shrine2region = "shrine2";
+                public int shrine2cd = 259200;
+                public int shrine2reward = 50;
+
+                public string shrine3region = "shrine3";
+                public int shrine3cd = 259200;
+                public int shrine3reward = 50;
+
+                public string shrine4region = "shrine4";
+                public int shrine4cd = 259200;
+                public int shrine4reward = 50;
+
+                public string vikingregion = "viking";
+                public int vikingcd = 259200;
+                public int vikingreward = 100;
+                public int vikingitem1 = 879;
+
+                public string vulcanregion = "vulcan";
+                public int vulcancd = 259200;
+                public int vulcanreward = 150;
+                public int vulcanitem1 = 173;
+
+                public string shrine5region = "shrine5";
+                public int shrine5cd = 259200;
+                public int shrine5reward = 50;
+
                 public string storyregion = "spawn";
 
                 public string greekoneregion = "greekone";

@@ -41,7 +41,7 @@ namespace RPG
         public override string Description
         { get { return "Geldar RPG Commads"; } }
         public override Version Version
-        { get { return new Version(1, 0); } }
+        { get { return new Version(1, 1); } }
 
         public RPG(Main game)
             : base(game)
@@ -55,7 +55,7 @@ namespace RPG
         {
             Commands.ChatCommands.Add(new Command("geldar.admin", Reloadcfg, "rpgreload"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Adv, "adventure"));
-            Commands.ChatCommands.Add(new Command("geldar.level5", Teleport, "teleport"));
+            Commands.ChatCommands.Add(new Command(Teleport, "teleport"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
             Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
             Commands.ChatCommands.Add(new Command(Quests, "quest"));
@@ -305,6 +305,46 @@ namespace RPG
                     if (player.mgcd > 0)
                     {
                         player.mgcd--;
+                    }
+                    if (player.qlab1cd > 0)
+                    {
+                        player.qlab1cd--;
+                    }
+                    if (player.qlab2cd > 0)
+                    {
+                        player.qlab2cd--;
+                    }
+                    if (player.qlab3cd > 0)
+                    {
+                        player.qlab3cd--;
+                    }
+                    if (player.shrine1cd > 0)
+                    {
+                        player.shrine1cd--;
+                    }
+                    if (player.shrine2cd > 0)
+                    {
+                        player.shrine2cd--;
+                    }
+                    if (player.shrine3cd > 0)
+                    {
+                        player.shrine3cd--;
+                    }
+                    if (player.shrine4cd > 0)
+                    {
+                        player.shrine4cd--;
+                    }
+                    if (player.shrine5cd > 0)
+                    {
+                        player.shrine5cd--;
+                    }
+                    if (player.vikingcd > 0)
+                    {
+                        player.vikingcd--;
+                    }
+                    if (player.vulcancd > 0)
+                    {
+                        player.vulcancd--;
                     }
                 }
             }
@@ -1961,6 +2001,410 @@ namespace RPG
                     break;
 
                 #endregion
+
+                #region Lab1 lava
+                case "qlab1":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.qlab1region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.qlab1cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.qlab1cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Giro's Lava Lab.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Giro's Lava Lab.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.qlab1reward, BankAccountTransferOptions.AnnounceToReceiver, "Professor Giro Lava Reward", "Giro Lava reward");
+                            args.Player.SendMessage("You found 150 Terra Coins laying around in a chest.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.qlab1cd = Config.contents.qlab1cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Lab2 desert
+                case "qlab2":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.qlab2region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.qlab2cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.qlab1cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Giro's Desert Lab.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Giro's Desert Lab.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.qlab2reward, BankAccountTransferOptions.AnnounceToReceiver, "Professor Giro Desert Reward", "Giro Desert reward");
+                            args.Player.SendMessage("You found 150 Terra Coins laying around in a chest.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.qlab2cd = Config.contents.qlab2cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Lab3 snow
+                case "qlab3":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.qlab3region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.qlab3cd != 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.qlab3cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Giro's Snow Lab.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Giro's Snow Lab.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.qlab3reward, BankAccountTransferOptions.AnnounceToReceiver, "Professor Giro Snow Reward", "Giro Snow reward");
+                            args.Player.SendMessage("You found 150 Terra Coins laying around in a chest.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.qlab3cd = Config.contents.qlab3cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Jungle shrine 1
+                case "shrine1":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.shrine1region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if(player.shrine1cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.shrine1cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine1reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 1 reward", "Shrine 1 reward");
+                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.shrine1cd = Config.contents.shrine1cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Jungle shrine 2
+                case "shrine2":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.shrine2region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.shrine2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.shrine2cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine2reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 2 reward", "Shrine 2 reward");
+                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.shrine2cd = Config.contents.shrine2cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Jungle shrine 3
+                case "shrine3":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.shrine3region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.shrine3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.shrine3cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine3reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 3 reward", "Shrine 3 reward");
+                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.shrine3cd = Config.contents.shrine3cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Jungle shrine 4
+                case "shrine4":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.shrine4region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.shrine4cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.shrine4cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine4reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 4 reward", "Shrine 4 reward");
+                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.shrine4cd = Config.contents.shrine4cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Jungle shrine 5
+                case "shrine5":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.shrine5region);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.shrine5cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.shrine5cd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Correct shrine in normal jungle.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine5reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 5 reward", "Shrine 5 reward");
+                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.shrine5cd = Config.contents.shrine5cd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Viking ship
+                case "viking":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.vikingregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.vikingcd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.vikingcd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Sunken viking ship.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: Sunken viking ship.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vikingreward, BankAccountTransferOptions.AnnounceToReceiver, "Viking ship reward", "Viking ship reward");
+                            Item itemById = TShock.Utils.GetItemById(Config.contents.vikingitem1);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                            args.Player.SendMessage("You opened a wooden chest and found a Viking Helmet and 100 Terra Coins.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.vikingcd = Config.contents.vikingcd;
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Vulcan
+                case "vulcan":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.vulcanregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.vulcancd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.vulcancd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcan.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcan.");
+                            return;
+                        }
+                        else
+                        {
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vulcanreward, BankAccountTransferOptions.AnnounceToReceiver, "Vulcan reward", "Vulcan reward");
+                            Item itemById = TShock.Utils.GetItemById(Config.contents.vulcanitem1);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
+                            args.Player.SendMessage("You have found a lava proof chest and looted 10 Obsidian and 150 Terra Coins from it.", Color.Goldenrod);
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.vulcancd = Config.contents.vulcancd;
+                            }
+                        }
+                    }
+                    break;
+                    #endregion
             }
 
         }

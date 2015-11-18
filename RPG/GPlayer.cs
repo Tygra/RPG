@@ -68,7 +68,17 @@ namespace RPG
         public int slapallcd { get; set; }
         public int giftcd { get; set; }
         public int mgcd { get; set; }
-        
+        public int qlab1cd { get; set; }
+        public int qlab2cd { get; set; }
+        public int qlab3cd { get; set; }
+        public int shrine1cd { get; set; }
+        public int shrine2cd { get; set; }
+        public int shrine3cd { get; set; }
+        public int shrine4cd { get; set; }
+        public int shrine5cd { get; set; }
+        public int vikingcd { get; set; }
+        public int vulcancd { get; set; }
+
 
         public GPlayer(int index)
         {
