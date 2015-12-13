@@ -59,6 +59,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
             Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
             Commands.ChatCommands.Add(new Command(Quests, "quest"));
+            Commands.ChatCommands.Add(new Command(Starter, "starter"));
             Commands.ChatCommands.Add(new Command("geldar.trial", Trial, "trial"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Exban, "exban"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Exui, "exui"));
@@ -68,7 +69,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command(staff, "staff"));
             Commands.ChatCommands.Add(new Command("geldar.level30", Facepalm, "facepalm"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Slapall, "slapall"));
-            Commands.ChatCommands.Add(new Command("house.use", Gift, "gift"));
+            Commands.ChatCommands.Add(new Command("tshock.world.modify", Gift, "gift"));
             Commands.ChatCommands.Add(new Command("geldar.champion", Bunny, "bunny"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
             Commands.ChatCommands.Add(new Command("geldar.level30", MonsterGamble, "monstergamble", "mg"));
@@ -116,7 +117,7 @@ namespace RPG
             if ((DateTime.UtcNow - LastCheck).TotalSeconds >= 1)
             {
                 LastCheck = DateTime.UtcNow;
-                foreach ( var player in Playerlist)
+                foreach (var player in Playerlist)
                 {
                     if (player == null || player.TSPlayer == null)
                     {
@@ -346,6 +347,10 @@ namespace RPG
                     {
                         player.vulcancd--;
                     }
+                    if (player.startercd > 0)
+                    {
+                        player.startercd--;
+                    }
                 }
             }
         }
@@ -565,7 +570,7 @@ namespace RPG
                 return;
             }
             else
-            {                
+            {
                 TSPlayer.All.DamagePlayer(1);
                 TSPlayer.All.SendMessage(string.Format("{0} slapped everyone.", args.Player.Name), Color.Goldenrod);
                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
@@ -730,7 +735,174 @@ namespace RPG
             {
                 args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.mgcd));
             }
-        }    
+        }
+        #endregion
+
+        #region Starter
+        private void Starter(CommandArgs args)
+        {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendMessage("Info: If you lost your starter weapon here you can replace it.", Color.Goldenrod);
+                args.Player.SendMessage("Info: Use the command appropriate to your class /starter mage/warrior/ranger/summoner", Color.Goldenrod);
+                return;
+            }
+
+            switch (args.Parameters[0])
+            {
+                #region Starter Mage
+                case "mage":
+                    {
+                        if (args.Player.Group.HasPermission("geldar.starter.mage"))
+                        {
+                            var player = Playerlist[args.Player.Index];
+                            if (player.startercd != 0)
+                            {
+                                args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.startercd));
+                                return;
+                            }
+                            else
+                            {
+                                if (args.Player.InventorySlotAvailable)
+                                {
+                                    Item itemById = TShock.Utils.GetItemById(Config.contents.startermage);
+                                    args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                    {
+                                        player.startercd = Config.contents.startercd;
+                                    }
+                                }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("Your inventory seems to be full. Free up one slot.");
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 10 or under, or you executed the wrong class command.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Starter Warrior
+                case "warrior":
+                    {
+                        if (args.Player.Group.HasPermission("geldar.starter.warrior"))
+                        {
+                            var player = Playerlist[args.Player.Index];
+                            if (player.startercd != 0)
+                            {
+                                args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.startercd));
+                                return;
+                            }
+                            else
+                            {
+                                if (args.Player.InventorySlotAvailable)
+                                {
+                                    Item itemById = TShock.Utils.GetItemById(Config.contents.starterwarrior);
+                                    args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                    {
+                                        player.startercd = Config.contents.startercd;
+                                    }
+                                }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("Your inventory seems full. Free up one slot.");
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 10 or under, or you executed the wrong class command.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Starter Ranger
+                case "ranger":
+                    {
+                        if (args.Player.Group.HasPermission("geldar.starter.ranger"))
+                        {
+                            var player = Playerlist[args.Player.Index];
+                            if (player.startercd != 0)
+                            {
+                                args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.startercd));
+                                return;
+                            }
+                            else
+                            {
+                                if (args.Player.InventorySlotAvailable)
+                                {
+                                    Item itemById = TShock.Utils.GetItemById(Config.contents.starterranger);
+                                    args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                    {
+                                        player.startercd = Config.contents.startercd;
+                                    }
+                                }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("Your inventory seems full. Free up one slot.");
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 10 or under, or you executed the wrong class command.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Starter Summoner
+                case "summoner":
+                    {
+                        if (args.Player.Group.HasPermission("geldar.starter.summoner"))
+                        {
+                            var player = Playerlist[args.Player.Index];
+                            if (player.startercd != 0)
+                            {
+                                args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.startercd));
+                                return;
+                            }
+                            else
+                            {
+                                if (args.Player.InventorySlotAvailable)
+                                {
+                                    Item itemById = TShock.Utils.GetItemById(Config.contents.startersummoner);
+                                    args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                    {
+                                        player.startercd = Config.contents.startercd;
+                                    }
+                                }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("Your inventory seems full. Free up one slot.");
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 10 or under, or you executed the wrong class command.");
+                            return;
+                        }
+                    }
+                    break;
+                    #endregion
+            }
+        }
         #endregion
 
         #endregion
@@ -4496,6 +4668,7 @@ namespace RPG
                 args.Player.SendMessage("info: For rules use /geldar <general/chat/housing/itemdrop/further>", Color.Goldenrod);
                 args.Player.SendMessage("Info: Be warned! The full list of rules can be found on our website www.geldar.net", Color.Goldenrod);
                 args.Player.SendMessage("Info: The rules here are just the most important ones, shortened to fit.", Color.Goldenrod);
+                args.Player.SendMessage("Info: If you lost your starter weapon, you can replace it with the command /starter <mage/warrior/ranger/summoner>", Color.Goldenrod);
                 return;
             }
             

@@ -78,6 +78,7 @@ namespace RPG
         public int shrine5cd { get; set; }
         public int vikingcd { get; set; }
         public int vulcancd { get; set; }
+        public int startercd { get; set; }
 
 
         public GPlayer(int index)

@@ -339,19 +339,19 @@ namespace RPG
 
                 public string shrine1region = "shrine1";
                 public int shrine1cd = 259200;
-                public int shrine1reward = 50;
+                public int shrine1reward = 75;
 
                 public string shrine2region = "shrine2";
                 public int shrine2cd = 259200;
-                public int shrine2reward = 50;
+                public int shrine2reward = 75;
 
                 public string shrine3region = "shrine3";
                 public int shrine3cd = 259200;
-                public int shrine3reward = 50;
+                public int shrine3reward = 75;
 
                 public string shrine4region = "shrine4";
                 public int shrine4cd = 259200;
-                public int shrine4reward = 50;
+                public int shrine4reward = 75;
 
                 public string vikingregion = "viking";
                 public int vikingcd = 259200;
@@ -365,7 +365,7 @@ namespace RPG
 
                 public string shrine5region = "shrine5";
                 public int shrine5cd = 259200;
-                public int shrine5reward = 50;
+                public int shrine5reward = 75;
 
                 public string storyregion = "spawn";
 
@@ -401,6 +401,12 @@ namespace RPG
                 public int giftitem1 = 1922;
                 public int giftitem2 = 1869;
                 public int giftreward = 50;
+
+                public int startermage = 3069;
+                public int starterwarrior = 280;
+                public int starterranger = 3492;
+                public int startersummoner = 1309;
+                public int startercd = 10800;
 
                 public int mgcd = 30;
                 public int mgcost = 1000;
