@@ -68,7 +68,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command(staff, "staff"));
             Commands.ChatCommands.Add(new Command("geldar.level30", Facepalm, "facepalm"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Slapall, "slapall"));
-            Commands.ChatCommands.Add(new Command("geldar.admin", Gift, "gift"));
+            Commands.ChatCommands.Add(new Command("house.use", Gift, "gift"));
             Commands.ChatCommands.Add(new Command("geldar.champion", Bunny, "bunny"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
             Commands.ChatCommands.Add(new Command("geldar.level30", MonsterGamble, "monstergamble", "mg"));
@@ -589,11 +589,13 @@ namespace RPG
             if (args.Player.CurrentRegion != region)
             {
                 args.Player.SendErrorMessage("You are not in the right region. Requirement: Big Christmas Tree.");
+                args.Player.SendErrorMessage("This command will only be available while Terraria is in the Winter Holiday mode.");
                 return;
             }
             if (args.Player.CurrentRegion == null)
             {
                 args.Player.SendErrorMessage("You are not in the right region. Requirement: Big Christmas Tree.");
+                args.Player.SendErrorMessage("This command will only be available while Terraria is in the Winter Holiday mode.");
                 return;
             }
             if (args.Parameters.Count < 1)
@@ -1217,7 +1219,7 @@ namespace RPG
                 #region Trial 60
                 case "trial60":
                     {
-                        #region Trial 60 region check
+                        #region Trial 60 group check
                         if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup)
                         {
                             #endregion
@@ -2364,8 +2366,8 @@ namespace RPG
                     break;
                 #endregion
 
-                #region Vulcan
-                case "vulcan":
+                #region Vulcano
+                case "vulcano":
                     {
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.vulcanregion);
@@ -2381,19 +2383,19 @@ namespace RPG
                         }
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcan.");
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcano.");
                             return;
                         }
                         if (args.Player.CurrentRegion == null)
                         {
-                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcan.");
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcano.");
                             return;
                         }
                         else
                         {
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
-                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vulcanreward, BankAccountTransferOptions.AnnounceToReceiver, "Vulcan reward", "Vulcan reward");
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vulcanreward, BankAccountTransferOptions.AnnounceToReceiver, "Vulcano reward", "Vulcano reward");
                             Item itemById = TShock.Utils.GetItemById(Config.contents.vulcanitem1);
                             args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                             args.Player.SendMessage("You have found a lava proof chest and looted 10 Obsidian and 150 Terra Coins from it.", Color.Goldenrod);

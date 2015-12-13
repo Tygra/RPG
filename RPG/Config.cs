@@ -374,8 +374,8 @@ namespace RPG
                 public int greekonecd = 604800;
 
                 public string caveregion = "greektwo";
-                public int caveitem1 = 3520;
-                public int caveitem2 = 19;
+                public int caveitem1 = 19;
+                public int caveitem2 = 3520;
                 public int cavecd = 604800;
 
                 public string lab1region = "lab1";
