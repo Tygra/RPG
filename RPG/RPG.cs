@@ -351,6 +351,22 @@ namespace RPG
                     {
                         player.startercd--;
                     }
+                    if (player.dungeoncd > 0)
+                    {
+                        player.dungeoncd--;
+                    }
+                    if (player.corruptedcd > 0)
+                    {
+                        player.corruptedcd--;
+                    }
+                    if (player.overgrowncd > 0)
+                    {
+                        player.overgrowncd--;
+                    }
+                    if (player.frozencd > 0)
+                    {
+                        player.frozencd--;
+                    }
                 }
             }
         }
@@ -1022,7 +1038,7 @@ namespace RPG
 
                         else
                         {
-                            args.Player.Teleport(8225 * 16, 1007 *16);
+                            args.Player.Teleport(6225 * 16, 1007 *16);
                         }
                     }
                     break;
@@ -2576,6 +2592,38 @@ namespace RPG
                                 player.vulcancd = Config.contents.vulcancd;
                             }
                         }
+                    }
+                    break;
+                #endregion
+
+                #region Dungeon
+                case "dungeon":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Overgrown
+                case "overgrown":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Corrupted
+                case "corrupted":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Frozen
+                case "frozen":
+                    {
+
                     }
                     break;
                     #endregion
