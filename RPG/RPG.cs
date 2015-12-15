@@ -41,7 +41,7 @@ namespace RPG
         public override string Description
         { get { return "Geldar RPG Commads"; } }
         public override Version Version
-        { get { return new Version(1, 1); } }
+        { get { return new Version(1, 2); } }
 
         public RPG(Main game)
             : base(game)
@@ -81,7 +81,7 @@ namespace RPG
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
             if (!Config.ReadConfig())
             {
-                TShock.Log.ConsoleError("Delete config because it failed to load.");
+                TShock.Log.ConsoleError("Config loading failed. Consider deleting it.");
             }
         }
         #endregion
@@ -363,10 +363,10 @@ namespace RPG
                     {
                         player.overgrowncd--;
                     }
-                    if (player.frozencd > 0)
-                    {
-                        player.frozencd--;
-                    }
+                    //if (player.frozencd > 0)
+                    //{
+                    //    player.frozencd--;
+                    //}
                 }
             }
         }
@@ -828,7 +828,7 @@ namespace RPG
                                 }
                                 else
                                 {
-                                    args.Player.SendErrorMessage("Your inventory seems full. Free up one slot.");
+                                    args.Player.SendErrorMessage("Your inventory seems to be full. Free up one slot.");
                                 }
 
                             }
@@ -866,7 +866,7 @@ namespace RPG
                                 }
                                 else
                                 {
-                                    args.Player.SendErrorMessage("Your inventory seems full. Free up one slot.");
+                                    args.Player.SendErrorMessage("Your inventory seems to be full. Free up one slot.");
                                 }
 
                             }
@@ -904,7 +904,7 @@ namespace RPG
                                 }
                                 else
                                 {
-                                    args.Player.SendErrorMessage("Your inventory seems full. Free up one slot.");
+                                    args.Player.SendErrorMessage("Your inventory seems to be full. Free up one slot.");
                                 }
 
                             }
@@ -2342,7 +2342,7 @@ namespace RPG
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine1reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 1 reward", "Shrine 1 reward");
-                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            args.Player.SendMessage("The ancestors bless you. You loot some Terra Coins.", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.shrine1cd = Config.contents.shrine1cd;
@@ -2382,7 +2382,7 @@ namespace RPG
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine2reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 2 reward", "Shrine 2 reward");
-                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            args.Player.SendMessage("The ancestors bless you. You loot some Terra Coins.", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.shrine2cd = Config.contents.shrine2cd;
@@ -2422,7 +2422,7 @@ namespace RPG
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine3reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 3 reward", "Shrine 3 reward");
-                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            args.Player.SendMessage("The ancestors bless you. You loot some Terra Coins.", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.shrine3cd = Config.contents.shrine3cd;
@@ -2462,7 +2462,7 @@ namespace RPG
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine4reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 4 reward", "Shrine 4 reward");
-                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            args.Player.SendMessage("The ancestors bless you. You loot some Terra Coins.", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.shrine4cd = Config.contents.shrine4cd;
@@ -2502,7 +2502,7 @@ namespace RPG
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.shrine5reward, BankAccountTransferOptions.AnnounceToReceiver, "Shrine 5 reward", "Shrine 5 reward");
-                            args.Player.SendMessage("The ancestors bless you. You loot 50 Terra Coins.", Color.Goldenrod);
+                            args.Player.SendMessage("The ancestors bless you. You loot some Terra Coins.", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.shrine5cd = Config.contents.shrine5cd;
@@ -2554,8 +2554,8 @@ namespace RPG
                     break;
                 #endregion
 
-                #region Vulcano
-                case "vulcano":
+                #region Volcano
+                case "volcano":
                     {
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.vulcanregion);
@@ -2571,19 +2571,19 @@ namespace RPG
                         }
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcano.");
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Volcano.");
                             return;
                         }
                         if (args.Player.CurrentRegion == null)
                         {
-                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Vulcano.");
+                            args.Player.SendErrorMessage("You are not int he right region. Requirement: The Volcano.");
                             return;
                         }
                         else
                         {
                             IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
-                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vulcanreward, BankAccountTransferOptions.AnnounceToReceiver, "Vulcano reward", "Vulcano reward");
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vulcanreward, BankAccountTransferOptions.AnnounceToReceiver, "Volcano reward", "Volcano reward");
                             Item itemById = TShock.Utils.GetItemById(Config.contents.vulcanitem1);
                             args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                             args.Player.SendMessage("You have found a lava proof chest and looted 10 Obsidian and 150 Terra Coins from it.", Color.Goldenrod);
@@ -2599,7 +2599,50 @@ namespace RPG
                 #region Dungeon
                 case "dungeon":
                     {
-
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.dungeonregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.dungeoncd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.",(player.dungeoncd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.dungeonitem1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 50, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.dungeonitem2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 2, 0);
+                                IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                                IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.dungeonreward, BankAccountTransferOptions.AnnounceToReceiver, "Giro last quest reward.", "Giro last quest reward.");
+                                args.Player.SendMessage("It's really sad but why would you leave these here?", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.dungeoncd = Config.contents.dungeoncd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -2607,7 +2650,48 @@ namespace RPG
                 #region Overgrown
                 case "overgrown":
                     {
-
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.overgrownregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.overgrowncd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.overgrowncd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.overgrownitem);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                                IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.overgrownreward, BankAccountTransferOptions.AnnounceToReceiver, "Overgrown sidequest reward.", "Overgrown sidequest reward.");
+                                args.Player.SendMessage("These Lihzahrds... Experimenting with bees? Not the beees!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.overgrowncd = Config.contents.overgrowncd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -2615,17 +2699,58 @@ namespace RPG
                 #region Corrupted
                 case "corrupted":
                     {
-
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.corruptedregion);
+                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            return;
+                        }
+                        if (player.corruptedcd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.corruptedcd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.corrupteditem);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                                IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.corruptedreward, BankAccountTransferOptions.AnnounceToReceiver, "Corrupted sidequest reward.", "Corrupted sidequest reward.");
+                                args.Player.SendMessage("Don't feed the worm after midnight.", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.overgrowncd = Config.contents.overgrowncd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
+                            }
+                        }
                     }
                     break;
                 #endregion
 
                 #region Frozen
-                case "frozen":
+                /*case "frozen":
                     {
 
                     }
-                    break;
+                    break;*/
                     #endregion
             }
 
@@ -2832,7 +2957,7 @@ namespace RPG
                             }
                             else
                             {
-                                args.Player.SendErrorMessage("Your inventory seems full. Have at least 4 free slots.");
+                                args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
                             }
                         }
                     }

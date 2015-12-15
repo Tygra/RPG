@@ -379,24 +379,25 @@ namespace RPG
                 public int cavecd = 604800;
 
                 public string corruptedregion = "corrupted";
-                public int corrupteditem1 = ;
-                public int corrupteditem2 = ;
-                public int corruptedcd = ;
+                public int corrupteditem = 70;
+                public int corruptedreward = 75;
+                public int corruptedcd = 259200;
 
-                public string frozenregion = "frozen";
-                public int frozenitem1 = ;
-                public int frozenitem2 = ;
-                public int frozencd = ;
+                //public string frozenregion = "frozen";
+                //public int frozenitem1 = ;
+                //public int frozenitem2 = ;
+                //public int frozencd = ;
 
                 public string overgrownregion = "overgrown";
-                public int overgrownitem1 = ;
-                public int overgrownitem2 = ;
-                public int overgrowncd = ;
+                public int overgrownitem = 1133;
+                public int overgrownreward = 100;
+                public int overgrowncd = 259200;
 
                 public string dungeonregion = "dungeon";
-                public int dungeonitem = ;
-                public int dungeonreward = ;
-                public int dungeoncd = ;
+                public int dungeonitem1 = 154;
+                public int dungeonitem2 = 327;
+                public int dungeonreward = 75;
+                public int dungeoncd = 259200;
 
                 public string lab1region = "lab1";
                 public int lab1reward = 70;
