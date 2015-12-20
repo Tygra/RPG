@@ -310,6 +310,14 @@ namespace RPG
                 public int hallow5item3 = 499;
                 public int hallow5cd = 172800;
 
+                public string pyramidtpregion = "pyramidtp";
+                public string spacetpregion = "spacetp";
+                public string corrtpregion = "corrtp";
+                public string crimtpregion = "crimtp";
+                public string icetpregion = "icetp";
+                public string hallowtpregion = "hallowtp";
+                public string jadvtpregion = "jadvtp";
+
                 public string tutclassregion = "tutclass";
                 public string tutgearregion = "tutgear";
                 public string tutmineregion = "tutmine";
@@ -358,7 +366,7 @@ namespace RPG
                 public int vikingreward = 100;
                 public int vikingitem1 = 879;
 
-                public string vulcanregion = "vulcan";
+                public string vulcanregion = "volcano";
                 public int vulcancd = 259200;
                 public int vulcanreward = 150;
                 public int vulcanitem1 = 173;
@@ -382,12 +390,23 @@ namespace RPG
                 public int corrupteditem = 70;
                 public int corruptedreward = 75;
                 public int corruptedcd = 259200;
+            /*
+                public string frozenregion = "frozen";
+                public int frozenitem1 = ;
+                public int frozenitem2 = ;
+                public int frozencd = ;
 
-                //public string frozenregion = "frozen";
-                //public int frozenitem1 = ;
-                //public int frozenitem2 = ;
-                //public int frozencd = ;
+                public string hiveregion = "hive";
+                public int hiveitem1 = ;
+                public int hivenpcid = ;
+                public int hivenpcamount = ;
+                public int hivecd = ;
 
+                public string highlanderregion = "highlander";
+                public int highlanderitem = ;
+                public int highlanderreward = ;
+                public int highlandercd = ;
+                */
                 public string overgrownregion = "overgrown";
                 public int overgrownitem = 1133;
                 public int overgrownreward = 100;

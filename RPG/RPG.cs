@@ -1,11 +1,14 @@
-﻿/*  
- *  The plugin has some features which I got from other authors.
+﻿#region Disclaimer
+/*  
+ *  The plugin has some features that I got from other authors.
  *  I don't claim any overship over those elements which were made by someone else.
  *  The plugin has been customized to fit our need at Geldar,
  *  and because of this, it's useless for anyone else.
  *  I know timers are shit, and If someone knows a way to keep them after relog, tell me.
 */
+#endregion
 
+#region Refs
 using System;
 using System.IO;
 using System.ComponentModel;
@@ -22,6 +25,7 @@ using TShockAPI.DB;
 using Wolfje.Plugins.SEconomy;
 using Wolfje.Plugins.SEconomy.Journal;
 using Newtonsoft.Json;
+#endregion
 
 namespace RPG
 {
@@ -363,10 +367,20 @@ namespace RPG
                     {
                         player.overgrowncd--;
                     }
-                    //if (player.frozencd > 0)
-                    //{
-                    //    player.frozencd--;
-                    //}
+                    /*
+                    if (player.frozencd > 0)
+                    {
+                        player.frozencd--;
+                    }
+                    if (player.hivecd > 0)
+                    {
+                        player.hivecd--;
+                    }
+                    if (player.highlandercd > 0)
+                    {
+                        player.highlandercd--;
+                    }
+                    */
                 }
             }
         }
@@ -707,6 +721,7 @@ namespace RPG
                                 TSPlayer.Server.SpawnNPC(npcs.type, npcs.name, amount, args.Player.TileX, args.Player.TileY, 50, 20);
                                 args.Player.SendSuccessMessage("You have lost {0} for monster gambling.", moneyamount2);
                                 SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("{0} has been lost for monster gambling", moneyamount2, args.Player.Name), string.Format("CawAIO: " + "Monster Gambling"));
+                                args.Player.SendSuccessMessage("You spawnned {0} {1}.", amount, npcs.name);
                                 TShock.Log.ConsoleInfo("{0} has spawnned {1} {2}.", args.Player.Name, amount, npcs.name);
                             }
                             else
@@ -725,8 +740,8 @@ namespace RPG
                                 } while (Config.contents.mgexlcude.Contains(monsteramount));
                                 NPC npcs = TShock.Utils.GetNPCById(monsteramount);
                                 TSPlayer.Server.SpawnNPC(npcs.type, npcs.name, amount, args.Player.TileX, args.Player.TileY, 50, 20);
-                                TSPlayer.All.SendSuccessMessage(string.Format("{0} has randomly spawned {1} {2} time(s).", args.Player.Name, npcs.name, amount));
                                 args.Player.SendSuccessMessage("You have lost nothing for monster gambling.");
+                                args.Player.SendSuccessMessage("You spawnned {0} {1}.", amount, npcs.name);
                                 TShock.Log.ConsoleInfo("{0} has spawnned {1} {2}.", args.Player.Name, amount, npcs.name);
                             }
                         }
@@ -744,6 +759,7 @@ namespace RPG
 
                     TSPlayer.All.SendSuccessMessage(string.Format("{0} has randomly spawned {1} {2} time(s).", args.Player.Name,
                         npcs.name, amount));
+                    args.Player.SendSuccessMessage("You spawnned {0} {1}.", amount, npcs.name);
                     TShock.Log.ConsoleInfo("{0} has spawnned {1} {2}.", args.Player.Name, amount, npcs.name);
                 }
             }
@@ -911,7 +927,7 @@ namespace RPG
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("You are not level 10 or under, or you executed the wrong class command.");
+                            args.Player.SendErrorMessage("You are not a level 20 or under summoner, or you executed the wrong class command.");
                             return;
                         }
                     }
@@ -1964,8 +1980,8 @@ namespace RPG
         {
             if (args.Parameters.Count < 1)
             {
-                args.Player.SendMessage("If want to start the story use /teleport story.", Color.Goldenrod);
-                args.Player.SendMessage("Sometimes you need to read the signs twice. There are hints which will lead you to the next part.", Color.Goldenrod);
+                args.Player.SendMessage("If you want to start the story use /teleport story.", Color.Goldenrod);
+                args.Player.SendMessage("Sometimes you need to read the signs twice. There are hints that will lead you to the next part.", Color.Goldenrod);
                 args.Player.SendMessage("For a tutorial on how to do the first part check www.geldar.net Tutorials forum.", Color.Goldenrod);
                 args.Player.SendMessage("/story info will help you sort out the story.", Color.Goldenrod);
                 return;
@@ -2733,7 +2749,7 @@ namespace RPG
                                 args.Player.SendMessage("Don't feed the worm after midnight.", Color.Goldenrod);
                                 if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                 {
-                                    player.overgrowncd = Config.contents.overgrowncd;
+                                    player.corruptedcd = Config.contents.corruptedcd;
                                 }
                             }
                             else
@@ -2746,11 +2762,29 @@ namespace RPG
                 #endregion
 
                 #region Frozen
-                /*case "frozen":
+                case "frozen":
                     {
 
                     }
-                    break;*/
+                    break;
+                #endregion
+
+                #region Hive
+                    /*
+                case "hive":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Highlander
+                case "highlander":
+                    {
+
+                    }
+                    break;
+                    */
                     #endregion
             }
 
@@ -2909,7 +2943,7 @@ namespace RPG
             if(args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Info: Each adventure subcommand can be used at the sign, at the correct place.", Color.Goldenrod);
-                args.Player.SendMessage("Example: You are in the pyramid first sign. /adventure pyramid1", Color.Goldenrod);
+                args.Player.SendMessage("Example: You are in the pyramid at the first sign. /adventure pyramid1", Color.Goldenrod);
                 args.Player.SendMessage("Info: Each command has a unique cooldown of one day(24 hours).", Color.Goldenrod);
                 args.Player.SendMessage("Info: Be sure to have at least 4 free inventory slots!", Color.Goldenrod);
                 return;
@@ -2917,6 +2951,204 @@ namespace RPG
 
             switch (args.Parameters[0])
             {
+                #region Pyramid teleport
+                case "pyramid":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.pyramidtpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Pyramid teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Pyramid teleporter.");
+                            return;
+                        }                        
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You need to be level 5 for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Ice teleport
+                case "ice":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.icetpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Ice adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Ice adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You need to be level 5 for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Corr teleport
+                case "corr":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallowtpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Corruption adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Corruption adventure teleporter.");
+                            return;
+                        }
+                        // geldar.level???
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            //level
+                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Crim teleport
+                case "crim":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.crimtpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Crimson adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Crimson adventure teleporter.");
+                            return;
+                        }
+                        // geldar.level???
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            //level
+                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Jadv teleport
+                case "jadv":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.jadvtpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Jungle adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Jungle adventure teleporter.");
+                            return;
+                        }
+                        // geldar.level???
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            //level
+                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Space teleport
+                case "space":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.spacetpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
+                            return;
+                        }
+                        // geldar.level???
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            //level
+                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Hallow teleport
+                case "hallow":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallowtpregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
+                            return;
+                        }
+                        // geldar.level???
+                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        {
+                            args.Player.Teleport(x * 16, y * 16);
+                        }
+                        else
+                        {
+                            //level
+                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
 
                 #region pyramid1
                 case "pyramid1":
@@ -4065,7 +4297,7 @@ namespace RPG
                 #endregion
 
                 #region Jadv4
-                case "jadv":
+                case "jadv4":
                     {
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.jadv4region);
@@ -4564,8 +4796,7 @@ namespace RPG
                         }
                     }
                     break;
-                #endregion                
-                
+                #endregion                                
             }
         }
         #endregion   
@@ -4579,7 +4810,7 @@ namespace RPG
                 args.Player.SendMessage("/teleport vip1 - Teleports you to the aboveground vip housing.", Color.SkyBlue);
                 args.Player.SendMessage("/teleport vip2 - Teleports you to the underground vip housing.", Color.SkyBlue);
                 args.Player.SendMessage("/vip info - General Info about VIP ranks.", Color.SkyBlue);
-                args.Player.SendMessage("/vip <elite/champion/king/supreme/ultimate>", Color.SkyBlue);
+                args.Player.SendMessage("/vip <elite/lite/champion/king/supreme/ultimate>", Color.SkyBlue);
                 args.Player.SendMessage("You can contact us at admin@geldar.net", Color.SkyBlue);
                 args.Player.SendMessage("Press enter and use the up arrow to scroll the chat.", Color.Goldenrod);
                 return;
@@ -4595,6 +4826,14 @@ namespace RPG
                         args.Player.SendMessage("If you make a non-VIP character you still need to use your VIP house with that character.", Color.SkyBlue);
                         args.Player.SendMessage("You can add your non-VIP to your VIP house with /house allow \"player name>\" \"house name\".", Color.SkyBlue);
                         args.Player.SendMessage("You can contact us at admin@geldar.net or on the forums at www.geldar.net.", Color.SkyBlue);
+                    }
+                    break;
+                #endregion
+
+                #region Lite
+                case "lite":
+                    {
+
                     }
                     break;
                 #endregion

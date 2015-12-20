@@ -81,8 +81,12 @@ namespace RPG
         public int startercd { get; set; }
         public int overgrowncd { get; set; }
         public int dungeoncd { get; set; }
-        //public int frozencd { get; set; }
+        public int frozencd { get; set; }
         public int corruptedcd { get; set; }
+        /*
+        public int hivecd { get; set; }
+        public int highlandercd { get; set; }
+        */
 
         public GPlayer(int index)
         {
