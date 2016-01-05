@@ -58,7 +58,7 @@ namespace RPG
         public override void Initialize()
         {
             Commands.ChatCommands.Add(new Command("geldar.admin", Reloadcfg, "rpgreload"));
-            Commands.ChatCommands.Add(new Command("geldar.level5", Adv, "adventure"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Adv, "adventure"));
             Commands.ChatCommands.Add(new Command(Teleport, "teleport"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
             Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
@@ -73,7 +73,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command(staff, "staff"));
             Commands.ChatCommands.Add(new Command("geldar.level30", Facepalm, "facepalm"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Slapall, "slapall"));
-            Commands.ChatCommands.Add(new Command("tshock.world.modify", Gift, "gift"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", Gift, "gift"));
             Commands.ChatCommands.Add(new Command("geldar.champion", Bunny, "bunny"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
             Commands.ChatCommands.Add(new Command("geldar.level30", MonsterGamble, "monstergamble", "mg"));
@@ -1198,36 +1198,32 @@ namespace RPG
                         {
                             if (args.Player.Group.Name == Config.contents.trial30magegroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1magegroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab1magegroup);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30rangergroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1rangergroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab1rangergroup);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30warriorgroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1warriorgroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab1warriorgroup);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             else if (args.Player.Group.Name == Config.contents.trial30summonergroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab1summonergroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab1summonergroup);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                               
@@ -1260,41 +1256,37 @@ namespace RPG
                         {
                             if (args.Player.Group.Name == Config.contents.lab1magegroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2magegroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab2magegroup);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                player.DamagePlayer(15);
+                                args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
 
                             }
                             if (args.Player.Group.Name == Config.contents.lab1rangergroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2rangergroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab2rangergroup);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                player.DamagePlayer(15);
+                                args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
 
                             }
                             if (args.Player.Group.Name == Config.contents.lab1warriorgroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2warriorgroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab2warriorgroup);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                player.DamagePlayer(15);
+                                args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
 
                             }
                             if (args.Player.Group.Name == Config.contents.lab1summonergroup)
                             {
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.lab2summonergroup);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab2summonergroup);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
-                                player.DamagePlayer(15);
+                                args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
 
                             }
@@ -1336,11 +1328,10 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Sorcerer", Color.SkyBlue);
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30magefinish);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial30magefinish);
                                 int type = 167;
-                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1356,11 +1347,10 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Marksman", Color.SkyBlue);
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30rangerfinish);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial30rangerfinish);
                                 int type = 167;
-                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1376,11 +1366,10 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Knight", Color.SkyBlue);
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30warriorfinish);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial30warriorfinish);
                                 int type = 167;
-                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1396,11 +1385,10 @@ namespace RPG
                                 args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
                                 args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
                                 TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Beckoner", Color.SkyBlue);
-                                Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30summonerfinish);
-                                var player = args.Player;
-                                player.Group = grp;
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial30summonerfinish);
                                 int type = 167;
-                                int p = Projectile.NewProjectile(player.TPlayer.position.X, player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1459,9 +1447,8 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60magefinish);
-                                        var ply = args.Player;
-                                        ply.Group = grp;
+                                        var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                        TShock.Users.SetUserGroup(trialuser, Config.contents.trial60magefinish);
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Archon", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1500,9 +1487,8 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60rangerfinish);
-                                        var ply = args.Player;
-                                        ply.Group = grp;
+                                        var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                        TShock.Users.SetUserGroup(trialuser, Config.contents.trial60rangerfinish);
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Deadshot", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1541,9 +1527,8 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60warriorfinish);
-                                        var ply = args.Player;
-                                        ply.Group = grp;
+                                        var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                        TShock.Users.SetUserGroup(trialuser, Config.contents.trial60warriorfinish);
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Blademaster", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1582,9 +1567,8 @@ namespace RPG
                                     else
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
-                                        Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60summonerfinish);
-                                        var ply = args.Player;
-                                        ply.Group = grp;
+                                        var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                        TShock.Users.SetUserGroup(trialuser, Config.contents.trial60summonerfinish);
                                         TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Animist", Color.SkyBlue);
                                         args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
                                     }
@@ -1652,9 +1636,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30magefinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial30magefinish);
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1692,9 +1675,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30rangerfinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial30rangerfinish);
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1732,9 +1714,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30warriorfinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial30warriorfinish);
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1772,9 +1753,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial30summonerfinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial30summonerfinish);
                                     args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -1828,9 +1808,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60magefinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial60magefinish);
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Archon", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1869,9 +1848,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60rangerfinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp; ;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial60rangerfinish);
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Deadshot", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1910,9 +1888,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60warriorfinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial60warriorfinish);
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Blademaster", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1951,9 +1928,8 @@ namespace RPG
                                 else
                                 {
                                     SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
-                                    Group grp = TShock.Groups.GetGroupByName(Config.contents.trial60summonerfinish);
-                                    var ply = args.Player;
-                                    ply.Group = grp;
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial60summonerfinish);
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Animist", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
@@ -1967,8 +1943,53 @@ namespace RPG
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
+                #endregion
+
+                #region Question 1
+                case "european":
+                    {
+                        args.Player.DamagePlayer(9001);
+                        args.Player.SendMessage("You are not very good with swallows are you?", Color.Goldenrod);
+                    }
+                    break;
+
+                case "african":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Question 2
+                case "bucharest":
+                    {
+
+                    }
+                    break;
+
+                case "budapest":
+                    {
+                        args.Player.DamagePlayer(9001);
+                        args.Player.SendMessage("Couldn't you at least google it?", Color.Goldenrod);
+                    }
+                    break;
+                #endregion
+
+                #region Question 3
+                case "brian":
+                    {
+
+                    }
+                    break;
+
+                case "steven":
+                    {
+                        args.Player.DamagePlayer(9001);
+                        args.Player.SendMessage("Well, you can't stop Ninja Brian. This 9001 damage is the least of your worries.", Color.Goldenrod);
+                    }
+                    break;
                     #endregion
             }
         }
@@ -2770,15 +2791,17 @@ namespace RPG
                 #endregion
 
                 #region Hive
-                    /*
-                case "hive":
-                    {
+                /*
+            case "hive":
+                {
 
-                    }
-                    break;
+                }
+                break;
+                */
                 #endregion
 
                 #region Highlander
+                /*
                 case "highlander":
                     {
 
@@ -2789,6 +2812,10 @@ namespace RPG
             }
 
         }
+
+        #endregion
+
+        #region Minigames
 
         #endregion
 
@@ -2811,9 +2838,18 @@ namespace RPG
                 #region Adventure teleport
                 case "adventure":
                     {
-                        args.Player.Teleport(445 * 16, 875 * 16);
-                        args.Player.SendMessage("You have been teleported to the Adventure Tower.", Color.Goldenrod);
-                        args.Player.SendMessage("Remember to have at least 4 free inventory slots.", Color.Goldenrod);
+                        if (args.Player.Group.HasPermission("geldar.mod"))
+                        {
+                            args.Player.Teleport(445 * 16, 875 * 16);
+                            args.Player.SendMessage("You have been teleported to the Adventure Tower.", Color.Goldenrod);
+                            args.Player.SendMessage("Remember to have at least 4 free inventory slots.", Color.Goldenrod);
+                        }
+
+                        else
+                        {
+                            args.Player.SendErrorMessage("Adventures are temporarily disabled while we rebuild them.");
+                            return;
+                        }
                     }
                     break;
                 #endregion
@@ -2967,7 +3003,7 @@ namespace RPG
                         }                        
                         if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(238 * 16,1355 * 16);
                         }
                         else
                         {
@@ -2994,7 +3030,7 @@ namespace RPG
                         }
                         if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(112 * 16, 873 * 16);
                         }
                         else
                         {
@@ -3018,16 +3054,14 @@ namespace RPG
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Corruption adventure teleporter.");
                             return;
-                        }
-                        // geldar.level???
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        }                        
+                        if (args.Player.Group.HasPermission("geldar.level30") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(138 * 16, 915 * 16);
                         }
                         else
                         {
-                            //level
-                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            args.Player.SendErrorMessage("You need to be level 30 for this adventure.");
                             return;
                         }
                     }
@@ -3048,15 +3082,13 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Crimson adventure teleporter.");
                             return;
                         }
-                        // geldar.level???
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        if (args.Player.Group.HasPermission("geldar.level30") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(212 * 16, 1151 * 16);
                         }
                         else
                         {
-                            //level
-                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            args.Player.SendErrorMessage("You need to be level 30 for this adventure.");
                             return;
                         }
                     }
@@ -3077,15 +3109,13 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Jungle adventure teleporter.");
                             return;
                         }
-                        // geldar.level???
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        if (args.Player.Group.HasPermission("house.use") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(355 * 16, 1164 * 16);
                         }
                         else
                         {
-                            //level
-                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            args.Player.SendErrorMessage("You need to be level 20 for this adventure.");
                             return;
                         }
                     }
@@ -3106,15 +3136,13 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
                             return;
                         }
-                        // geldar.level???
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        if (args.Player.Group.HasPermission("tshock.world.modify") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(520 * 16, 138 * 16);
                         }
                         else
                         {
-                            //level
-                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            args.Player.SendErrorMessage("You need to be level 10 for this adventure.");
                             return;
                         }
                     }
@@ -3135,15 +3163,13 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
                             return;
                         }
-                        // geldar.level???
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                        if (args.Player.Group.HasPermission("tshock.world.modify") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
-                            args.Player.Teleport(x * 16, y * 16);
+                            args.Player.Teleport(786 * 16, 252 * 16);
                         }
                         else
                         {
-                            //level
-                            args.Player.SendErrorMessage("You need to be level ??? for this adventure.");
+                            args.Player.SendErrorMessage("You need to be level 10 for this adventure.");
                             return;
                         }
                     }
