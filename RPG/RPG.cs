@@ -2844,7 +2844,6 @@ namespace RPG
                             args.Player.SendMessage("You have been teleported to the Adventure Tower.", Color.Goldenrod);
                             args.Player.SendMessage("Remember to have at least 4 free inventory slots.", Color.Goldenrod);
                         }
-
                         else
                         {
                             args.Player.SendErrorMessage("Adventures are temporarily disabled while we rebuild them.");
