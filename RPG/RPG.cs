@@ -376,11 +376,11 @@ namespace RPG
                     {
                         player.hivecd--;
                     }
+                    */
                     if (player.highlandercd > 0)
                     {
                         player.highlandercd--;
-                    }
-                    */
+                    }                    
                 }
             }
         }
@@ -1194,7 +1194,7 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
                             return;
                         }
-                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30summonergroup)
+                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30summonergroup || args.Player.Group.Name == Config.contents.trial30terrariangroup)
                         {
                             if (args.Player.Group.Name == Config.contents.trial30magegroup)
                             {
@@ -1220,10 +1220,18 @@ namespace RPG
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
-                            else if (args.Player.Group.Name == Config.contents.trial30summonergroup)
+                            if (args.Player.Group.Name == Config.contents.trial30summonergroup)
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab1summonergroup);
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                               
+                            }
+                            else if (args.Player.Group.Name == Config.contents.trial30terrariangroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab1terrariangroup);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                               
@@ -1252,7 +1260,7 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not int he right region. Check the signs for hints.");
                             return;
                         }
-                        if (args.Player.Group.Name == Config.contents.lab1magegroup || args.Player.Group.Name == Config.contents.lab1rangergroup || args.Player.Group.Name == Config.contents.lab1warriorgroup || args.Player.Group.Name == Config.contents.lab1summonergroup)
+                        if (args.Player.Group.Name == Config.contents.lab1magegroup || args.Player.Group.Name == Config.contents.lab1rangergroup || args.Player.Group.Name == Config.contents.lab1warriorgroup || args.Player.Group.Name == Config.contents.lab1summonergroup || args.Player.Group.Name == Config.contents.lab1terrariangroup)
                         {
                             if (args.Player.Group.Name == Config.contents.lab1magegroup)
                             {
@@ -1290,6 +1298,15 @@ namespace RPG
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
 
                             }
+                            else if (args.Player.Group.Name == Config.contents.lab1terrariangroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.lab2terrariangroup);
+                                args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
+                                args.Player.DamagePlayer(15);
+                                TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
+
+                            }
                         }
                         else
                         {
@@ -1318,7 +1335,7 @@ namespace RPG
                         #endregion
 
                         #region Trial 30 group check
-                        if (args.Player.Group.Name == Config.contents.lab2magegroup || args.Player.Group.Name == Config.contents.lab2rangergroup || args.Player.Group.Name == Config.contents.lab2warriorgroup || args.Player.Group.Name == Config.contents.lab2summonergroup)
+                        if (args.Player.Group.Name == Config.contents.lab2magegroup || args.Player.Group.Name == Config.contents.lab2rangergroup || args.Player.Group.Name == Config.contents.lab2warriorgroup || args.Player.Group.Name == Config.contents.lab2summonergroup || args.Player.Group.Name == Config.contents.lab2terrariangroup)
                         {
                             #endregion
 
@@ -1397,6 +1414,25 @@ namespace RPG
                                 args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 9, 0);
                             }
                             #endregion
+
+                            #region Trial 30 terrarian
+                            if (args.Player.Group.Name == Config.contents.lab2terrariangroup && args.Player.CurrentRegion == region)
+                            {
+                                args.Player.SendMessage("Congratulations! You have solved the riddles and completed the trial.", Color.Goldenrod);
+                                args.Player.SendMessage("Rifling through the Nencromancer's corpse you find some loot!", Color.Goldenrod);
+                                TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.30.Terrarian", Color.SkyBlue);
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial30terrarianfinish);
+                                int type = 167;
+                                int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
+                                args.Player.GiveItem(itemById2.type, itemById2.name, itemById2.width, itemById2.height, 4, 0);
+                                Item itemById3 = TShock.Utils.GetItemById(Config.contents.trial30item3);
+                                args.Player.GiveItem(itemById3.type, itemById3.name, itemById3.width, itemById3.height, 9, 0);
+                            }
+                            #endregion
                         }
 
                         else
@@ -1412,7 +1448,7 @@ namespace RPG
                 case "trial60":
                     {
                         #region Trial 60 group check
-                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup)
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
                         {
                             #endregion
 
@@ -1575,6 +1611,46 @@ namespace RPG
                                 }
                             }
                             #endregion
+
+                            #region Trial 60 terrarian
+                            if (args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trial60terrarianregion);
+                                if (args.Player.CurrentRegion != region)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Requirement: Tomb of the Necrodancder, Mage room.");
+                                    return;
+                                }
+                                if (args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Requirement: Tomb of the Necrodancder, Mage room.");
+                                    return;
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60terrariangroup && args.Player.CurrentRegion == region)
+                                {
+                                    var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                    var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                    var playeramount = selectedPlayer.Balance;
+                                    var player = Playerlist[args.Player.Index];
+                                    Money moneyamount = -Config.contents.trial60cost;
+                                    Money moneyamount2 = Config.contents.trial60cost;
+                                    if (playeramount < moneyamount2)
+                                    {
+                                        args.Player.SendErrorMessage("You need {0} to use this command. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                        return;
+                                    }
+
+                                    else
+                                    {
+                                        SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial.", moneyamount2, args.Player.Name), string.Format("Level 60 trial"));
+                                        var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                        TShock.Users.SetUserGroup(trialuser, Config.contents.trial60terrarianfinish);
+                                        TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Terrarian", Color.SkyBlue);
+                                        args.Player.SendMessage("You have paid 12 000 Terra Coins for the level 60 trial", Color.Goldenrod);
+                                    }
+                                }
+                            }
+                            #endregion
                         }
                         else
                         {
@@ -1602,7 +1678,7 @@ namespace RPG
                 #region Level 30 trial skip
                 case "skip30":
                     {
-                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30summonergroup)
+                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30summonergroup || args.Player.Group.Name == Config.contents.trial30terrariangroup)
                         {
                             #region Trial 30 mage skip
                             if (args.Player.Group.Name == Config.contents.trial30magegroup)
@@ -1759,6 +1835,45 @@ namespace RPG
                                 }
                             }
                             #endregion
+
+                            #region Trial 30 terrarian skip
+                            if (args.Player.Group.Name == Config.contents.trial30terrariangroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 50 000 Terra Coins!");
+                                    return;
+                                }
+                                if (args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 50 000 Terra Coins!");
+                                    return;
+                                }
+
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial30skipcost;
+                                Money moneyamount2 = Config.contents.trial30skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 30 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 30 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 30 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial30terrarianfinish);
+                                    args.Player.SendMessage("You have paid 50 000 Terra Coins for the level 30 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
                         }
 
                         else
@@ -1774,7 +1889,7 @@ namespace RPG
                 #region Level 60 trial skip
                 case "skip60":
                     {
-                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup)
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
                         {
                             #region Trial 60 mage skip
                             if (args.Player.Group.Name == Config.contents.trial60magegroup)
@@ -1931,6 +2046,46 @@ namespace RPG
                                     var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
                                     TShock.Users.SetUserGroup(trialuser, Config.contents.trial60summonerfinish);
                                     TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Animist", Color.SkyBlue);
+                                    args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
+
+                            #region Trial 60 terrarian skip
+                            if (args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 200 000 Terra Coins!");
+                                    return;
+                                }
+                                if (args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 200 000 Terra Coins!");
+                                    return;
+                                }
+
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial60skipcost;
+                                Money moneyamount2 = Config.contents.trial60skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 60 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 60 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 60 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial60terrarianfinish);
+                                    TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.60.Terrarian", Color.SkyBlue);
                                     args.Player.SendMessage("You have paid 200 000 Terra Coins for the level 60 trial skip", Color.Goldenrod);
                                 }
                             }
@@ -2783,6 +2938,7 @@ namespace RPG
                 #endregion
 
                 #region Frozen
+                /*
                 case "frozen":
                     {
 
@@ -2791,7 +2947,7 @@ namespace RPG
                 #endregion
 
                 #region Hive
-                /*
+                
             case "hive":
                 {
 
@@ -2800,14 +2956,53 @@ namespace RPG
                 */
                 #endregion
 
-                #region Highlander
-                /*
+                #region Highlander                
                 case "highlander":
                     {
-
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.highlanderregion);
+                        if (!args.Player.Group.HasPermission("tshock.world.modify"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 10 to complete this quest.");
+                            return;
+                        }
+                        if (player.highlandercd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.highlandercd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.highlanderitem);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                                IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.highlanderreward, BankAccountTransferOptions.AnnounceToReceiver, "Highlander sidequest reward.", "Highlander sidequest reward.");
+                                args.Player.SendMessage("Heeeeere we areeee, born to be kings!", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.highlandercd = Config.contents.highlandercd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
+                            }
+                        }
                     }
-                    break;
-                    */
+                    break;                    
                     #endregion
             }
 

@@ -93,7 +93,6 @@ namespace RPG
         #endregion
 
         #region Config
-
             public class Contents
             {
                 public bool SEconomy = true;
@@ -390,23 +389,23 @@ namespace RPG
                 public int corrupteditem = 70;
                 public int corruptedreward = 75;
                 public int corruptedcd = 259200;
-            /*
+                /*
                 public string frozenregion = "frozen";
                 public int frozenitem1 = ;
-                public int frozenitem2 = ;
+                public int frozenreward = ;
                 public int frozencd = ;
-
+            
                 public string hiveregion = "hive";
                 public int hiveitem1 = ;
                 public int hivenpcid = ;
                 public int hivenpcamount = ;
                 public int hivecd = ;
-
-                public string highlanderregion = "highlander";
-                public int highlanderitem = ;
-                public int highlanderreward = ;
-                public int highlandercd = ;
                 */
+                public string highlanderregion = "highlander";
+                public int highlanderitem = 2273;
+                public int highlanderreward = 75;
+                public int highlandercd = 259200;
+                
                 public string overgrownregion = "overgrown";
                 public int overgrownitem = 1133;
                 public int overgrownreward = 100;
@@ -464,14 +463,18 @@ namespace RPG
                 public string trial30warriorfinish = "warrior30";
                 public string trial30rangerfinish = "ranger30";
                 public string trial30summonerfinish = "summoner30";
+                public string trial30terrariangroup = "terrarian29";
+                public string trial30terrarianfinish = "terrarian30";
                 public string lab1magegroup = "mage29_1";
                 public string lab1rangergroup = "ranger29_1";
                 public string lab1warriorgroup = "warrior29_1";
                 public string lab1summonergroup = "summoner29_1";
+                public string lab1terrariangroup = "terrarian29_1";
                 public string lab2magegroup = "mage29_2";
                 public string lab2rangergroup = "ranger29_2";
                 public string lab2warriorgroup = "warrior29_2";
                 public string lab2summonergroup = "summoner29_2";
+                public string lab2terrariangroup = "terrarian29_2";
                 public string trialskipregion = "trialskip";
                 public int trial30skipcost = 50000;
                 public int trial60skipcost = 200000;                
@@ -480,35 +483,33 @@ namespace RPG
                 public string trial60warriorregion = "trial60warrior";
                 public string trial60rangerregion = "trial60ranger";
                 public string trial60summonerregion = "trial60summoner";
+                public string trial60terrarianregion = "trial60ranger";
                 public string trial60magegroup = "mage59";
                 public string trial60rangergroup = "ranger59";
                 public string trial60warriorgroup = "warrior59";
                 public string trial60summonergroup = "summoner59";
+                public string trial60terrariangroup = "terrarian59";
                 public string trial60magefinish = "mage60";
                 public string trial60warriorfinish = "warrior60";
                 public string trial60rangerfinish = "ranger60";
                 public string trial60summonerfinish = "summoner60";
+                public string trial60terrarianfinish = "terrarian60";
                 public int trial60cost = 12000;
             }
-
         #endregion
 
         #region Config reload
-
         private void Reloadcfg(CommandArgs args)
         {
             if (ReadConfig())
             {
                 args.Player.SendMessage("RPG config reloaded.", Color.Goldenrod);
             }
-
             else
             {
                 args.Player.SendErrorMessage("Nope. Check logs.");
             }
         }
-
-        #endregion
-        
+        #endregion        
     }
 }
