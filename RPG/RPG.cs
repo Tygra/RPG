@@ -45,7 +45,7 @@ namespace RPG
         public override string Description
         { get { return "Geldar RPG Commads"; } }
         public override Version Version
-        { get { return new Version(1, 2); } }
+        { get { return new Version(1, 3); } }
 
         public RPG(Main game)
             : base(game)
@@ -58,7 +58,8 @@ namespace RPG
         public override void Initialize()
         {
             Commands.ChatCommands.Add(new Command("geldar.admin", Reloadcfg, "rpgreload"));
-            Commands.ChatCommands.Add(new Command("geldar.mod", Adv, "adventure"));
+            Commands.ChatCommands.Add(new Command("geldar.mod", Minigame, "minigame"));
+            Commands.ChatCommands.Add(new Command("geldar.level5", Adv, "adventure"));
             Commands.ChatCommands.Add(new Command(Teleport, "teleport"));
             Commands.ChatCommands.Add(new Command("geldar.level5", Story, "story"));
             Commands.ChatCommands.Add(new Command(Tutorial, "tutorial"));
@@ -366,12 +367,12 @@ namespace RPG
                     if (player.overgrowncd > 0)
                     {
                         player.overgrowncd--;
-                    }
-                    /*
+                    }                    
                     if (player.frozencd > 0)
                     {
                         player.frozencd--;
                     }
+                    /*
                     if (player.hivecd > 0)
                     {
                         player.hivecd--;
@@ -688,7 +689,7 @@ namespace RPG
         private void MonsterGamble(CommandArgs args)
         {
             Random random = new Random();
-            int amount = random.Next(1, 50);
+            int amount = random.Next(1, 30);
             var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
             var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
             var playeramount = selectedPlayer.Balance;
@@ -1200,40 +1201,65 @@ namespace RPG
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab1magegroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab1npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab1npc2);
+                                var lab1player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc1, npc.name, 1, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc2, npc2.name, 8, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
-                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30rangergroup)
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab1rangergroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab1npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab1npc2);
+                                var lab1player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc1, npc.name, 1, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc2, npc2.name, 8, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
-                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30warriorgroup)
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab1warriorgroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab1npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab1npc2);
+                                var lab1player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc1, npc.name, 1, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc2, npc2.name, 8, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
-                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                                
                             }
                             if (args.Player.Group.Name == Config.contents.trial30summonergroup)
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab1summonergroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab1npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab1npc2);
+                                var lab1player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc1, npc.name, 1, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc2, npc2.name, 8, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
-                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                               
                             }
                             else if (args.Player.Group.Name == Config.contents.trial30terrariangroup)
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab1terrariangroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab1npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab1npc2);
+                                var lab1player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc1, npc.name, 1, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab1npc2, npc2.name, 8, lab1player.TSPlayer.TileX, lab1player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.lab1reward);
-                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
                                 args.Player.SendMessage("You just looted Worm Food and nothing else! It's a stinking hole, what did you expect?", Color.Goldenrod);                               
                             }
                         }
@@ -1266,6 +1292,11 @@ namespace RPG
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab2magegroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab2npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab2npc2);
+                                var lab2player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc1, npc.name, 5, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc2, npc2.name, 3, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
                                 args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
@@ -1275,6 +1306,11 @@ namespace RPG
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab2rangergroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab2npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab2npc2);
+                                var lab2player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc1, npc.name, 5, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc2, npc2.name, 3, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
                                 args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
@@ -1284,6 +1320,11 @@ namespace RPG
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab2warriorgroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab2npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab2npc2);
+                                var lab2player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc1, npc.name, 5, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc2, npc2.name, 3, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
                                 args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
@@ -1293,6 +1334,11 @@ namespace RPG
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab2summonergroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab2npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab2npc2);
+                                var lab2player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc1, npc.name, 5, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc2, npc2.name, 3, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
                                 args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
@@ -1302,6 +1348,11 @@ namespace RPG
                             {
                                 var player = TShock.Users.GetUserByName(args.Player.User.Name);
                                 TShock.Users.SetUserGroup(player, Config.contents.lab2terrariangroup);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.lab2npc1);
+                                var npc2 = TShock.Utils.GetNPCById(Config.contents.lab2npc2);
+                                var lab2player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc1, npc.name, 5, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
+                                TSPlayer.Server.SpawnNPC(Config.contents.lab2npc2, npc2.name, 3, lab2player.TSPlayer.TileX, lab2player.TSPlayer.TileY);
                                 args.Player.SendMessage("The air gets colder after you touch the stone. A loud laughter echoes from the stone and you reach for your face!", Color.Goldenrod);
                                 args.Player.DamagePlayer(15);
                                 TSPlayer.All.SendMessage(args.Player.Name + " slapped himself. Muhahahahaha", Color.Goldenrod);
@@ -1349,6 +1400,9 @@ namespace RPG
                                 TShock.Users.SetUserGroup(player, Config.contents.trial30magefinish);
                                 int type = 167;
                                 int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.trial30npc);
+                                var trial30player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.trial30npc, npc.name, 5, trial30player.TSPlayer.TileX, trial30player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1368,6 +1422,9 @@ namespace RPG
                                 TShock.Users.SetUserGroup(player, Config.contents.trial30rangerfinish);
                                 int type = 167;
                                 int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.trial30npc);
+                                var trial30player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.trial30npc, npc.name, 5, trial30player.TSPlayer.TileX, trial30player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1387,6 +1444,9 @@ namespace RPG
                                 TShock.Users.SetUserGroup(player, Config.contents.trial30warriorfinish);
                                 int type = 167;
                                 int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.trial30npc);
+                                var trial30player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.trial30npc, npc.name, 5, trial30player.TSPlayer.TileX, trial30player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1406,6 +1466,9 @@ namespace RPG
                                 TShock.Users.SetUserGroup(player, Config.contents.trial30summonerfinish);
                                 int type = 167;
                                 int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.trial30npc);
+                                var trial30player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.trial30npc, npc.name, 5, trial30player.TSPlayer.TileX, trial30player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -1425,6 +1488,9 @@ namespace RPG
                                 TShock.Users.SetUserGroup(player, Config.contents.trial30terrarianfinish);
                                 int type = 167;
                                 int f = Projectile.NewProjectile(args.Player.TPlayer.position.X, args.Player.TPlayer.position.Y - 64f, 0f, -8f, type, 0, (float)0);
+                                var npc = TShock.Utils.GetNPCById(Config.contents.trial30npc);
+                                var trial30player = Playerlist[args.Player.Index];
+                                TSPlayer.Server.SpawnNPC(Config.contents.trial30npc, npc.name, 5, trial30player.TSPlayer.TileX, trial30player.TSPlayer.TileY);
                                 Item itemById = TShock.Utils.GetItemById(Config.contents.trial30item1);
                                 args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                 Item itemById2 = TShock.Utils.GetItemById(Config.contents.trial30item2);
@@ -2105,14 +2171,82 @@ namespace RPG
                 #region Question 1
                 case "european":
                     {
-                        args.Player.DamagePlayer(9001);
-                        args.Player.SendMessage("You are not very good with swallows are you?", Color.Goldenrod);
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                        {
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.trial60questionregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == region && args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                            {
+                                args.Player.DamagePlayer(9001);
+                                args.Player.SendMessage("You are not very good with swallows are you?", Color.Goldenrod);
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 59");
+                            return;                            
+                        }
                     }
                     break;
 
                 case "african":
                     {
-
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                        {
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.trial60questionregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == region)
+                            {
+                                if (args.Player.Group.Name == Config.contents.trial60magegroup)
+                                {
+                                    args.Player.Teleport(870 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60warriorgroup)
+                                {
+                                    args.Player.Teleport(825 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60rangergroup)
+                                {
+                                    args.Player.Teleport(836 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60summonergroup)
+                                {
+                                    args.Player.Teleport(754 * 16, 1956 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                else if (args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                                {
+                                    args.Player.Teleport(836 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 59.");
+                            return;
+                        }
                     }
                     break;
                 #endregion
@@ -2120,14 +2254,82 @@ namespace RPG
                 #region Question 2
                 case "bucharest":
                     {
-
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                        {
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.trial60questionregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == region && args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                            {
+                                args.Player.DamagePlayer(9001);
+                                args.Player.SendMessage("Couldn't you at least google it?", Color.Goldenrod);
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 59");
+                            return;
+                        }
                     }
                     break;
 
                 case "budapest":
                     {
-                        args.Player.DamagePlayer(9001);
-                        args.Player.SendMessage("Couldn't you at least google it?", Color.Goldenrod);
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                        {
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.trial60questionregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == region)
+                            {
+                                if (args.Player.Group.Name == Config.contents.trial60magegroup)
+                                {
+                                    args.Player.Teleport(870 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60warriorgroup)
+                                {
+                                    args.Player.Teleport(825 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60rangergroup)
+                                {
+                                    args.Player.Teleport(836 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60summonergroup)
+                                {
+                                    args.Player.Teleport(754 * 16, 1956 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                else if (args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                                {
+                                    args.Player.Teleport(836 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 59.");
+                            return;
+                        }
                     }
                     break;
                 #endregion
@@ -2135,14 +2337,82 @@ namespace RPG
                 #region Question 3
                 case "brian":
                     {
-
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                        {
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.trial60questionregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == region)
+                            {
+                                if (args.Player.Group.Name == Config.contents.trial60magegroup)
+                                {
+                                    args.Player.Teleport(870 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60warriorgroup)
+                                {
+                                    args.Player.Teleport(825 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60rangergroup)
+                                {
+                                    args.Player.Teleport(836 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                if (args.Player.Group.Name == Config.contents.trial60summonergroup)
+                                {
+                                    args.Player.Teleport(754 * 16, 1956 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                                else if (args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                                {
+                                    args.Player.Teleport(836 * 16, 1955 * 16);
+                                    args.Player.SendMessage("Maybe they can just hold it under the dorsal guiding feathers.", Color.Goldenrod);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 59.");
+                            return;
+                        }
                     }
                     break;
 
                 case "steven":
                     {
-                        args.Player.DamagePlayer(9001);
-                        args.Player.SendMessage("Well, you can't stop Ninja Brian. This 9001 damage is the least of your worries.", Color.Goldenrod);
+                        if (args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                        {
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.trial60questionregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. If you are in the level 60 trial zone stand on the blinking teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == region && args.Player.Group.Name == Config.contents.trial60magegroup || args.Player.Group.Name == Config.contents.trial60rangergroup || args.Player.Group.Name == Config.contents.trial60warriorgroup || args.Player.Group.Name == Config.contents.trial60summonergroup || args.Player.Group.Name == Config.contents.trial60terrariangroup)
+                            {
+                                args.Player.DamagePlayer(9001);
+                                args.Player.SendMessage("Well, you can't stop Ninja Brian. This 9001 damage is the least of your worries.", Color.Goldenrod);
+                            }
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You are not level 59");
+                            return;
+                        }
                     }
                     break;
                     #endregion
@@ -2751,9 +3021,9 @@ namespace RPG
                     {
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.vulcanregion);
-                        if (!args.Player.Group.HasPermission("geldar.level5"))
+                        if (!args.Player.Group.HasPermission("house.use"))
                         {
-                            args.Player.SendErrorMessage("You need to be at least level 5 to complete this quest.");
+                            args.Player.SendErrorMessage("You need to be at least level 20 to complete this quest.");
                             return;
                         }
                         if (player.vulcancd > 0)
@@ -2777,8 +3047,8 @@ namespace RPG
                             IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.vulcanreward, BankAccountTransferOptions.AnnounceToReceiver, "Volcano reward", "Volcano reward");
                             Item itemById = TShock.Utils.GetItemById(Config.contents.vulcanitem1);
-                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 10, 0);
-                            args.Player.SendMessage("You have found a lava proof chest and looted 10 Obsidian and 150 Terra Coins from it.", Color.Goldenrod);
+                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 15, 0);
+                            args.Player.SendMessage("You have found a lava proof chest and looted 15 Obsidian and 150 Terra Coins from it.", Color.Goldenrod);
                             if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
                                 player.vulcancd = Config.contents.vulcancd;
@@ -2937,17 +3207,57 @@ namespace RPG
                     break;
                 #endregion
 
-                #region Frozen
-                /*
+                #region Frozen                
                 case "frozen":
                     {
-
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.frozenregion);
+                        if (!args.Player.Group.HasPermission("tshock.world.modify"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 10 to complete this quest.");
+                            return;
+                        }
+                        if (player.frozencd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.frozencd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the hints at spawn.");
+                            return;
+                        }
+                        else
+                        {
+                            if (args.Player.InventorySlotAvailable)
+                            {
+                                Item itemById = TShock.Utils.GetItemById(Config.contents.frozenitem);
+                                args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                                IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.frozenreward, BankAccountTransferOptions.AnnounceToReceiver, "Frozen sidequest reward.", "Frozen sidequest reward.");
+                                args.Player.SendMessage("Do you wanna build a snow... NOPE", Color.Goldenrod);
+                                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                {
+                                    player.frozencd = Config.contents.frozencd;
+                                }
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
+                            }
+                        }
                     }
                     break;
                 #endregion
 
                 #region Hive
-                
+                /*
             case "hive":
                 {
 
@@ -3011,7 +3321,11 @@ namespace RPG
         #endregion
 
         #region Minigames
-
+        private void Minigame(CommandArgs args)
+        {
+            args.Player.SendMessage("Not yet", Color.Goldenrod);
+            return;
+        }
         #endregion
 
         #region Teleport
@@ -3024,6 +3338,10 @@ namespace RPG
                 args.Player.SendMessage("Info: /teleport tutorial - Teleports you to the Tutorial zone.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /teleport story - Teleports you to the very first part of the story.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /teleport oasis - Teleports you to the Poised Oasis.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /teleport minigame - Teleports you to the minigame area. -In development-", Color.SkyBlue);
+                args.Player.SendMessage("Info: /teleport vip1 - Teleports you to the above ground VIP housing.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /teleport vip2 - Teleports you to the underground VIP housing.", Color.SkyBlue);
+                args.Player.SendMessage("Info: /teleport lite - Teleports you to the Elite lite housing.", Color.SkyBlue);
                 args.Player.SendMessage("Info: Oasis teleport requirements: 250 Terra coins, Level 30, Warehouse teleport pad.", Color.Goldenrod);
                 return;
             }
@@ -3033,7 +3351,7 @@ namespace RPG
                 #region Adventure teleport
                 case "adventure":
                     {
-                        if (args.Player.Group.HasPermission("geldar.mod"))
+                        if (args.Player.Group.HasPermission("geldar.level5"))
                         {
                             args.Player.Teleport(445 * 16, 875 * 16);
                             args.Player.SendMessage("You have been teleported to the Adventure Tower.", Color.Goldenrod);
@@ -3041,7 +3359,7 @@ namespace RPG
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("Adventures are temporarily disabled while we rebuild them.");
+                            args.Player.SendErrorMessage("You need to be at least level 5 to start an Adventure");
                             return;
                         }
                     }
@@ -3105,42 +3423,59 @@ namespace RPG
                 #region Story teleport
                 case "story":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.storyregion);
-                        if (args.Player.CurrentRegion != region)
+                        if (args.Player.Group.HasPermission("geldar.level5"))
                         {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Spawn/Landfall");
-                            return;
-                        }
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.storyregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Spawn/Landfall");
+                                return;
+                            }
 
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Spawn/Landfall");
-                            return;
-                        }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Spawn/Landfall");
+                                return;
+                            }
 
+                            else
+                            {
+                                args.Player.Teleport(6096 * 16, 659 * 16);
+                                args.Player.SendMessage("You have been teleport to the start of the story.", Color.Goldenrod);
+                            }
+                        }
                         else
                         {
-                            args.Player.Teleport(6096 * 16, 659 * 16);
-                            args.Player.SendMessage("You have been teleport to the start of the story.", Color.Goldenrod);
+                            args.Player.SendErrorMessage("You need to be at least level 5 to start the story.");
+                            return;
                         }
                     }   
                     break;
 
                 #endregion
 
-                #region VIP1 teleport
-                case "vip1":
+                #region Minigame
+                case "minigame":
                     {
-                        if (!args.Player.Group.HasPermission("geldar.vip"))
+                        if (args.Player.Group.HasPermission("geldar.mod"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this teleport.");
+                            args.Player.SendErrorMessage("No area define for teleport.");
                             return;
                         }
                         else
                         {
-                            args.Player.Teleport(5690 * 16, 543 * 16);
-                            args.Player.SendMessage("You have been teleported to the aboveground VIP housing.", Color.Goldenrod);
-                        }                        
+                            args.Player.SendErrorMessage("Minigames are currently in development. Be patient.");
+                            return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region VIP1 teleport
+                case "vip1":
+                    {
+                        args.Player.Teleport(5690 * 16, 543 * 16);
+                        args.Player.SendMessage("You have been teleported to the aboveground VIP housing.", Color.Goldenrod);                                         
                     }
                     break;
                 #endregion
@@ -3148,20 +3483,21 @@ namespace RPG
                 #region VIP2 teleport
                 case "vip2":
                     {
-                        if (!args.Player.Group.HasPermission("geldar.vip"))
-                        {
-                            args.Player.SendErrorMessage("You don't have permission to use this teleport.");
-                            return;
-                        }
-                        else
-                        {
-                            args.Player.Teleport(5769 * 16, 834 * 16);
-                            args.Player.SendMessage("You have been teleported to the underground VIP housing.", Color.Goldenrod);
-                        }
-                    }
+                        args.Player.Teleport(5769 * 16, 834 * 16);
+                        args.Player.SendMessage("You have been teleported to the underground VIP housing.", Color.Goldenrod);
+                    }                  
                     break;
 
                 #endregion
+
+                #region Elite lite
+                case "lite":
+                    {
+                        args.Player.Teleport(6174 * 16, 1328 * 16);
+                        args.Player.SendMessage("You have been teleported to the Elite lite housing.", Color.Goldenrod);
+                    }
+                    break;
+                    #endregion
             }
         }
 
@@ -3184,24 +3520,32 @@ namespace RPG
                 #region Pyramid teleport
                 case "pyramid":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.pyramidtpregion);
-                        if (args.Player.CurrentRegion != region)
+                        if (args.Player.Group.HasPermission("geldar.mod"))
                         {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Pyramid teleporter.");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Pyramid teleporter.");
-                            return;
-                        }                        
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
-                        {
-                            args.Player.Teleport(238 * 16,1355 * 16);
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.pyramidtpregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Pyramid teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Pyramid teleporter.");
+                                return;
+                            }
+                            if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                            {
+                                args.Player.Teleport(238 * 16, 1355 * 16);
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("You need to be level 5 for this adventure.");
+                                return;
+                            }
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("You need to be level 5 for this adventure.");
+                            args.Player.SendErrorMessage("This adventure is disabled right now.");
                             return;
                         }
                     }
@@ -3211,24 +3555,32 @@ namespace RPG
                 #region Ice teleport
                 case "ice":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.icetpregion);
-                        if (args.Player.CurrentRegion != region)
+                        if (args.Player.Group.HasPermission("geldar.mod"))
                         {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Ice adventure teleporter.");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Ice adventure teleporter.");
-                            return;
-                        }
-                        if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
-                        {
-                            args.Player.Teleport(112 * 16, 873 * 16);
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.icetpregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Ice adventure teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Ice adventure teleporter.");
+                                return;
+                            }
+                            if (args.Player.Group.HasPermission("geldar.level5") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                            {
+                                args.Player.Teleport(112 * 16, 873 * 16);
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("You need to be level 5 for this adventure.");
+                                return;
+                            }
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("You need to be level 5 for this adventure.");
+                            args.Player.SendErrorMessage("This adventure is disabled right now.");
                             return;
                         }
                     }
@@ -3238,7 +3590,7 @@ namespace RPG
                 #region Corr teleport
                 case "corr":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallowtpregion);
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.corrtpregion);
                         if (args.Player.CurrentRegion != region)
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Corruption adventure teleporter.");
@@ -3248,7 +3600,7 @@ namespace RPG
                         {
                             args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Corruption adventure teleporter.");
                             return;
-                        }                        
+                        }
                         if (args.Player.Group.HasPermission("geldar.level30") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
                         {
                             args.Player.Teleport(138 * 16, 915 * 16);
@@ -3257,7 +3609,7 @@ namespace RPG
                         {
                             args.Player.SendErrorMessage("You need to be level 30 for this adventure.");
                             return;
-                        }
+                        }                       
                     }
                     break;
                 #endregion
@@ -3319,24 +3671,32 @@ namespace RPG
                 #region Space teleport
                 case "space":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.spacetpregion);
-                        if (args.Player.CurrentRegion != region)
+                        if (args.Player.Group.HasPermission("geldar.mod"))
                         {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
-                            return;
-                        }
-                        if (args.Player.Group.HasPermission("tshock.world.modify") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
-                        {
-                            args.Player.Teleport(520 * 16, 138 * 16);
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.spacetpregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Space adventure teleporter.");
+                                return;
+                            }
+                            if (args.Player.Group.HasPermission("tshock.world.modify") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                            {
+                                args.Player.Teleport(520 * 16, 138 * 16);
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("You need to be level 10 for this adventure.");
+                                return;
+                            }
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("You need to be level 10 for this adventure.");
+                            args.Player.SendErrorMessage("This adventure is disabled right now.");
                             return;
                         }
                     }
@@ -3346,24 +3706,32 @@ namespace RPG
                 #region Hallow teleport
                 case "hallow":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.hallowtpregion);
-                        if (args.Player.CurrentRegion != region)
+                        if (args.Player.Group.HasPermission("geldar.mod"))
                         {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
-                            return;
-                        }
-                        if (args.Player.CurrentRegion == null)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
-                            return;
-                        }
-                        if (args.Player.Group.HasPermission("tshock.world.modify") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
-                        {
-                            args.Player.Teleport(786 * 16, 252 * 16);
+                            Region region = TShock.Regions.GetRegionByName(Config.contents.hallowtpregion);
+                            if (args.Player.CurrentRegion != region)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion == null)
+                            {
+                                args.Player.SendErrorMessage("You are not in the right region. Requirement: Adventure tower, Hallow adventure teleporter.");
+                                return;
+                            }
+                            if (args.Player.Group.HasPermission("tshock.world.modify") || args.Player.Group.HasPermission("geldar.vip") && args.Player.CurrentRegion == region)
+                            {
+                                args.Player.Teleport(786 * 16, 252 * 16);
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("You need to be level 10 for this adventure.");
+                                return;
+                            }
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("You need to be level 10 for this adventure.");
+                            args.Player.SendErrorMessage("This adventure is disabled right now.");
                             return;
                         }
                     }
