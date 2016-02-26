@@ -1,11 +1,14 @@
-﻿/*  
+﻿#region Disclaimer
+/*  
  *  The plugin has some features which I got from other authors.
- *  I don't claim any overship over those elements which were made by someone else.
+ *  I don't claim any ownership over those elements which were made by someone else.
  *  The plugin has been customized to fit our need at Geldar,
  *  and because of this, it's useless for anyone else.
  *  I know timers are shit, and If someone knows a way to keep them after relog, tell me.
 */
+#endregion
 
+#region Refs
 using System;
 using System.IO;
 using System.ComponentModel;
@@ -23,6 +26,7 @@ using TShockAPI.DB;
 using Wolfje.Plugins.SEconomy;
 using Wolfje.Plugins.SEconomy.Journal;
 using Newtonsoft.Json;
+#endregion
 
 namespace RPG
 {
@@ -394,13 +398,13 @@ namespace RPG
                 public int frozenitem = 1319;
                 public int frozenreward = 75;
                 public int frozencd = 259200;
-                /*
+                
                 public string hiveregion = "hive";
-                public int hiveitem1 = ;
+                public int hiveitem = ;
+                public int hivenpcamount = 15;
                 public int hivenpcid = ;
-                public int hivenpcamount = ;
-                public int hivecd = ;
-                */
+                public int hivecd = 21600;
+                
                 public string highlanderregion = "highlander";
                 public int highlanderitem = 2273;
                 public int highlanderreward = 75;
@@ -416,6 +420,23 @@ namespace RPG
                 public int dungeonitem2 = 327;
                 public int dungeonreward = 75;
                 public int dungeoncd = 259200;
+
+            public string hellq1region = "hellq1";
+            public int hellq1item1 = ;
+            public int hellq1item2 = ;
+            public int hellq1reward = ;
+            public int hellq1cd = 259200;
+
+            public string hellq2region = "hellq2";
+            public int hellq2item1 = ;
+            public int hellq2item2 = ;
+            public int hellq2reward = ;
+            public int hellq2cd 259200 ;
+
+            public string hunter1region = "hunter1";
+            public int hunter1item1 = ;
+            public int hunter2item2 = ;
+            public int hunter1cd = 259200;
 
                 public string lab1region = "lab1";
                 public int lab1reward = 68;

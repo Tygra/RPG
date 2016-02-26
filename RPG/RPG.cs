@@ -1,7 +1,7 @@
 ﻿#region Disclaimer
 /*  
  *  The plugin has some features that I got from other authors.
- *  I don't claim any overship over those elements which were made by someone else.
+ *  I don't claim any ownership over those elements which were made by someone else.
  *  The plugin has been customized to fit our need at Geldar,
  *  and because of this, it's useless for anyone else.
  *  I know timers are shit, and If someone knows a way to keep them after relog, tell me.
@@ -371,13 +371,11 @@ namespace RPG
                     if (player.frozencd > 0)
                     {
                         player.frozencd--;
-                    }
-                    /*
+                    }                    
                     if (player.hivecd > 0)
                     {
                         player.hivecd--;
-                    }
-                    */
+                    }                    
                     if (player.highlandercd > 0)
                     {
                         player.highlandercd--;
@@ -3255,15 +3253,54 @@ namespace RPG
                     }
                     break;
                 #endregion
-
-                #region Hive
-                /*
-            case "hive":
-                {
-
-                }
+                    //finish hive
+                #region Hive                
+                case "hive":
+                    {
+                        var player = Playerlist[args.Player.Index];
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.hiveregion);
+                        if (!args.Player.Group.HasPermission("tshock.world.modify"))
+                        {
+                            args.Player.SendErrorMessage("You need to be at least level 10 to complete this quest");
+                            return;
+                        }
+                        if (player.hivecd > 0)
+                        {
+                            args.Player.SendErrorMessage("This command is on cooldown for {0} seconds.", (player.hivecd));
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the signs at spawn for hints.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check the signs at spawn for hints.");
+                            return;
+                        }
+                        else
+                        {
+                                if (args.Player.InventorySlotAvailable)
+                                {
+                                    Item itemById = TShock.Utils.GetItemById(Config.contents.hiveitem);
+                                    args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                    var npc = TShock.Utils.GetNPCById(Config.contents.hivenpcid);
+                                    var trial30player = Playerlist[args.Player.Index];
+                                    TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid, npc.name, Config.contents.hivenpcamount, player.TSPlayer.TileX, player.TSPlayer.TileY);
+                                    args.Player.SendMessage("", Color.Goldenrod);
+                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                    {
+                                        player.hivecd = Config.contents.hivecd;
+                                    }
+                                }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
+                                }
+                        }
+                    }                    
                 break;
-                */
                 #endregion
 
                 #region Highlander                
