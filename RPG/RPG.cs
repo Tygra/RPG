@@ -29,6 +29,10 @@ using Newtonsoft.Json;
 
 namespace RPG
 {
+    /*
+     * Buffme for tc
+     * 
+    */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
     {
@@ -379,7 +383,23 @@ namespace RPG
                     if (player.highlandercd > 0)
                     {
                         player.highlandercd--;
+                    }
+                    if (player.hellq1cd > 0)
+                    {
+                        player.hellq1cd--;
                     }                    
+                    if (player.hellq2cd > 0)
+                    {
+                        player.hellq2cd--;
+                    }
+                    if (player.hunter1cd > 0)
+                    {
+                        player.hunter1cd--;
+                    }
+                    if (player.hunter2cd > 0)
+                    {
+                        player.hunter2cd--;
+                    }
                 }
             }
         }

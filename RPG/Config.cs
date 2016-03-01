@@ -438,6 +438,12 @@ namespace RPG
             public int hunter2item2 = ;
             public int hunter1cd = 259200;
 
+            public string hunter2region = "hunter2";
+            public int hunter2item1 = ;
+            public int hunter2item2 = ;
+            public int hunterreward = ;
+            public int hunter2cd = 259200;
+
                 public string lab1region = "lab1";
                 public int lab1reward = 68;
 

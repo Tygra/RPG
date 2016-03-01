@@ -88,7 +88,11 @@ namespace RPG
         public int frozencd { get; set; }
         public int corruptedcd { get; set; }        
         public int hivecd { get; set; }
-        public int highlandercd { get; set; }        
+        public int highlandercd { get; set; }   
+        public int hellq1cd { get; set; }
+        public int hellq2cd { get; set; }
+        public int hunter1cd { get; set; }
+        public int hunter2cd { get; set; }     
 
         public GPlayer(int index)
         {
