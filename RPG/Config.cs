@@ -398,13 +398,16 @@ namespace RPG
                 public int frozenitem = 1319;
                 public int frozenreward = 75;
                 public int frozencd = 259200;
-                
-                public string hiveregion = "hive";
-                public int hiveitem = ;
-                public int hivenpcamount = 15;
-                public int hivenpcid = ;
-                public int hivecd = 21600;
-                
+            /*
+            public string hiveregion = "hive";
+            public int hiveitem = ;
+            public int hivenpcamount = 15;
+            public int hivenpcid = ;
+            public int hivecd = 21600;
+            */
+
+            public string h40region = "h40";
+            public int h40cost = 10000;
                 public string highlanderregion = "highlander";
                 public int highlanderitem = 2273;
                 public int highlanderreward = 75;
@@ -420,7 +423,7 @@ namespace RPG
                 public int dungeonitem2 = 327;
                 public int dungeonreward = 75;
                 public int dungeoncd = 259200;
-
+            /*
             public string hellq1region = "hellq1";
             public int hellq1item1 = ;
             public int hellq1item2 = ;
@@ -443,7 +446,7 @@ namespace RPG
             public int hunter2item2 = ;
             public int hunterreward = ;
             public int hunter2cd = 259200;
-
+            */
                 public string lab1region = "lab1";
                 public int lab1reward = 68;
 
@@ -473,9 +476,19 @@ namespace RPG
                 public int startersummoner = 1309;
                 public int startercd = 10800;
 
+                //buffcost and cd
+                public int buff1cd = 60;
+                public int buff2cd = 60;
+                public int buff3cd = 60;
+                public int buff4cd = 60;
+                public int buff1cost = 150;
+                public int buff2cost = 200;
+                public int buff3cost = 350;
+                public int buff4cost = 500;
+
                 public int mgcd = 120;
                 public int mgcost = 1000;
-                public int[] mgexlcude = { 17, 18, 19, 20, 22, 35, 37, 38, 54, 68, 85, 105, 106, 107, 108, 113, 114, 113, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 139, 142, 143, 144, 145, 158, 159, 160, 162, 166, 172, 178, 207, 208, 209, 212, 213, 214, 215, 216, 227, 228, 229, 245, 246, 247, 248, 251, 253, 262, 263, 264, 265, 269, 276, 281, 282, 288, 290, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 325, 326, 327, 328, 338, 339, 340, 344, 345, 346, 353, 354, 368, 369, 370, 372, 373, 376, 379, 380, 381, 382, 383, 385, 386, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 422, 438, 439, 440, 441, 453, 460, 461, 462, 463, 466, 467, 468, 473, 474, 475, 476, 477, 491, 492, 493, 507, 517, 521, 2889, 2890, 2891, 2892, 2893, 2894, 2895, 3564 };
+                public int[] mgexlcude = { 17, 18, 19, 20, 22, 35, 37, 38, 54, 68, 85, 105, 106, 107, 108, 113, 114, 113, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 139, 142, 143, 144, 145, 158, 159, 160, 162, 166, 172, 178, 207, 208, 209, 212, 213, 214, 215, 216, 227, 228, 229, 245, 246, 247, 248, 251, 253, 262, 263, 264, 265, 269, 276, 281, 282, 288, 290, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 325, 326, 327, 328, 338, 339, 340, 344, 345, 346, 353, 354, 368, 369, 370, 372, 373, 376, 379, 380, 381, 382, 383, 385, 386, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 422, 437, 438, 439, 440, 441, 453, 460, 461, 462, 463, 466, 467, 468, 473, 474, 475, 476, 477, 491, 492, 493, 507, 517, 521, 2889, 2890, 2891, 2892, 2893, 2894, 2895, 3564 };
 
                 public int trial30item1 = 1071;
                 public int trial30item2 = 327;

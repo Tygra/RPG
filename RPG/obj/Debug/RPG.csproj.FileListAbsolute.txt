@@ -17,6 +17,3 @@ C:\Users\tygra\Desktop\Plugins\RPG\RPG\bin\Debug\Mono.Data.Sqlite.dll
 C:\Users\tygra\Desktop\Plugins\RPG\RPG\obj\Debug\RPG.csprojResolveAssemblyReference.cache
 C:\Users\tygra\Desktop\Plugins\RPG\RPG\obj\Debug\RPG.dll
 C:\Users\tygra\Desktop\Plugins\RPG\RPG\obj\Debug\RPG.pdb
-C:\Users\Tygra\Desktop\Plugins\RPG\RPG\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Tygra\Desktop\Plugins\RPG\RPG\bin\Debug\TerrariaServer.exe
-C:\Users\Tygra\Desktop\Plugins\RPG\RPG\bin\Debug\TShockAPI.dll

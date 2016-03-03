@@ -31,7 +31,7 @@ namespace RPG
 {
     /*
      * Buffme for tc
-     * 
+     * House for tc
     */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
@@ -83,8 +83,9 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
             Commands.ChatCommands.Add(new Command("geldar.level30", MonsterGamble, "monstergamble", "mg"));
             Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
-            Commands.ChatCommands.Add(new Command("geldar.vip", Buffme, "buffme"));
+            Commands.ChatCommands.Add(new Command(Buffme, "buffme"));
             Commands.ChatCommands.Add(new Command(Geldar, "geldar"));
+            Commands.ChatCommands.Add(new Command("geldar.housing", Housing, "buy"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -399,6 +400,22 @@ namespace RPG
                     if (player.hunter2cd > 0)
                     {
                         player.hunter2cd--;
+                    }
+                    if (player.buff1cd > 0)
+                    {
+                        player.buff1cd--;
+                    }
+                    if (player.buff2cd > 0)
+                    {
+                        player.buff2cd--;                      
+                    }
+                    if (player.buff3cd > 0)
+                    {
+                        player.buff3cd--;
+                    }
+                    if (player.buff4cd > 0)
+                    {
+                        player.buff4cd--;
                     }
                 }
             }
@@ -956,12 +973,70 @@ namespace RPG
         }
         #endregion
 
+        #region Buy houseplot
+        private void Housing(CommandArgs args)
+        {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendInfoMessage("/housing plotname");
+                return;
+            }
+
+            switch (args.Parameters[0])
+            {
+                case "h40":
+                    {
+                        
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.h40cost;
+                        Money moneyamount2 = Config.contents.h40cost;
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.h40region);
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("nope");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("nop");
+                            return;
+                        }
+                        if (region.AllowedIDs.Count > 0)
+                        {
+                            args.Player.SendInfoMessage("This reagion has already been claimed by someone.");
+                            return;
+                        }
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the h40 housing plot.", moneyamount2, args.Player.Name), string.Format("h40"));
+                            if (TShock.Regions.AddNewUser(Config.contents.h40region, args.Player.Name))
+                            {
+                                args.Player.SendInfoMessage("You have the plot.");
+                                return;
+                            }   
+                                                     
+                        }
+
+                    }
+                    break;
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Tutorial
         private void Tutorial(CommandArgs args)
         {
-            if(args.Parameters.Count < 1)
+            if (args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Info: If you wish to be teleported to the tutorial zone, use /teleport tutorial", Color.Goldenrod);
                 args.Player.SendMessage("Info: For some housing information use /tutorial housing.", Color.Goldenrod);
@@ -1194,6 +1269,7 @@ namespace RPG
                 args.Player.SendMessage("Info: At level 29, 59, 69 and 79 you have to complete a trial. Below you can find the available commands.", Color.Goldenrod);
                 args.Player.SendMessage("Info: If you wish to skip the trials use /trial skip to get more information about it.", Color.Goldenrod);
                 args.Player.SendMessage("Info: The commands to finish the trial can be found on the last sign of the trial.", Color.Goldenrod);
+                args.Player.SendMessage("Info: You can monitor your progress with /trial progress.", Color.Goldenrod);
                 return;
             }
 
@@ -1528,6 +1604,35 @@ namespace RPG
                     break;
                 #endregion
 
+                #region Trialprogress
+                case "progress":
+                    {
+                        if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30summonergroup || args.Player.Group.Name == Config.contents.trial30terrariangroup)
+                        {
+                            args.Player.SendInfoMessage("You are level 29 and not yet completed any part of the level 30 trial.");
+                            args.Player.SendInfoMessage("If you are stuck, go back to the boarding house at Landfall to get some info.");
+                            return;
+                        }
+                        if (args.Player.Group.Name == Config.contents.lab1magegroup || args.Player.Group.Name == Config.contents.lab1warriorgroup || args.Player.Group.Name == Config.contents.lab1rangergroup || args.Player.Group.Name == Config.contents.lab1summonergroup || args.Player.Group.Name == Config.contents.lab1terrariangroup)
+                        {
+                            args.Player.SendInfoMessage("You have comnpleted the first part of the level 30 trial. You don't need to do it again, find the second part.");
+                            args.Player.SendInfoMessage("If you need info about the location, go back to the first lab and read the notes in the cave.");
+                            return;
+                        }
+                        if (args.Player.Group.Name == Config.contents.lab2magegroup || args.Player.Group.Name == Config.contents.lab2warriorgroup || args.Player.Group.Name == Config.contents.lab2rangergroup || args.Player.Group.Name == Config.contents.lab2summonergroup || args.Player.Group.Name == Config.contents.lab2terrariangroup)
+                        {
+                            args.Player.SendInfoMessage("You have comnpleted the first and second part of the level 30 trial. You don't need to do those again, find the third, last part.");
+                            args.Player.SendInfoMessage("If you need info about the location, go back to the second lab and read the notes in the desert lab.");
+                            return;
+                        }
+                        else
+                        {
+                            args.Player.SendInfoMessage("You are not level 29.");                            
+                        }
+                    }
+                    break;
+                #endregion
+
                 #region Trial 60
                 case "trial60":
                     {
@@ -1743,6 +1848,10 @@ namespace RPG
                         }                        
                     }
                     break;
+
+                #endregion
+
+                #region Trial 70
 
                 #endregion
 
@@ -3273,7 +3382,7 @@ namespace RPG
                     }
                     break;
                 #endregion
-                    //finish hive
+                /*
                 #region Hive                
                 case "hive":
                     {
@@ -3322,7 +3431,7 @@ namespace RPG
                     }                    
                 break;
                 #endregion
-
+    */
                 #region Highlander                
                 case "highlander":
                     {
@@ -5478,7 +5587,11 @@ namespace RPG
                 #region Lite
                 case "lite":
                     {
-
+                        args.Player.SendMessage("You are allowed to have a 12x15 house with 7 storage containers.", Color.Goldenrod);
+                        args.Player.SendMessage("You can join anytime, even if the server if full.", Color.SkyBlue);
+                        args.Player.SendMessage("Terrarian rank name.", Color.SkyBlue);
+                        args.Player.SendMessage("Full leveling experience with trials and leveling rewards.", Color.SkyBlue);
+                        args.Player.SendMessage("You can start invasion with items from level 20", Color.SkyBlue);
                     }
                     break;
                 #endregion
@@ -5489,7 +5602,7 @@ namespace RPG
                         args.Player.SendMessage("You are allowed to have a 20x20 house with no chest amount restriction.", Color.Goldenrod);
                         args.Player.SendMessage("You can join anytime, even if the server if full.", Color.SkyBlue);
                         args.Player.SendMessage("Elite prefix and Royal-blue chat color.", Color.SkyBlue);
-                        args.Player.SendMessage("No leveling system, no item restirction, you can start invasions with items.", Color.SkyBlue);                 
+                        args.Player.SendMessage("No leveling system, no item restirction, you can start invasions with items.", Color.SkyBlue);             
                     }
                     break;
                 #endregion
@@ -5549,6 +5662,12 @@ namespace RPG
             if (args.Parameters.Count < 1)
             {
                 args.Player.SendMessage("Use the commands below to buff youself. Minimum rank for the commands is King.", Color.Goldenrod);
+                args.Player.SendMessage("Regular player buffs 150TC: Night/Swiftness/Waterwalking",Color.Goldenrod);
+                args.Player.SendMessage("Regular player buffs 200TC: Builder/Calming/Dangersense/Flipper/Gills/Warmth/Hunter/Heartreach/Gravitation", Color.Goldenrod);
+                args.Player.SendMessage("Regular player buffs 350TC: Shine/Archery/Ammores/Featherfall/Battle/Mining/Wrath", Color.Goldenrod);
+                args.Player.SendMessage("350TC: Titan/Thorns/Summoning/Regeneration/Rage/Obsidian/Manareg/Magicpower/Lifeforce", Color.Goldenrod);
+                args.Player.SendMessage("350TC: Ironskin/Inferno/Endurance", Color.Goldenrod);
+                args.Player.SendMessage("Regular player buffs 500TC: Spelunker", Color.Goldenrod);
                 args.Player.SendMessage("Info: /buffme sixthsense - Required rank: King or above.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /buffme defense - Require rank: Supreme or above.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /buffme misc - Required rank: Supreme or above.", Color.SkyBlue);
@@ -5556,18 +5675,20 @@ namespace RPG
                 args.Player.SendMessage("Info: /buffme ranged - Required rank : Ultimate.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /buffme magic - Required rank : Ultimate.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /buffme summoner - Required rank : Ultimate.", Color.SkyBlue);
-                args.Player.SendMessage("Press enter then the up arrow to scroll the chat", Color.Goldenrod);
+                args.Player.SendMessage("Press enter then use the up arrow to scroll the chat", Color.Goldenrod);
                 return;
             }
 
             switch (args.Parameters[0])
             {
+                #region VIP buffs
+
                 #region Sixthsense
                 case "sixthsense":
                     {
                         if (!args.Player.Group.HasPermission("geldar.king"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this buff command");
+                            args.Player.SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5588,7 +5709,7 @@ namespace RPG
                         if (!args.Player.Group.HasPermission("geldar.supreme"))
                         {
                             args.Player.
-                                SendErrorMessage("You don't have permission to use this buff command");
+                                SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5612,7 +5733,7 @@ namespace RPG
                     {
                         if (!args.Player.Group.HasPermission("geldar.supreme"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this buff command");
+                            args.Player.SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5637,7 +5758,7 @@ namespace RPG
                     {
                         if (!args.Player.Group.HasPermission("geldar.ultimate"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this buff command");
+                            args.Player.SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5657,7 +5778,7 @@ namespace RPG
                     {
                         if (!args.Player.Group.HasPermission("geldar.ultimate"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this buff command");
+                            args.Player.SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5677,7 +5798,7 @@ namespace RPG
                     {
                         if (!args.Player.Group.HasPermission("geldar.ultimate"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this buff command");
+                            args.Player.SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5697,7 +5818,7 @@ namespace RPG
                     {
                         if (!args.Player.Group.HasPermission("geldar.ultimate"))
                         {
-                            args.Player.SendErrorMessage("You don't have permission to use this buff command");
+                            args.Player.SendErrorMessage("You don't have permission to use this buff command.");
                             return;
                         }
                         else
@@ -5711,7 +5832,281 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
+
+                #endregion
+
+                #region Regular player buffs 150TC                
+
+                #region Night
+                case "night":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Swiftness
+                case "swiftness":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Waterwalking
+                case "waterwalking":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #endregion
+
+                #region Regular player buffs 200TC
+
+                #region Builder
+                case "builder":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Calming
+                case "calming":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Dangersense
+                case "dangersense":
+                    {
+
+                    }
+                    break;
+                #endregion                
+
+                #region Flipper
+                case "flipper":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Gills
+                case "gills":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Warmth
+                case "warmth":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Hunter
+                case "hunter":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Heartreach
+                case "heartreach":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Gravitation
+                case "gravitation":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #endregion
+
+                #region Regular player buffs 350TC
+
+                #region Shine            
+                case "shine":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Archery            
+                case "archery":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Ammores            
+                case "ammores":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Featherfall            
+                case "featherfall":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Battle            
+                case "battle":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Mining            
+                case "mining":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Wrath            
+                case "wrath":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Titan            
+                case "titan":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Thorns            
+                case "thorns":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Summoning
+                case "summoning":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Regeneration            
+                case "regeneration":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Rage            
+                case "rage":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Obsidian            
+                case "obsidian":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Manareg            
+                case "manareg":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Magicpower        
+                case "magicpower":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Lifeforce            
+                case "lifeforce":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Ironskin            
+                case "ironskin":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Inferno            
+                case "inferno":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #region Endurance            
+                case "endurance":
+                    {
+
+                    }
+                    break;
+                #endregion
+
+                #endregion
+
+                #region Regular player buffs 500TC
+
+                #region Spelunker
+                case "spelunker":
+                    {
+
+                    }
+                    break;
                     #endregion
+
+                #endregion
             }
         }    
         #endregion
@@ -5801,11 +6196,8 @@ namespace RPG
                 case "itemdrop":
                     {
                         args.Player.SendMessage("------------------------ Item Drop Rules ------------------------", Color.Goldenrod);
-                        args.Player.SendMessage("Info: You are only allowed to give away vanity, furniture, consumables, money and ammo.", Color.SkyBlue);
-                        args.Player.SendMessage("Info: Every item has a tooltip. Check it before dropping.", Color.SkyBlue);
-                        args.Player.SendMessage("Info: Treasure bags are not allowed to be given away.", Color.SkyBlue);
-                        args.Player.SendMessage("Info: Use /trade to exchange items with others.", Color.SkyBlue);
-                        args.Player.SendMessage("Press enter to scroll the chat.", Color.Goldenrod);
+                        args.Player.SendMessage("Info: You can't drop items on the server. Rebind your drop key.", Color.SkyBlue);
+                        args.Player.SendMessage("Info: We can't help you with lost items.", Color.SkyBlue);
                     }
                     break;
                     #endregion

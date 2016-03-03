@@ -92,8 +92,11 @@ namespace RPG
         public int hellq1cd { get; set; }
         public int hellq2cd { get; set; }
         public int hunter1cd { get; set; }
-        public int hunter2cd { get; set; }     
-
+        public int hunter2cd { get; set; }
+        public int buff1cd { get; set; }
+        public int buff2cd { get; set; }
+        public int buff3cd { get; set; }
+        public int buff4cd { get; set; }
         public GPlayer(int index)
         {
             this.Index = index;
