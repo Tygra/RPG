@@ -100,7 +100,42 @@ namespace RPG
             public class Contents
             {
                 public bool SEconomy = true;
+
+                #region Housing
+                public int altcost = 5000;
+                public string defaultowner = "Tygra";
                 
+                public string h1region = "h1";
+                public int h1cost = ;
+
+                public string h2region = "h2";
+                public int h2cost = ;
+
+                public string h3region = "h3";
+                public int h3cost = ;
+
+                public string h4region = "h4";
+                public int h4cost = ;
+
+                public string h5region = "h5";
+                public int h5cost = ;
+
+                public string h6region = "h6";
+                public int h6cost = ;
+
+                public string h7region = "h7";
+                public int h7cost = ;
+
+                public string h8region = "h8";
+                public int h8cost = ;
+
+                public string h9region = "h9";
+                public int h9cost = ;
+
+                public string h10region = "h10";
+                public int h10cost = ;
+                #endregion
+
                 public string pyramid1region = "pyramid1";
                 public int pyramid1item1 = 327;
                 public int pyramid1item2 = 159;
@@ -405,9 +440,7 @@ namespace RPG
             public int hivenpcid = ;
             public int hivecd = 21600;
             */
-
-            public string h40region = "h40";
-            public int h40cost = 10000;
+            
                 public string highlanderregion = "highlander";
                 public int highlanderitem = 2273;
                 public int highlanderreward = 75;

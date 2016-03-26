@@ -30,8 +30,10 @@ using Newtonsoft.Json;
 namespace RPG
 {
     /*
-     * Buffme for tc
-     * House for tc
+     * Buffme for tc - buffs sorted
+     * House for tc - replicate
+     * Add alt character support for housing.
+     * House upgrade list
     */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
@@ -85,7 +87,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
             Commands.ChatCommands.Add(new Command(Buffme, "buffme"));
             Commands.ChatCommands.Add(new Command(Geldar, "geldar"));
-            Commands.ChatCommands.Add(new Command("geldar.housing", Housing, "buy"));
+            Commands.ChatCommands.Add(new Command("house.use", Housing, "housing"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -973,40 +975,100 @@ namespace RPG
         }
         #endregion
 
-        #region Buy houseplot
+        #region Houseplot buying
         private void Housing(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
             {
-                args.Player.SendInfoMessage("/housing plotname");
+                args.Player.SendInfoMessage("With this command you can buy a pre-define housing plot, either ont he clouds, or underground.");
+                args.Player.SendInfoMessage("The plot's cost depends on where it is located. Plots close to the teleporters are more expensive");
+                args.Player.SendInfoMessage("than the plots with some distance from them. Check the sign on the island for the price.");
+                args.Player.SendInfoMessage("After you bought the land, you can remove the sign. Check the housing rules for restrictions.");
+                args.Player.SendInfoMessage("Alt character support is not yet implemented.");
                 return;
             }
-
+            
             switch (args.Parameters[0])
             {
-                case "h40":
+                #region Upgrade
+                case "upgrade":
                     {
-                        
+
+                    }
+                    break;
+                #endregion
+
+
+                #region Alt character adding
+                case "alt":
+                    {
                         var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                         var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
                         var playeramount = selectedPlayer.Balance;
                         var player = Playerlist[args.Player.Index];
-                        Money moneyamount = -Config.contents.h40cost;
-                        Money moneyamount2 = Config.contents.h40cost;
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.h40region);
+                        Money moneyamount = -Config.contents.altcost;
+                        Money moneyamount2 = Config.contents.altcost;
+                        Region region = args.Player.CurrentRegion;
                         if (args.Player.CurrentRegion == null)
                         {
-                            args.Player.SendErrorMessage("nope");
+                            args.Player.SendErrorMessage("You are not standing in a housing plot.");
+                            return;
+                        }
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (args.Parameters.Count < 1)
+                        {
+                            args.Player.SendErrorMessage("Wrong username specified or you didn't put double qoutes areound the name.");
+                            args.Player.SendErrorMessage("Example: /housing alt \"character name\".");
+                            return;
+                        }
+                        if (args.Player.Name != args.Player.CurrentRegion.Owner)
+                        {
+                            args.Player.SendErrorMessage("You are not the owner of this housing plot.");
+                            return;
+                        }
+                        if (args.Parameters.Count == 1)
+                        {
+                            string altname = string.Join(" ", args.Parameters);
+                            if (altname != null & altname != "")
+                            {
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for adding your alt character to the {1} housing plot.", moneyamount2, args.Player.CurrentRegion, args.Player.Name), string.Format("Alt adding {0} to {1}.", altname, args.Player.CurrentRegion));
+                                TShock.Regions.AddNewUser()
+                            }
+                        }
+
+                    }
+                    break;
+                #endregion
+
+                #region Housing plot 1
+                case "h1":
+                    {                        
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.h1cost;
+                        Money moneyamount2 = Config.contents.h1cost;
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.h1region);
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region for this command.");
+                            args.Player.SendErrorMessage("Stand on the sign and execute the command written on the sign.");
                             return;
                         }
                         if (args.Player.CurrentRegion != region)
                         {
-                            args.Player.SendErrorMessage("nop");
+                            args.Player.SendErrorMessage("You are not in the right region for this command.");
+                            args.Player.SendErrorMessage("Stand on the sign and execute the command written on the sign.");
                             return;
-                        }
-                        if (region.AllowedIDs.Count > 0)
+                        }                        
+                        if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                         {
-                            args.Player.SendInfoMessage("This reagion has already been claimed by someone.");
+                            args.Player.SendInfoMessage("This housing plot has already been claimed by someone.");
                             return;
                         }
                         if (playeramount < moneyamount2)
@@ -1016,17 +1078,14 @@ namespace RPG
                         }
                         else
                         {
-                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the h40 housing plot.", moneyamount2, args.Player.Name), string.Format("h40"));
-                            if (TShock.Regions.AddNewUser(Config.contents.h40region, args.Player.Name))
-                            {
-                                args.Player.SendInfoMessage("You have the plot.");
-                                return;
-                            }   
-                                                     
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the h40 housing plot.", moneyamount2, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion));
+                            TShock.Regions.ChangeOwner(Config.contents.h1region, args.Player.Name);
+                            args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion);
+                            return;
+                                                
                         }
-
-                    }
-                    break;
+                    }                    
+                    #endregion
             }
         }
         #endregion
