@@ -134,8 +134,17 @@ namespace RPG
 
                 public string h10region = "h10";
                 public int h10cost = ;
-                #endregion
+            #endregion
 
+                public int mimicchest = 48;
+                public int mimichallowkey = 3092;
+                public int mimiccrimsonkey = 3091;
+                public int mimiccorruptkey = 3091;
+
+                public int mimichallow = 475;
+                public int mimiccorrupt = 473;
+                public int mimiccrimson = 474;
+                
                 public string pyramid1region = "pyramid1";
                 public int pyramid1item1 = 327;
                 public int pyramid1item2 = 159;

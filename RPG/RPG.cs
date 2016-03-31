@@ -32,8 +32,9 @@ namespace RPG
     /*
      * Buffme for tc - buffs sorted
      * House for tc - replicate
-     * Add alt character support for housing.
      * House upgrade list
+     * Vip trial
+     * Test mimic spawn
     */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
@@ -87,7 +88,8 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
             Commands.ChatCommands.Add(new Command(Buffme, "buffme"));
             Commands.ChatCommands.Add(new Command(Geldar, "geldar"));
-            Commands.ChatCommands.Add(new Command("house.use", Housing, "housing"));
+            Commands.ChatCommands.Add(new Command("geldar.level30", Mimic, "mimic"));
+            Commands.ChatCommands.Add(new Command("geldar.level20", Housing, "housing"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -975,16 +977,161 @@ namespace RPG
         }
         #endregion
 
+        #region Mimic
+        private void Mimic(CommandArgs args)
+        {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendInfoMessage("You can spawn the new mimics if you have the necessary items for it.");
+                args.Player.SendInfoMessage("Use /mimic hallowed/crimson/corrupt.");
+                args.Player.SendInfoMessage("It will only work with a wooden chest.");
+                return;
+            }
+
+            switch (args.Parameters[0])
+            {
+                #region Hallowed
+                case "hallowed":
+                    {
+                        var searchforkey = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimichallowkey);
+                        var searchforchest = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimicchest);
+                        if (searchforkey == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have the key in your inventory.");
+                            return;
+                        }
+                        if (searchforchest == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have a chest in your intentory.");
+                            return;
+                        }
+                        if (searchforchest == null && searchforkey == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have any of the required items in your inventory.");
+                            return;
+                        }
+
+                        Item item;
+                        for (int i = 0; i < 50; i++)
+                        {
+                            item = args.TPlayer.inventory[i];
+
+                            if (item.netID == (int)Config.contents.mimichallowkey)
+                            {
+                                if (item.stack == 1)
+                                {
+                                    args.TPlayer.inventory[i].stack--;
+                                    NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, string.Empty, args.Player.Index, i);
+                                    Item take = TShock.Utils.GetItemById((int)Config.contents.mimichallowkey);
+                                    Item take2 = TShock.Utils.GetItemById((int)Config.contents.mimicchest);
+                                    var npc = TShock.Utils.GetNPCById(Config.contents.mimichallow);
+                                    TSPlayer.Server.SpawnNPC(Config.contents.mimichallow, npc.name, 1, args.Player.TileX, args.Player.TileY);
+                                }   
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Crimson
+                case "crimson":
+                    {
+                        var searchforkey = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimiccrimsonkey);
+                        var searchforchest = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimicchest);
+                        if (searchforkey == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have the key in your inventory.");
+                            return;
+                        }
+                        if (searchforchest == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have a chest in your intentory.");
+                            return;
+                        }
+                        if (searchforchest == null && searchforkey == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have any of the required items in your inventory.");
+                            return;
+                        }
+
+                        Item item;
+                        for (int i = 0; i < 50; i++)
+                        {
+                            item = args.TPlayer.inventory[i];
+
+                            if (item.netID == (int)Config.contents.mimiccrimsonkey)
+                            {
+                                if (item.stack == 1)
+                                {
+                                    args.TPlayer.inventory[i].stack--;
+                                    NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, string.Empty, args.Player.Index, i);
+                                    Item take = TShock.Utils.GetItemById((int)Config.contents.mimiccrimsonkey);
+                                    Item take2 = TShock.Utils.GetItemById((int)Config.contents.mimicchest);
+                                    var npc = TShock.Utils.GetNPCById(Config.contents.mimiccrimson);
+                                    TSPlayer.Server.SpawnNPC(Config.contents.mimiccrimson, npc.name, 1, args.Player.TileX, args.Player.TileY);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Corrupt
+                case "corrupt":
+                    {
+                        var searchforkey = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimiccorruptkey);
+                        var searchforchest = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimicchest);
+                        if (searchforkey == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have the key in your inventory.");
+                            return;
+                        }
+                        if (searchforchest == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have a chest in your intentory.");
+                            return;
+                        }
+                        if (searchforchest == null && searchforkey == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have any of the required items in your inventory.");
+                            return;
+                        }
+
+                        Item item;
+                        for (int i = 0; i < 50; i++)
+                        {
+                            item = args.TPlayer.inventory[i];
+
+                            if (item.netID == (int)Config.contents.mimiccorruptkey)
+                            {
+                                if (item.stack == 1)
+                                {
+                                    args.TPlayer.inventory[i].stack--;
+                                    NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, string.Empty, args.Player.Index, i);
+                                    Item take = TShock.Utils.GetItemById((int)Config.contents.mimiccorruptkey);
+                                    Item take2 = TShock.Utils.GetItemById((int)Config.contents.mimicchest);
+                                    var npc = TShock.Utils.GetNPCById(Config.contents.mimiccorrupt);
+                                    TSPlayer.Server.SpawnNPC(Config.contents.mimiccorrupt, npc.name, 1, args.Player.TileX, args.Player.TileY);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+            }
+        }
+
         #region Houseplot buying
         private void Housing(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
             {
-                args.Player.SendInfoMessage("With this command you can buy a pre-define housing plot, either ont he clouds, or underground.");
-                args.Player.SendInfoMessage("The plot's cost depends on where it is located. Plots close to the teleporters are more expensive");
-                args.Player.SendInfoMessage("than the plots with some distance from them. Check the sign on the island for the price.");
-                args.Player.SendInfoMessage("After you bought the land, you can remove the sign. Check the housing rules for restrictions.");
-                args.Player.SendInfoMessage("Alt character support is not yet implemented.");
+                args.Player.SendInfoMessage("With this command you can buy a pre-define housing plot, either on the clouds, or underground.");
+                args.Player.SendInfoMessage("The plot's cost depends on where it is located. Plots closer to the teleporters are more expensive.");
+                args.Player.SendInfoMessage("/housing price - will show you the price of the plot. /housing region - will show you the region's name.");
+                args.Player.SendInfoMessage("Check the housing rules for restrictions. /geldar housing");
+                args.Player.SendInfoMessage("With /housing alt you can add your other characters to the plot for x Terra Coins.");
+                args.Player.SendInfoMessage("You need to be stading on an island for the commands to work.");
                 return;
             }
             
@@ -998,8 +1145,15 @@ namespace RPG
                     break;
                 #endregion
 
+                #region Current region
+                case "region":
+                    {
+                        args.Player.SendInfoMessage("You are in the region: {0} .", args.Player.CurrentRegion.Name);                                             
+                    }
+                    break;
+                #endregion
 
-                #region Alt character adding
+                #region Alt character support
                 case "alt":
                     {
                         var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
@@ -1021,7 +1175,7 @@ namespace RPG
                         }
                         if (args.Parameters.Count < 1)
                         {
-                            args.Player.SendErrorMessage("Wrong username specified or you didn't put double qoutes areound the name.");
+                            args.Player.SendErrorMessage("Wrong username specified or you didn't put double qoutes around the name.");
                             args.Player.SendErrorMessage("Example: /housing alt \"character name\".");
                             return;
                         }
@@ -1032,11 +1186,11 @@ namespace RPG
                         }
                         if (args.Parameters.Count == 1)
                         {
-                            string altname = string.Join(" ", args.Parameters);
+                            string altname = string.Join(" ", args.Parameters[1]);
                             if (altname != null & altname != "")
                             {
                                 SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for adding your alt character to the {1} housing plot.", moneyamount2, args.Player.CurrentRegion, args.Player.Name), string.Format("Alt adding {0} to {1}.", altname, args.Player.CurrentRegion));
-                                TShock.Regions.AddNewUser()
+                                TShock.Regions.AddNewUser(args.Player.CurrentRegion.Name, altname);
                             }
                         }
 
@@ -1044,7 +1198,7 @@ namespace RPG
                     break;
                 #endregion
 
-                #region Housing plot 1
+                    #region Housing plot 1
                 case "h1":
                     {                        
                         var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
@@ -1081,8 +1235,7 @@ namespace RPG
                             SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the h40 housing plot.", moneyamount2, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion));
                             TShock.Regions.ChangeOwner(Config.contents.h1region, args.Player.Name);
                             args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion);
-                            return;
-                                                
+                            return;                                                
                         }
                     }                    
                     #endregion
