@@ -1,4 +1,4 @@
-﻿#region Disclaimer
+#region Disclaimer
 /*  
  *  The plugin has some features that I got from other authors.
  *  I don't claim any ownership over those elements which were made by someone else.
@@ -137,290 +137,115 @@ namespace RPG
                     {
                         continue;
                     }
-                    if (player.pyramid1cd > 0)
-                    {
-                        player.pyramid1cd--;
-                    }
-                    if (player.pyramid2cd > 0)
-                    {
-                        player.pyramid2cd--;
-                    }
-                    if (player.pyramid3cd > 0)
-                    {
-                        player.pyramid3cd--;
-                    }
-                    if (player.pyramid4cd > 0)
-                    {
-                        player.pyramid4cd--;
-                    }
-                    if (player.pyramid5cd > 0)
-                    {
-                        player.pyramid5cd--;
-                    }
-                    if (player.pyramid6cd > 0)
-                    {
-                        player.pyramid6cd--;
-                    }
-                    if (player.pyramid7cd > 0)
-                    {
-                        player.pyramid7cd--;
-                    }
-                    if (player.pyramid8cd > 0)
-                    {
-                        player.pyramid8cd--;
-                    }
-                    if (player.ice1cd > 0)
-                    {
-                        player.ice1cd--;
-                    }
-                    if (player.ice2cd > 0)
-                    {
-                        player.ice2cd--;
-                    }
-                    if (player.ice3cd > 0)
-                    {
-                        player.ice3cd--;
-                    }
-                    if (player.ice4cd > 0)
-                    {
-                        player.ice4cd--;
-                    }
-                    if (player.ice5cd > 0)
-                    {
-                        player.ice5cd--;
-                    }
-                    if (player.ice6cd > 0)
-                    {
-                        player.ice6cd--;
-                    }
-                    if (player.corr1cd > 0)
-                    {
-                        player.corr1cd--;
-                    }
-                    if (player.corr2cd > 0)
-                    {
-                        player.corr2cd--;
-                    }
-                    if (player.corr3cd > 0)
-                    {
-                        player.corr3cd--;
-                    }
-                    if (player.corr4cd > 0)
-                    {
-                        player.corr4cd--;
-                    }
-                    if (player.crim1cd > 0)
-                    {
-                        player.crim1cd--;
-                    }
-                    if (player.crim2cd > 0)
-                    {
-                        player.crim2cd--;
-                    }
-                    if (player.crim3cd > 0)
-                    {
-                        player.crim3cd--;
-                    }
-                    if (player.crim4cd > 0)
-                    {
-                        player.crim4cd--;
-                    }
-                    if (player.jadv1cd > 0)
-                    {
-                        player.jadv1cd--;
-                    }
-                    if (player.jadv2cd > 0)
-                    {
-                        player.jadv2cd--;
-                    }
-                    if (player.jadv3cd > 0)
-                    {
-                        player.jadv3cd--;
-                    }
-                    if (player.jadv4cd > 0)
-                    {
-                        player.jadv4cd--;
-                    }
-                    if (player.jadv5cd > 0)
-                    {
-                        player.jadv5cd--;
-                    }
-                    if (player.space1cd > 0)
-                    {
-                        player.space1cd--;
-                    }
-                    if (player.space2cd > 0)
-                    {
-                        player.space2cd--;
-                    }
-                    if (player.space3cd > 0)
-                    {
-                        player.space3cd--;
-                    }
-                    if (player.space4cd > 0)
-                    {
-                        player.space4cd--;
-                    }
-                    if (player.hallow1cd > 0)
-                    {
-                        player.hallow1cd--;
-                    }
-                    if (player.hallow2cd > 0)
-                    {
-                        player.hallow2cd--;
-                    }
-                    if (player.hallow3cd > 0)
-                    {
-                        player.hallow3cd--;
-                    }
-                    if (player.hallow4cd > 0)
-                    {
-                        player.hallow4cd--;
-                    }
-                    if (player.hallow5cd > 0)
-                    {
-                        player.hallow5cd--;
-                    }
-                    if (player.girocd > 0)
-                    {
-                        player.girocd--;
-                    }
-                    if (player.greekonecd > 0)
-                    {
-                        player.greekonecd--;
-                    }
-                    if (player.cavecd > 0)
-                    {
-                        player.cavecd--;
-                    }
-                    if (player.lab1cd > 0)
-                    {
-                        player.lab1cd--;
-                    }
-                    if (player.lab2cd > 0)
-                    {
-                        player.lab2cd--;
-                    }
-                    if (player.hiddencd > 0)
-                    {
-                        player.hiddencd--;
-                    }
-                    if (player.facepalmcd > 0)
-                    {
-                        player.facepalmcd--;
-                    }
-                    if (player.slapallcd > 0)
-                    {
-                        player.slapallcd--;
-                    }
-                    if (player.giftcd > 0)
-                    {
-                        player.giftcd--;
-                    }
-                    if (player.mgcd > 0)
-                    {
-                        player.mgcd--;
-                    }
-                    if (player.qlab1cd > 0)
-                    {
-                        player.qlab1cd--;
-                    }
-                    if (player.qlab2cd > 0)
-                    {
-                        player.qlab2cd--;
-                    }
-                    if (player.qlab3cd > 0)
-                    {
-                        player.qlab3cd--;
-                    }
-                    if (player.shrine1cd > 0)
-                    {
-                        player.shrine1cd--;
-                    }
-                    if (player.shrine2cd > 0)
-                    {
-                        player.shrine2cd--;
-                    }
-                    if (player.shrine3cd > 0)
-                    {
-                        player.shrine3cd--;
-                    }
-                    if (player.shrine4cd > 0)
-                    {
-                        player.shrine4cd--;
-                    }
-                    if (player.shrine5cd > 0)
-                    {
-                        player.shrine5cd--;
-                    }
-                    if (player.vikingcd > 0)
-                    {
-                        player.vikingcd--;
-                    }
-                    if (player.vulcancd > 0)
-                    {
-                        player.vulcancd--;
-                    }
-                    if (player.startercd > 0)
-                    {
-                        player.startercd--;
-                    }
-                    if (player.dungeoncd > 0)
-                    {
-                        player.dungeoncd--;
-                    }
-                    if (player.corruptedcd > 0)
-                    {
-                        player.corruptedcd--;
-                    }
-                    if (player.overgrowncd > 0)
-                    {
-                        player.overgrowncd--;
-                    }                    
-                    if (player.frozencd > 0)
-                    {
-                        player.frozencd--;
-                    }                    
-                    if (player.hivecd > 0)
-                    {
-                        player.hivecd--;
-                    }                    
-                    if (player.highlandercd > 0)
-                    {
-                        player.highlandercd--;
-                    }
-                    if (player.hellq1cd > 0)
-                    {
-                        player.hellq1cd--;
-                    }                    
-                    if (player.hellq2cd > 0)
-                    {
-                        player.hellq2cd--;
-                    }
-                    if (player.hunter1cd > 0)
-                    {
-                        player.hunter1cd--;
-                    }
-                    if (player.hunter2cd > 0)
-                    {
-                        player.hunter2cd--;
-                    }
-                    if (player.buff1cd > 0)
-                    {
-                        player.buff1cd--;
-                    }
-                    if (player.buff2cd > 0)
-                    {
-                        player.buff2cd--;                      
-                    }
-                    if (player.buff3cd > 0)
-                    {
-                        player.buff3cd--;
-                    }
-                    if (player.buff4cd > 0)
-                    {
-                        player.buff4cd--;
-                    }
+                    int[] _cdlist =
+                    {
+                        player.pyramid1cd,player.pyramid2cd,player.pyramid3cd,player.pyramid4cd,player.pyramid5cd,player.pyramid6cd,player.pyramid7cd,player.pyramid8cd,
+                        player.ice1cd,player.ice2cd,player.ice3cd,player.ice4cd,player.ice5cd,player.ice6cd,
+                        player.corr1cd,player.corr2cd,player.corr3cd,player.corr4cd,
+                        player.crim1cd,player.crim2cd,player.crim3cd,player.crim4cd,
+                        player.jadv1cd,player.jadv2cd,player.jadv3cd,player.jadv4cd,player.jadv5cd,
+                        player.space1cd,player.space2cd,player.space3cd,player.space4cd,
+                        player.hallow1cd,player.hallow2cd,player.hallow3cd,player.hallow4cd,player.hallow5cd,
+                        player.girocd,
+                        player.greekonecd,
+                        player.cavecd,
+                        player.lab1cd,player.lab2cd,
+                        player.hiddencd,
+                        player.facepalmcd,
+                        player.slapallcd,
+                        player.giftcd,
+                        player.mgcd,
+                        player.qlab1cd,player.qlab2cd,player.qlab3cd,
+                        player.shrine1cd,player.shrine2cd,player.shrine3cd,player.shrine4cd,player.shrine5cd,
+                        player.vikingcd,
+                        player.vulcancd,
+                        player.startercd,
+                        player.dungeoncd,
+                        player.corruptedcd,
+                        player.overgrowncd,
+                        player.frozencd,
+                        player.hivecd,
+                        player.highlandercd,
+                        player.hellq1cd,player.hellq2cd,
+                        player.hunter1cd,player.hunter2cd,
+                        player.buff1cd,player.buff2cd,player.buff3cd,player.buff4cd
+                    };
+                    foreach(int i in _cdlist)
+                    {
+                        if (i > 0) _cdlist[i]--;
+                    }
+                    /* changed the massive piles of if statements to a more simpler way.
+                    if (player.pyramid1cd > 0) player.pyramid1cd--;
+                    if (player.pyramid2cd > 0) player.pyramid2cd--;
+                    if (player.pyramid3cd > 0) player.pyramid3cd--;
+                    if (player.pyramid4cd > 0) player.pyramid4cd--;
+                    if (player.pyramid5cd > 0) player.pyramid5cd--;
+                    if (player.pyramid6cd > 0) player.pyramid6cd--;
+                    if (player.pyramid7cd > 0) player.pyramid7cd--;
+                    if (player.pyramid8cd > 0) player.pyramid8cd--;
+                    if (player.ice1cd > 0) player.ice1cd--;
+                    if (player.ice2cd > 0) player.ice2cd--;
+                    if (player.ice3cd > 0) player.ice3cd--;
+                    if (player.ice4cd > 0) player.ice4cd--;
+                    if (player.ice5cd > 0) player.ice5cd--;
+                    if (player.ice6cd > 0) player.ice6cd--;
+                    if (player.corr1cd > 0) player.corr1cd--;
+                    if (player.corr2cd > 0) player.corr2cd--;
+                    if (player.corr3cd > 0) player.corr3cd--;
+                    if (player.corr4cd > 0) player.corr4cd--;
+                    if (player.crim1cd > 0) player.crim1cd--;
+                    if (player.crim2cd > 0) player.crim2cd--;
+                    if (player.crim3cd > 0) player.crim3cd--;
+                    if (player.crim4cd > 0) player.crim4cd--;
+                    if (player.jadv1cd > 0) player.jadv1cd--;
+                    if (player.jadv2cd > 0) player.jadv2cd--;
+                    if (player.jadv3cd > 0) player.jadv3cd--;
+                    if (player.jadv4cd > 0) player.jadv4cd--;
+                    if (player.jadv5cd > 0) player.jadv5cd--;
+                    if (player.space1cd > 0) player.space1cd--;
+                    if (player.space2cd > 0) player.space2cd--;
+                    if (player.space3cd > 0) player.space3cd--;
+                    if (player.space4cd > 0) player.space4cd--;
+                    if (player.hallow1cd > 0) player.hallow1cd--;
+                    if (player.hallow2cd > 0) player.hallow2cd--;
+                    if (player.hallow3cd > 0) player.hallow3cd--;
+                    if (player.hallow4cd > 0) player.hallow4cd--;
+                    if (player.hallow5cd > 0) player.hallow5cd--;
+                    if (player.girocd > 0) player.girocd--;
+                    if (player.greekonecd > 0) player.greekonecd--;
+                    if (player.cavecd > 0) player.cavecd--;
+                    if (player.lab1cd > 0) player.lab1cd--;
+                    if (player.lab2cd > 0) player.lab2cd--;
+                    if (player.hiddencd > 0) player.hiddencd--;
+                    if (player.facepalmcd > 0)player.facepalmcd--;
+                    if (player.slapallcd > 0)player.slapallcd--;
+                    if (player.giftcd > 0)player.giftcd--;
+                    if (player.mgcd > 0) player.mgcd--;
+                    if (player.qlab1cd > 0) player.qlab1cd--;
+                    if (player.qlab2cd > 0) player.qlab2cd--;
+                    if (player.qlab3cd > 0) player.qlab3cd--;
+                    if (player.shrine1cd > 0) player.shrine1cd--;
+                    if (player.shrine2cd > 0) player.shrine2cd--;
+                    if (player.shrine3cd > 0) player.shrine3cd--;
+                    if (player.shrine4cd > 0) player.shrine4cd--;
+                    if (player.shrine5cd > 0) player.shrine5cd--;
+                    if (player.vikingcd > 0) player.vikingcd--;
+                    if (player.vulcancd > 0) player.vulcancd--;
+                    if (player.startercd > 0) player.startercd--;
+                    if (player.dungeoncd > 0) player.dungeoncd--;
+                    if (player.corruptedcd > 0) player.corruptedcd--;
+                    if (player.overgrowncd > 0) player.overgrowncd--;
+                    if (player.frozencd > 0) player.frozencd--;
+                    if (player.hivecd > 0) player.hivecd--;
+                    if (player.highlandercd > 0) player.highlandercd--;
+                    if (player.hellq1cd > 0) player.hellq1cd--;
+                    if (player.hellq2cd > 0) player.hellq2cd--;
+                    if (player.hunter1cd > 0) player.hunter1cd--;
+                    if (player.hunter2cd > 0) player.hunter2cd--;
+                    if (player.buff1cd > 0) player.buff1cd--;
+                    if (player.buff2cd > 0) player.buff2cd--;                      
+                    if (player.buff3cd > 0) player.buff3cd--;
+                    if (player.buff4cd > 0) player.buff4cd--;*/
                 }
             }
         }
