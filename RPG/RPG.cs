@@ -172,7 +172,7 @@ namespace RPG
                     };
                     foreach(int i in _cdlist)
                     {
-                        if (i > 0) _cdlist[i]--;
+                        if (_cdlist[i] > 0) _cdlist[i]--;
                     }
                     /* changed the massive piles of if statements to a more simpler way.
                     if (player.pyramid1cd > 0) player.pyramid1cd--;
