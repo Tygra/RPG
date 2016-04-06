@@ -446,13 +446,15 @@ namespace RPG
                 public int frozenitem = 1319;
                 public int frozenreward = 75;
                 public int frozencd = 259200;
-            /*
-            public string hiveregion = "hive";
-            public int hiveitem = ;
-            public int hivenpcamount = 15;
-            public int hivenpcid = ;
-            public int hivecd = 21600;
-            */
+            
+                public string hiveregion = "hive";
+                public int hiverewarditem = 1133;
+                public int hivenpcamount1 = 10;
+                public int hivenpcamount2 = 10;
+                public int hivenpcid1 = 211;
+                public int hivenpcid2 = 210;
+                public int hivecd = 21600;
+                public int hivereqitem = 1132;        
             
                 public string highlanderregion = "highlander";
                 public int highlanderitem = 2273;
@@ -563,6 +565,8 @@ namespace RPG
                 public int trial30skipcost = 50000;
                 public int trial60skipcost = 200000;
                 public int trial70skipcost = 35000;
+                public int trial30hintcost = 500;
+                public int trial60hintcost = 7500;
 
                 public int lab1npc1 = 13;
                 public int lab1npc2 = 95;

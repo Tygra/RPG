@@ -34,7 +34,9 @@ namespace RPG
      * House for tc - replicate
      * House upgrade list
      * Vip trial
-     * Test mimic spawn
+     * Test mimic spawn - nope
+     * Trial hints for TC
+     * Finish hive(it doesnt take the item)
     */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
@@ -1261,7 +1263,7 @@ namespace RPG
                     break;
                 #endregion
 
-                    #region Housing plot 1
+                #region Housing plot 1
                 case "h1":
                     {                        
                         var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
@@ -1878,6 +1880,55 @@ namespace RPG
                         {
                             args.Player.SendErrorMessage("You need to complete the second part of the trial before this.");
                             return;
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Trialhints
+                case "hint":
+                    {
+                        if (args.Parameters.Count < 1)
+                        {
+                            args.Player.SendInfoMessage("If you are stuck with the trials you can get some hints here for a small amount of Terra Coins.");
+                            args.Player.SendInfoMessage("For the level 30 trial: /trial hint lab1/lab2/lab3");
+                            args.Player.SendInfoMessage("For the level 60 trial: /trial hint start/middle/end");
+                            args.Player.SendInfoMessage("Trial 30 hint cost: 500 TC; Trial 60 hint cost: 7500 TC");
+                            args.Player.SendInfoMessage("It will give you a random hint of a pre-defined pool of hints.");
+                            return;
+                        }
+                        if (args.Parameters.Count == 1)
+                        {
+                            string hintparameter = string.Join(" ", args.Parameters[1]);                            
+                            if (hintparameter == "lab1")
+                            {
+
+                            }
+                            if (hintparameter == "lab2")
+                            {
+
+                            }
+                            if (hintparameter == "lab3")
+                            {
+
+                            }
+                            if (hintparameter == "start")
+                            {
+
+                            }
+                            if (hintparameter == "middle")
+                            {
+
+                            }
+                            if (hintparameter == "end")
+                            {
+
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("Wrong hint parameter provided. Check /trial hint for available commands.");
+                                return;
+                            }
                         }
                     }
                     break;
@@ -3941,15 +3992,15 @@ namespace RPG
                     break;
                 #endregion
                 
-                #region Hive   
-                    /*             
+                #region Hive                                 
                 case "hive":
                     {
+                        var searchforitem = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.hivereqitem);
                         var player = Playerlist[args.Player.Index];
                         Region region = TShock.Regions.GetRegionByName(Config.contents.hiveregion);
-                        if (!args.Player.Group.HasPermission("tshock.world.modify"))
+                        if (!args.Player.Group.HasPermission("geldar.level20"))
                         {
-                            args.Player.SendErrorMessage("You need to be at least level 10 to complete this quest");
+                            args.Player.SendErrorMessage("You need to be at least level 20 to complete this quest");
                             return;
                         }
                         if (player.hivecd > 0)
@@ -3967,20 +4018,41 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not in the right region. Check the signs at spawn for hints.");
                             return;
                         }
+                        if (searchforitem == null)
+                        {
+                            args.Player.SendErrorMessage("You don't have the required item in your inventory.");
+                            return;
+                        }
                         else
                         {
                                 if (args.Player.InventorySlotAvailable)
                                 {
-                                    Item itemById = TShock.Utils.GetItemById(Config.contents.hiveitem);
-                                    args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
-                                    var npc = TShock.Utils.GetNPCById(Config.contents.hivenpcid);
-                                    var trial30player = Playerlist[args.Player.Index];
-                                    TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid, npc.name, Config.contents.hivenpcamount, player.TSPlayer.TileX, player.TSPlayer.TileY);
-                                    args.Player.SendMessage("", Color.Goldenrod);
-                                    if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                Item item;
+                                for (int i = 0; i < 50; i++)
+                                {
+                                    item = args.TPlayer.inventory[i];
+                                    if (item.netID == Config.contents.hivereqitem)
                                     {
-                                        player.hivecd = Config.contents.hivecd;
+                                        if (item.stack == 1)
+                                        {
+                                            args.TPlayer.inventory[i].stack--;
+                                            NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, "", args.Player.Index, i);
+                                            Item take = TShock.Utils.GetItemById(Config.contents.hivereqitem);
+                                            Item itemById = TShock.Utils.GetItemById(Config.contents.hiverewarditem);
+                                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                            var npc1 = TShock.Utils.GetNPCById(Config.contents.hivenpcid1);
+                                            var npc2 = TShock.Utils.GetNPCById(Config.contents.hivenpcid2);
+                                            var trial30player = Playerlist[args.Player.Index];
+                                            TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid1, npc1.name, Config.contents.hivenpcamount1, player.TSPlayer.TileX, player.TSPlayer.TileY);
+                                            TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid2, npc2.name, Config.contents.hivenpcamount2, player.TSPlayer.TileX, player.TSPlayer.TileY);
+                                            args.Player.SendMessage("", Color.Goldenrod);
+                                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                                            {
+                                                player.hivecd = Config.contents.hivecd;
+                                            }
+                                        }
                                     }
+                                }
                                 }
                                 else
                                 {
@@ -3988,8 +4060,7 @@ namespace RPG
                                 }
                         }
                     }                    
-                break;
-                */
+                break;                
                 #endregion 
                    
                 #region Highlander                
