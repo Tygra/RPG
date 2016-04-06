@@ -90,6 +90,7 @@ namespace RPG
             //Commands.ChatCommands.Add(new Command("geldar.level30", Mimic, "mimic"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", Stuck, "stuck"));
             Commands.ChatCommands.Add(new Command("geldar.level20", Housing, "housing"));
+            Commands.ChatCommands.Add(new Command(checkCooldowns, "checkcd"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -137,6 +138,7 @@ namespace RPG
                     {
                         continue;
                     }
+                    /*
                     int[] _cdlist =
                     {
                         player.pyramid1cd,player.pyramid2cd,player.pyramid3cd,player.pyramid4cd,player.pyramid5cd,player.pyramid6cd,player.pyramid7cd,player.pyramid8cd,
@@ -173,9 +175,11 @@ namespace RPG
 
                     for (int i = 0; i < _cdlist.Length; i++)
                     {
-                        if (_cdlist[i] >= 0) _cdlist[i]--;
-                    }
-                    /* changed the massive piles of if statements to a more simpler way.
+                        if (_cdlist[i] > 0) _cdlist[i]--;
+                        TShock.Log.ConsoleError(i.ToString());
+                    }*/
+                    TShock.Log.ConsoleError(player.pyramid1cd.ToString());
+                    /* changed the massive piles of if statements to a more simpler way. */
                     if (player.pyramid1cd > 0) player.pyramid1cd--;
                     if (player.pyramid2cd > 0) player.pyramid2cd--;
                     if (player.pyramid3cd > 0) player.pyramid3cd--;
@@ -246,7 +250,7 @@ namespace RPG
                     if (player.buff1cd > 0) player.buff1cd--;
                     if (player.buff2cd > 0) player.buff2cd--;                      
                     if (player.buff3cd > 0) player.buff3cd--;
-                    if (player.buff4cd > 0) player.buff4cd--;*/
+                    if (player.buff4cd > 0) player.buff4cd--;
                 }
             }
         }
@@ -1090,6 +1094,17 @@ namespace RPG
                     #endregion
             }
         }
+
+        #endregion
+
+        #region cooldown check
+        
+        private void checkCooldowns(CommandArgs args)
+        {
+            var player = Playerlist[args.Player.Index];
+            if (player.pyramid1cd <= 0) player.pyramid1cd = Config.contents.pyramid1cd;
+            args.Player.SendInfoMessage(player.pyramid1cd.ToString());
+        }    
 
         #endregion
 
