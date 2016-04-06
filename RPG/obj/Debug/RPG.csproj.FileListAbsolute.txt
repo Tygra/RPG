@@ -16,3 +16,12 @@ C:\Users\tygra\Desktop\Plugins\RPG\RPG\bin\Debug\Mono.Data.Sqlite.dll
 C:\Users\tygra\Desktop\Plugins\RPG\RPG\obj\Debug\RPG.csprojResolveAssemblyReference.cache
 C:\Users\tygra\Desktop\Plugins\RPG\RPG\obj\Debug\RPG.dll
 C:\Users\tygra\Desktop\Plugins\RPG\RPG\obj\Debug\RPG.pdb
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\obj\Debug\RPG.csprojResolveAssemblyReference.cache
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\obj\Debug\RPG.dll
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\obj\Debug\RPG.pdb
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\bin\Debug\RPG.dll
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\bin\Debug\RPG.pdb
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\bin\Debug\MySql.Data.dll
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\bin\Debug\HttpServer.dll
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\bin\Debug\BCrypt.Net.dll
+C:\Users\nzdos_000\Desktop\RPG-master\RPG\bin\Debug\Mono.Data.Sqlite.dll
