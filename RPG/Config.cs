@@ -102,6 +102,7 @@ namespace RPG
                 public bool SEconomy = true;
 
                 #region Housing
+            /*
                 public int altcost = 5000;
                 public string defaultowner = "Tygra";
                 
@@ -134,6 +135,7 @@ namespace RPG
 
                 public string h10region = "h10";
                 public int h10cost = ;
+                */
             #endregion
 
                 public int mimicchest = 48;
@@ -559,6 +561,7 @@ namespace RPG
                 public string trialskipregion = "trialskip";
                 public int trial30skipcost = 50000;
                 public int trial60skipcost = 200000;
+                public int trial70skipcost = 35000;
 
                 public int lab1npc1 = 13;
                 public int lab1npc2 = 95;
@@ -583,6 +586,17 @@ namespace RPG
                 public string trial60terrarianfinish = "terrarian60";
                 public int trial60cost = 12000;
                 public string trial60questionregion = "trial60question";
+
+                public string trial70magegroup = "mage69";
+                public string trial70warriorgroup = "warrior69";
+                public string trial70rangergroup = "ranger69";
+                public string trial70summonergroup = "summoner69";
+                public string trial70terrariangroup = "terrarian69";
+                public string trial70magefinish = "mage70";
+                public string trial70rangerfinish = "ranger70";
+                public string trial70warriorfinish = "warrior70";
+                public string trial70summonerfinish = "summoner70";
+                public string trial70terrarianfinish = "terrarian70";
 
             
             }
