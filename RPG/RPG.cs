@@ -54,6 +54,8 @@ namespace RPG
         public override Version Version
         { get { return new Version(1, 3); } }
 
+        public bool Worked; // Just a bool to see if my code worked.
+
         public RPG(Main game)
             : base(game)
         {
@@ -173,6 +175,7 @@ namespace RPG
                     foreach(int i in _cdlist)
                     {
                         if (_cdlist[i] > 0) _cdlist[i]--;
+                        TShock.Log.ConsoleInfo(_cdlist[i].ToString());
                     }
                     /* changed the massive piles of if statements to a more simpler way.
                     if (player.pyramid1cd > 0) player.pyramid1cd--;
@@ -6257,6 +6260,6 @@ namespace RPG
             }
         }
 
-        #endregion
+        #endregion Config reload
     }
 }
