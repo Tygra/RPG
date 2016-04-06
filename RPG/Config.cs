@@ -102,13 +102,15 @@ namespace RPG
                 public bool SEconomy = true;
 
                 #region Housing
-            /*
+            
                 public int altcost = 5000;
                 public string defaultowner = "Tygra";
+                public string abovehousing = "abovehousing";
+                public string underhousing = "uhousing";
                 
                 public string h1region = "h1";
-                public int h1cost = ;
-
+                public int h1cost = 5000;
+            /*
                 public string h2region = "h2";
                 public int h2cost = ;
 
@@ -520,7 +522,6 @@ namespace RPG
                 public int startersummoner = 1309;
                 public int startercd = 10800;
 
-                //buffcost and cd
                 public int buff1cd = 60;
                 public int buff2cd = 60;
                 public int buff3cd = 60;
@@ -569,16 +570,22 @@ namespace RPG
                 public int lab2npc2 = 509;
                 public int trial30npc = 51;
 
+                public string trial60shrineregion = "trial60pre";
+                public string trial60mageshrinegroup = "mage59";
+                public string trial60warriorshrinegroup = "warrior59";
+                public string trial60rangershrinegroup = "ranger59";
+                public string trial60summonershrinegroup = "summoner59";
+                public string trial60terrarianshrinegroup = "terrarian59"; 
                 public string trial60mageregion = "trial60mage";
                 public string trial60warriorregion = "trial60warrior";
                 public string trial60rangerregion = "trial60ranger";
                 public string trial60summonerregion = "trial60summoner";
                 public string trial60terrarianregion = "trial60ranger";
-                public string trial60magegroup = "mage59";
-                public string trial60rangergroup = "ranger59";
-                public string trial60warriorgroup = "warrior59";
-                public string trial60summonergroup = "summoner59";
-                public string trial60terrariangroup = "terrarian59";
+                public string trial60magegroup = "mage59_1";
+                public string trial60rangergroup = "ranger59_1";
+                public string trial60warriorgroup = "warrior59_1";
+                public string trial60summonergroup = "summoner59_1";
+                public string trial60terrariangroup = "terrarian59_1";
                 public string trial60magefinish = "mage60";
                 public string trial60warriorfinish = "warrior60";
                 public string trial60rangerfinish = "ranger60";

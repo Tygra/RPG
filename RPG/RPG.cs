@@ -30,7 +30,6 @@ using Newtonsoft.Json;
 namespace RPG
 {
     /*
-     * Buffme for tc - buffs sorted
      * House for tc - replicate
      * House upgrade list
      * Vip trial
@@ -90,7 +89,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command(Geldar, "geldar"));
             //Commands.ChatCommands.Add(new Command("geldar.level30", Mimic, "mimic"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", Stuck, "stuck"));
-            //Commands.ChatCommands.Add(new Command("geldar.level20", Housing, "housing"));
+            Commands.ChatCommands.Add(new Command("geldar.level20", Housing, "housing"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -1135,7 +1134,7 @@ namespace RPG
         #endregion
 
         #region Houseplot buying
-        /*
+        
         private void Housing(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
@@ -1162,11 +1161,21 @@ namespace RPG
                 #region Current region
                 case "region":
                     {
-                        args.Player.SendInfoMessage("You are in the region: {0} .", args.Player.CurrentRegion.Name);                                             
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.abovehousing);
+                        Region region2 = TShock.Regions.GetRegionByName(Config.contents.underhousing);
+                        if (args.Player.CurrentRegion != region || args.Player.CurrentRegion != region2)
+                        {
+                            args.Player.SendErrorMessage("You are not in any housing region, go to the above or underground housing area and stand on a free spot.");
+                            return;
+                        }
+                        else
+                        {
+                            args.Player.SendInfoMessage("You are in the region: {0} .", args.Player.CurrentRegion.Name);
+                        }
                     }
                     break;
                 #endregion
-
+                
                 #region Alt character support
                 case "alt":
                     {
@@ -1255,7 +1264,7 @@ namespace RPG
                     #endregion
             }
         }
-        */
+        
         #endregion
 
         #endregion
@@ -1497,9 +1506,9 @@ namespace RPG
                 args.Player.SendMessage("Info: If you wish to skip the trials use /trial skip to get more information about it.", Color.Goldenrod);
                 args.Player.SendMessage("Info: The commands to finish the trial can be found on the last sign of the trial.", Color.Goldenrod);
                 args.Player.SendMessage("Info: You can monitor your progress with /trial progress.", Color.Goldenrod);
-                args.Player.SendInfoMessage("IMPORTANT: Skipping to level 70 is available for 35000 Terra Coins, but this is one way.", Color.Red);
-                args.Player.SendInfoMessage("You won't be able to come back and do the story elements when they come out with a 70+ character.", Color.Red);
-                args.Player.SendInfoMessage("Only skip to level 70 if you are absolutely sure about this.", Color.Red);
+                args.Player.SendMessage("IMPORTANT: Skipping to level 70 is available for 35000 Terra Coins, but this is one way.", Color.Red);
+                args.Player.SendMessage("You won't be able to come back and do the story elements when they come out with a 70+ character.", Color.Red);
+                args.Player.SendMessage("Only skip to level 70 if you are absolutely sure about this.", Color.Red);
                 return;
             }
 
@@ -1858,6 +1867,62 @@ namespace RPG
                         else
                         {
                             args.Player.SendInfoMessage("You are not level 29.");                            
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Trial 60 shrine
+                case "shrine":
+                    {
+                        Region region = TShock.Regions.GetRegionByName(Config.contents.trial60shrineregion);
+                        if (args.Player.CurrentRegion != region)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check Geralt's house for more info.");
+                            return;
+                        }
+                        if (args.Player.CurrentRegion == null)
+                        {
+                            args.Player.SendErrorMessage("You are not in the right region. Check Geralt's house for more info.");
+                            return;
+                        }
+                        if (args.Player.Group.Name == Config.contents.trial60mageshrinegroup || args.Player.Group.Name == Config.contents.trial60warriorshrinegroup || args.Player.Group.Name == Config.contents.trial60rangershrinegroup || args.Player.Group.Name == Config.contents.trial60summonershrinegroup || args.Player.Group.Name == Config.contents.trial60terrarianshrinegroup)
+                        {
+                            if (args.Player.Group.Name == Config.contents.trial60mageshrinegroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial60magegroup);
+                                args.Player.SendErrorMessage("You touch the shrine with great hopes, but nothing happens at all. What a disappointment.");
+                            }
+                            if (args.Player.Group.Name == Config.contents.trial60warriorshrinegroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial60warriorgroup);
+                                args.Player.SendErrorMessage("You touch the shrine with great hopes, but nothing happens at all. What a disappointment.");
+                            }
+                            if (args.Player.Group.Name == Config.contents.trial60rangershrinegroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial60rangergroup);
+                                args.Player.SendErrorMessage("You touch the shrine with great hopes, but nothing happens at all. What a disappointment.");
+                            }
+                            if (args.Player.Group.Name == Config.contents.trial60summonershrinegroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial60summonergroup);
+                                args.Player.SendErrorMessage("You touch the shrine with great hopes, but nothing happens at all. What a disappointment.");
+                            }
+                            else if (args.Player.Group.Name == Config.contents.trial60terrarianshrinegroup)
+                            {
+                                var player = TShock.Users.GetUserByName(args.Player.User.Name);
+                                TShock.Users.SetUserGroup(player, Config.contents.trial60terrariangroup);
+                                args.Player.SendErrorMessage("You touch the shrine with great hopes, but nothing happens at all. What a disappointment.");
+                            }
+                            else
+                            {
+                                args.Player.SendErrorMessage("You are not level 69.");
+                                return;
+                            }
                         }
                     }
                     break;
@@ -2308,7 +2373,7 @@ namespace RPG
 
                     }
                     break;
-                #endregion
+                #endregion                
 
                 #region Level 60 trial skip
                 case "skip60":
@@ -2524,7 +2589,7 @@ namespace RPG
                     break;
                 #endregion
 
-                #region Trial 70 skip
+                #region Level 70 trial skip
                 case "skip70":
                     {
                         if (args.Player.Group.Name == Config.contents.trial70magegroup || args.Player.Group.Name == Config.contents.trial70warriorgroup || args.Player.Group.Name == Config.contents.trial70rangergroup || args.Player.Group.Name == Config.contents.trial70summonergroup || args.Player.Group.Name == Config.contents.trial70terrariangroup)
@@ -2734,6 +2799,14 @@ namespace RPG
                             args.Player.SendErrorMessage("You need to be level 69.");
                             return;
                         }
+                    }
+                    break;
+                #endregion
+
+                #region Level 80 trial skip
+                case "skip80":
+                    {
+
                     }
                     break;
                 #endregion
@@ -4072,13 +4145,11 @@ namespace RPG
                     {
                         if (args.Player.Group.HasPermission("geldar.mod"))
                         {
-                            args.Player.SendErrorMessage("No area define for teleport.");
-                            return;
+                            args.Player.SendErrorMessage("No area define for teleport.");                            
                         }
                         else
                         {
-                            args.Player.SendErrorMessage("Minigames are currently in development. Be patient.");
-                            return;
+                            args.Player.SendErrorMessage("Minigames are currently in development. Be patient.");                            
                         }
                     }
                     break;
@@ -6108,15 +6179,13 @@ namespace RPG
         {
             if (args.Parameters.Count < 1)
             {
-                args.Player.SendMessage("Use the commands below to buff youself. Minimum rank for the commands is King.", Color.Goldenrod);
-                /*
+                args.Player.SendMessage("Use the commands below to buff youself. Minimum rank for the commands is King.", Color.Goldenrod);                
                 args.Player.SendMessage("Regular player buffs 150TC: Night/Swiftness/Waterwalking",Color.Goldenrod);
                 args.Player.SendMessage("Regular player buffs 200TC: Builder/Calming/Dangersense/Flipper/Gills/Warmth/Hunter/Heartreach/Gravitation", Color.Goldenrod);
                 args.Player.SendMessage("Regular player buffs 350TC: Shine/Archery/Ammores/Featherfall/Battle/Mining/Wrath", Color.Goldenrod);
                 args.Player.SendMessage("350TC: Titan/Thorns/Summoning/Regeneration/Rage/Obsidian/Manareg/Magicpower/Lifeforce", Color.Goldenrod);
                 args.Player.SendMessage("350TC: Ironskin/Inferno/Endurance", Color.Goldenrod);
-                args.Player.SendMessage("Regular player buffs 500TC: Spelunker", Color.Goldenrod);
-                */
+                args.Player.SendMessage("Regular player buffs 500TC: Spelunker", Color.Goldenrod);                
                 args.Player.SendMessage("Info: /buffme sixthsense - Required rank: King or above.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /buffme defense - Require rank: Supreme or above.", Color.SkyBlue);
                 args.Player.SendMessage("Info: /buffme misc - Required rank: Supreme or above.", Color.SkyBlue);
@@ -6284,13 +6353,38 @@ namespace RPG
                 #endregion
 
                 #endregion
-                /*
-                #region Regular player buffs 150TC                
+                
+                #region Regular player buffs 150TC
 
                 #region Night
                 case "night":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff1cost;
+                        Money moneyamount2 = Config.contents.buff1cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff1cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff1cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 1 buff.", moneyamount2, args.Player.Name), string.Format("Tier 1 buff"));
+                            args.Player.SetBuff(12, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with a Night Owl potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff1cd = Config.contents.buff1cd;
+                            }
+                        }                        
                     }
                     break;
                 #endregion
@@ -6298,7 +6392,32 @@ namespace RPG
                 #region Swiftness
                 case "swiftness":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff1cost;
+                        Money moneyamount2 = Config.contents.buff1cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff1cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff1cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 1 buff.", moneyamount2, args.Player.Name), string.Format("Tier 1 buff"));
+                            args.Player.SetBuff(3, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with a Swiftness potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff1cd = Config.contents.buff1cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6306,7 +6425,32 @@ namespace RPG
                 #region Waterwalking
                 case "waterwalking":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff1cost;
+                        Money moneyamount2 = Config.contents.buff1cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff1cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff1cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 1 buff.", moneyamount2, args.Player.Name), string.Format("Tier 1 buff"));
+                            args.Player.SetBuff(15, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Water Walking potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff1cd = Config.contents.buff1cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6318,7 +6462,32 @@ namespace RPG
                 #region Builder
                 case "builder":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(107, 54000);
+                            args.Player.SendInfoMessage("You have been buffed with a Builder potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6326,7 +6495,32 @@ namespace RPG
                 #region Calming
                 case "calming":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(106, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Calming potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6334,7 +6528,32 @@ namespace RPG
                 #region Dangersense
                 case "dangersense":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(111, 36000);
+                            args.Player.SendInfoMessage("You have been buffed with a Dangersense potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion                
@@ -6342,7 +6561,32 @@ namespace RPG
                 #region Flipper
                 case "flipper":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(109, 28800);
+                            args.Player.SendInfoMessage("You have been buffed with a Flipper potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6350,7 +6594,32 @@ namespace RPG
                 #region Gills
                 case "gills":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(4, 7200);
+                            args.Player.SendInfoMessage("You have been buffed with a Gills potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6358,7 +6627,32 @@ namespace RPG
                 #region Warmth
                 case "warmth":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(124, 54000);
+                            args.Player.SendInfoMessage("You have been buffed with a Warmth potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6366,7 +6660,32 @@ namespace RPG
                 #region Hunter
                 case "hunter":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(17, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Hunter potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6374,7 +6693,32 @@ namespace RPG
                 #region Heartreach
                 case "heartreach":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(105, 28800);
+                            args.Player.SendInfoMessage("You have been buffed with a Heartreach potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6382,7 +6726,32 @@ namespace RPG
                 #region Gravitation
                 case "gravitation":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff2cost;
+                        Money moneyamount2 = Config.contents.buff2cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff2cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff2cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 2 buff.", moneyamount2, args.Player.Name), string.Format("Tier 2 buff"));
+                            args.Player.SetBuff(18, 10800);
+                            args.Player.SendInfoMessage("You have been buffed with a Gravitation potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff2cd = Config.contents.buff2cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6394,7 +6763,32 @@ namespace RPG
                 #region Shine            
                 case "shine":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(11, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Shine potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6402,7 +6796,32 @@ namespace RPG
                 #region Archery            
                 case "archery":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(16, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with an Archery potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6410,7 +6829,32 @@ namespace RPG
                 #region Ammores            
                 case "ammores":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(112, 25200);
+                            args.Player.SendInfoMessage("You have been buffed with an Ammo Reservation potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6418,7 +6862,32 @@ namespace RPG
                 #region Featherfall            
                 case "featherfall":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(8, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Featherfall potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6426,7 +6895,32 @@ namespace RPG
                 #region Battle            
                 case "battle":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(13, 25200);
+                            args.Player.SendInfoMessage("You have been buffed with a Battle potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6434,7 +6928,32 @@ namespace RPG
                 #region Mining            
                 case "mining":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(104, 28800);
+                            args.Player.SendInfoMessage("You have been buffed with a Mining potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6442,7 +6961,32 @@ namespace RPG
                 #region Wrath            
                 case "wrath":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(117, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with a Wrath potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6450,7 +6994,32 @@ namespace RPG
                 #region Titan            
                 case "titan":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(108, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with a Titan potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6458,7 +7027,32 @@ namespace RPG
                 #region Thorns            
                 case "thorns":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(14, 7200);
+                            args.Player.SendInfoMessage("You have been buffed with a Thorns potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6466,7 +7060,32 @@ namespace RPG
                 #region Summoning
                 case "summoning":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(110, 21600);
+                            args.Player.SendInfoMessage("You have been buffed with a Summoning potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6474,7 +7093,32 @@ namespace RPG
                 #region Regeneration            
                 case "regeneration":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(2, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Regeneration potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6482,7 +7126,32 @@ namespace RPG
                 #region Rage            
                 case "rage":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(115, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with a Rage potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6490,7 +7159,32 @@ namespace RPG
                 #region Obsidian            
                 case "obsidian":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(1, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with an Obsidian Skin potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6498,7 +7192,32 @@ namespace RPG
                 #region Manareg            
                 case "manareg":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(6, 25200);
+                            args.Player.SendInfoMessage("You have been buffed with a Mana Regeneration potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6506,7 +7225,32 @@ namespace RPG
                 #region Magicpower        
                 case "magicpower":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(7, 7200);
+                            args.Player.SendInfoMessage("You have been buffed with a Magic Power potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6514,7 +7258,32 @@ namespace RPG
                 #region Lifeforce            
                 case "lifeforce":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(113, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Lifeforce potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6522,7 +7291,32 @@ namespace RPG
                 #region Ironskin            
                 case "ironskin":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(5, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with an Ironskin potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6530,7 +7324,32 @@ namespace RPG
                 #region Inferno            
                 case "inferno":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(116, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with an Inferno potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6538,7 +7357,32 @@ namespace RPG
                 #region Endurance            
                 case "endurance":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff3cost;
+                        Money moneyamount2 = Config.contents.buff3cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff3cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff3cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 3 buff.", moneyamount2, args.Player.Name), string.Format("Tier 3 buff"));
+                            args.Player.SetBuff(114, 14400);
+                            args.Player.SendInfoMessage("You have been buffed with an Endurance potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff3cd = Config.contents.buff3cd;
+                            }
+                        }
                     }
                     break;
                 #endregion
@@ -6550,13 +7394,37 @@ namespace RPG
                 #region Spelunker
                 case "spelunker":
                     {
-
+                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                        var playeramount = selectedPlayer.Balance;
+                        var player = Playerlist[args.Player.Index];
+                        Money moneyamount = -Config.contents.buff4cost;
+                        Money moneyamount2 = Config.contents.buff4cost;
+                        if (playeramount < moneyamount2)
+                        {
+                            args.Player.SendErrorMessage("You need {0} to use this buff. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                            return;
+                        }
+                        if (player.buff4cd > 0)
+                        {
+                            args.Player.SendErrorMessage("This buff is on cooldown for {0} seconds.", player.buff4cd);
+                            return;
+                        }
+                        else
+                        {
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a Tier 4 buff.", moneyamount2, args.Player.Name), string.Format("Tier 4 buff"));
+                            args.Player.SetBuff(9, 18000);
+                            args.Player.SendInfoMessage("You have been buffed with a Spelunker potion.");
+                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                            {
+                                player.buff4cd = Config.contents.buff4cd;
+                            }
+                        }
                     }
                     break;
                     #endregion
 
                 #endregion
-                    */
             }
         }    
         #endregion
