@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Timers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -93,6 +94,7 @@ namespace RPG
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
+            ServerApi.Hooks.ServerChat.Register(this, OnChat);
             if (!Config.ReadConfig())
             {
                 TShock.Log.ConsoleError("Config loading failed. Consider deleting it.");
@@ -108,6 +110,7 @@ namespace RPG
                 ServerApi.Hooks.GameUpdate.Deregister(this, Cooldowns);
                 ServerApi.Hooks.ServerJoin.Deregister(this, OnJoin);
                 ServerApi.Hooks.ServerLeave.Deregister(this, OnLeave);
+                ServerApi.Hooks.ServerChat.Deregister(this, OnChat);
             }
 
         }
@@ -122,6 +125,43 @@ namespace RPG
         public void OnLeave(LeaveEventArgs args)
         {
             Playerlist[args.Who] = null;
+        }
+        #endregion
+
+        #region Password protect
+        private void OnChat(ServerChatEventArgs args)
+        {
+            if (args.Handled)
+            {
+                return;
+            }
+            string[] array = args.Text.Split(' ');
+            if (String.IsNullOrWhiteSpace(array[0]))
+            {
+                return;
+            }
+            if (array[0][0].ToString().Equals(TShock.Config.CommandSpecifier) || array[0][0].ToString().Equals(TShock.Config.CommandSpecifier))
+            {
+                return;
+            }
+            TSPlayer player = TShock.Players[args.Who];
+            Match match = Regex.Match(array[0], ".*l.*o.*g.*i.*n", RegexOptions.IgnoreCase);
+            if (match.Success && (array.Length == 2))
+            {
+                string pass = array[1];
+                var user = TShock.Users.GetUserByName(player.Name);
+                if (user == null)
+                {
+                    return;
+                }
+                if (user.VerifyPassword(pass))
+                {
+                    player.SendErrorMessage("Use " + TShock.Config.CommandSpecifier + "login with the " + TShock.Config.CommandSpecifier);
+                    args.Handled = true;
+                    return;
+                }
+            }
+            return;
         }
         #endregion
 
