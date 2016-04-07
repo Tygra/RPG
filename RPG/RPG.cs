@@ -1899,28 +1899,109 @@ namespace RPG
                         }                        
                         if (args.Parameters.Count == 1)
                         {
-                            string hintparameter = string.Join(" ", args.Parameters[1]);                            
+                            string hintparameter = string.Join(" ", args.Parameters[1]);
+
+                            #region Lab1 hint                          
                             if (hintparameter == "lab1")
                             {
-                                Random random = new Random();
-                                string[] hints = new string[] {"hint1", "hint2", "hint3", "hint4", "hint5"};
-                                var randomhint = hints[new Random().Next(0, hints.Length)];
-                                args.Player.SendInfoMessage("Hint for lab1: {0}", randomhint);
+                                if (args.Player.Group.Name != Config.contents.trial30magegroup || args.Player.Group.Name != Config.contents.trial30warriorgroup || args.Player.Group.Name != Config.contents.trial30rangergroup || args.Player.Group.Name != Config.contents.trial30summonergroup || args.Player.Group.Name != Config.contents.trial30terrariangroup)
+                                {
+                                    args.Player.SendErrorMessage("You have already completed the first lab and6or the second lab.");
+                                    args.Player.SendErrorMessage("Use trial progress to check your progress.");
+                                    return;
+                                }
+                                else
+                                {
+                                    var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                    var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                    var playeramount = selectedPlayer.Balance;
+                                    var player = Playerlist[args.Player.Index];
+                                    Money moneyamount = -Config.contents.trial30hintcost;
+                                    Money moneyamount2 = Config.contents.trial30hintcost;
+                                    if (playeramount < moneyamount2)
+                                    {
+                                        args.Player.SendErrorMessage("You don't have enough Terra Coins to execute this commands. You need {0}, and you have {1}.", moneyamount2, playeramount);
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a trial hint.", moneyamount2, args.Player.Name), string.Format("Level 30 tiral hint. Lab1.", args.Player.Name));
+                                        Random random = new Random();
+                                        string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                        var randomhint = hints[new Random().Next(0, hints.Length)];
+                                        args.Player.SendInfoMessage("Hint for lab1: {0}", randomhint);
+                                    }
+                                }
                             }
+                            #endregion
+
+                            #region Lab2 hint
                             if (hintparameter == "lab2")
                             {
-                                Random random = new Random();
-                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
-                                var randomhint = hints[new Random().Next(0, hints.Length)];
-                                args.Player.SendInfoMessage("Hint for lab2: {0}", randomhint);
+                                if (args.Player.Group.Name != Config.contents.lab1magegroup || args.Player.Group.Name != Config.contents.lab1warriorgroup || args.Player.Group.Name != Config.contents.lab1rangergroup || args.Player.Group.Name != Config.contents.lab1summonergroup || args.Player.Group.Name != Config.contents.lab1terrariangroup)
+                                {
+                                    args.Player.SendErrorMessage("You have already completed the second lab or you need to complete the first.");
+                                    args.Player.SendErrorMessage("Use /trial progress to check your progress.");
+                                    return;
+                                }
+                                else
+                                {
+                                    var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                    var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                    var playeramount = selectedPlayer.Balance;
+                                    var player = Playerlist[args.Player.Index];
+                                    Money moneyamount = -Config.contents.trial30hintcost;
+                                    Money moneyamount2 = Config.contents.trial30hintcost;
+                                    if (playeramount < moneyamount2)
+                                    {
+                                        args.Player.SendErrorMessage("You don't have enough Terra Coins to execute this commands. You need {0}, and you have {1}.", moneyamount2, playeramount);
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a trial hint.", moneyamount2, args.Player.Name), string.Format("Level 30 tiral hint. Lab2.", args.Player.Name));
+                                        Random random = new Random();
+                                        string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                        var randomhint = hints[new Random().Next(0, hints.Length)];
+                                        args.Player.SendInfoMessage("Hint for lab2: {0}", randomhint);
+                                    }
+                                }
                             }
+                            #endregion
+
+                            #region Lab3 hint
                             if (hintparameter == "lab3")
                             {
-                                Random random = new Random();
-                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
-                                var randomhint = hints[new Random().Next(0, hints.Length)];
-                                args.Player.SendInfoMessage("Hint for lab3: {0}", randomhint);
+                                if (args.Player.Group.Name != Config.contents.lab2magegroup || args.Player.Group.Name != Config.contents.lab2warriorgroup || args.Player.Group.Name != Config.contents.lab2rangergroup || args.Player.Group.Name != Config.contents.lab2summonergroup || args.Player.Group.Name != Config.contents.lab2terrariangroup)
+                                {
+                                    args.Player.SendErrorMessage("You are not ready for the third lab. Use /trial progress to check your progress.");
+                                    return;
+                                }
+                                else
+                                {
+                                    var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                    var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                    var playeramount = selectedPlayer.Balance;
+                                    var player = Playerlist[args.Player.Index];
+                                    Money moneyamount = -Config.contents.trial30hintcost;
+                                    Money moneyamount2 = Config.contents.trial30hintcost;
+                                    if (playeramount < moneyamount2)
+                                    {
+                                        args.Player.SendErrorMessage("You don't have enough Terra Coins to execute this commands. You need {0}, and you have {1}.", moneyamount2, playeramount);
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a trial hint.", moneyamount2, args.Player.Name), string.Format("Level 30 tiral hint. Lab3.", args.Player.Name));
+                                        Random random = new Random();
+                                        string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                        var randomhint = hints[new Random().Next(0, hints.Length)];
+                                        args.Player.SendInfoMessage("Hint for lab3: {0}", randomhint);
+                                    }
+                                }
                             }
+                            #endregion
+
                             if (hintparameter == "start")
                             {
                                 Random random = new Random();
