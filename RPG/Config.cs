@@ -33,7 +33,7 @@ namespace RPG
     public class Config
     {
         public static Contents contents;
-
+        
         #region Config create
 
         public static void CreateConfig()
@@ -611,6 +611,7 @@ namespace RPG
 
             
             }
+
         #endregion
 
         #region Config reload

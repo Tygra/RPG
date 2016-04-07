@@ -1892,37 +1892,55 @@ namespace RPG
                         {
                             args.Player.SendInfoMessage("If you are stuck with the trials you can get some hints here for a small amount of Terra Coins.");
                             args.Player.SendInfoMessage("For the level 30 trial: /trial hint lab1/lab2/lab3");
-                            args.Player.SendInfoMessage("For the level 60 trial: /trial hint start/middle/end");
+                            args.Player.SendInfoMessage("For the level 60 trial: /trial hint start/middle/tomb");
                             args.Player.SendInfoMessage("Trial 30 hint cost: 500 TC; Trial 60 hint cost: 7500 TC");
                             args.Player.SendInfoMessage("It will give you a random hint of a pre-defined pool of hints.");
                             return;
-                        }
+                        }                        
                         if (args.Parameters.Count == 1)
                         {
                             string hintparameter = string.Join(" ", args.Parameters[1]);                            
                             if (hintparameter == "lab1")
                             {
-
+                                Random random = new Random();
+                                string[] hints = new string[] {"hint1", "hint2", "hint3", "hint4", "hint5"};
+                                var randomhint = hints[new Random().Next(0, hints.Length)];
+                                args.Player.SendInfoMessage("Hint for lab1: {0}", randomhint);
                             }
                             if (hintparameter == "lab2")
                             {
-
+                                Random random = new Random();
+                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                var randomhint = hints[new Random().Next(0, hints.Length)];
+                                args.Player.SendInfoMessage("Hint for lab2: {0}", randomhint);
                             }
                             if (hintparameter == "lab3")
                             {
-
+                                Random random = new Random();
+                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                var randomhint = hints[new Random().Next(0, hints.Length)];
+                                args.Player.SendInfoMessage("Hint for lab3: {0}", randomhint);
                             }
                             if (hintparameter == "start")
                             {
-
+                                Random random = new Random();
+                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                var randomhint = hints[new Random().Next(0, hints.Length)];
+                                args.Player.SendInfoMessage("Hint for where to start: {0}", randomhint);
                             }
                             if (hintparameter == "middle")
                             {
-
+                                Random random = new Random();
+                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                var randomhint = hints[new Random().Next(0, hints.Length)];
+                                args.Player.SendInfoMessage("Hint for the second part: {0}", randomhint);
                             }
-                            if (hintparameter == "end")
+                            if (hintparameter == "tomb")
                             {
-
+                                Random random = new Random();
+                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                var randomhint = hints[new Random().Next(0, hints.Length)];
+                                args.Player.SendInfoMessage("Hint for tomb: {0}", randomhint);
                             }
                             else
                             {
@@ -7649,6 +7667,6 @@ namespace RPG
             }
         }
 
-        #endregion
+        #endregion        
     }
 }
