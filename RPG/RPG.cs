@@ -1888,21 +1888,22 @@ namespace RPG
                 #region Trialhints
                 case "hint":
                     {
-                        if (args.Parameters.Count < 1)
+                        if (args.Parameters.Count == 1)
                         {
                             args.Player.SendInfoMessage("If you are stuck with the trials you can get some hints here for a small amount of Terra Coins.");
                             args.Player.SendInfoMessage("For the level 30 trial: /trial hint lab1/lab2/lab3");
                             args.Player.SendInfoMessage("For the level 60 trial: /trial hint start/middle/tomb");
                             args.Player.SendInfoMessage("Trial 30 hint cost: 500 TC; Trial 60 hint cost: 7500 TC");
                             args.Player.SendInfoMessage("It will give you a random hint of a pre-defined pool of hints.");
-                            return;
+                            return;                        
                         }                        
-                        if (args.Parameters.Count == 1)
-                        {
-                            string hintparameter = string.Join(" ", args.Parameters[1]);
+                        //else if (args.Parameters.Count > 1 && args.Parameters[0].ToLower())
+                        //{
+                            //string hintparameter = string.Join(" ", args.Parameters);
+                            //string hintparameter = args.Parameters[2];
 
                             #region Lab1 hint                          
-                            if (hintparameter == "lab1")
+                            if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() ==  "lab1")
                             {
                                 if (args.Player.Group.Name != Config.contents.trial30magegroup || args.Player.Group.Name != Config.contents.trial30warriorgroup || args.Player.Group.Name != Config.contents.trial30rangergroup || args.Player.Group.Name != Config.contents.trial30summonergroup || args.Player.Group.Name != Config.contents.trial30terrariangroup)
                                 {
@@ -1934,7 +1935,7 @@ namespace RPG
                                 }
                             }
                             #endregion
-
+                            /*
                             #region Lab2 hint
                             if (hintparameter == "lab2")
                             {
@@ -1968,7 +1969,7 @@ namespace RPG
                                 }
                             }
                             #endregion
-
+                            
                             #region Lab3 hint
                             if (hintparameter == "lab3")
                             {
@@ -2027,8 +2028,8 @@ namespace RPG
                             {
                                 args.Player.SendErrorMessage("Wrong hint parameter provided. Check /trial hint for available commands.");
                                 return;
-                            }
-                        }
+                            }  */                          
+                      //  }
                     }
                     break;
                 #endregion
