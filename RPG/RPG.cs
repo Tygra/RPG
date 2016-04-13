@@ -37,6 +37,8 @@ namespace RPG
      * Test mimic spawn - nope
      * Trial hints for TC
      * Finish hive(it doesnt take the item)
+     * mandatory level 60 trial needs new group 59_1 in the db
+     * Trial progress for level 60 trial
     */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
@@ -1183,7 +1185,7 @@ namespace RPG
             {
                 args.Player.SendInfoMessage("With this command you can buy a pre-define housing plot, either on the clouds, or underground.");
                 args.Player.SendInfoMessage("The plot's cost depends on where it is located. Plots closer to the teleporters are more expensive.");
-                args.Player.SendInfoMessage("/housing price - will show you the price of the plot. /housing region - will show you the region's name.");
+                args.Player.SendInfoMessage("/housing price <region name> - will show you the price of the plot. /housing region - will show you the region's name.");
                 args.Player.SendInfoMessage("Check the housing rules for restrictions. /geldar housing");
                 args.Player.SendInfoMessage("With /housing alt you can add your other characters to the plot for x Terra Coins.");
                 args.Player.SendInfoMessage("You need to be stading on an island for the commands to work.");
@@ -1213,11 +1215,125 @@ namespace RPG
                         else
                         {
                             args.Player.SendInfoMessage("You are in the region: {0} .", args.Player.CurrentRegion.Name);
+                            args.Player.SendInfoMessage("To check the plot's price do /housing price.");
                         }
                     }
                     break;
                 #endregion
-                
+
+                #region Price
+                case "price":
+                    {
+                        if (args.Parameters.Count == 1)
+                        {
+                            args.Player.SendErrorMessage("Wrong or no region name provided. Use /housing region to get the region name.");
+                            return;
+                        }
+                    }
+
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h1")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h1cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h2")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h2cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h3")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h3cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h4")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h4cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h5")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h5cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h6")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h6cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h7")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h7cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h8")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h8cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h9")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h9cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h10")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h10cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h11")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h11cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h12")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h12cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h13")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h13cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h14")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h14cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h15")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h15cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h16")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h16cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h17")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h17cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h18")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h18cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h19")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h19cost);
+                        return;
+                    }
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h20")
+                    {
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h20cost);
+                        return;
+                    }
+                    break;
+                #endregion
+
                 #region Alt character support
                 case "alt":
                     {
@@ -1892,26 +2008,18 @@ namespace RPG
                         {
                             args.Player.SendInfoMessage("If you are stuck with the trials you can get some hints here for a small amount of Terra Coins.");
                             args.Player.SendInfoMessage("For the level 30 trial: /trial hint lab1/lab2/lab3");
-                            args.Player.SendInfoMessage("For the level 60 trial: /trial hint start/middle/tomb");
+                            args.Player.SendInfoMessage("For the level 60 trial: /trial hint geralt/shrine/tomb");
                             args.Player.SendInfoMessage("Trial 30 hint cost: 500 TC; Trial 60 hint cost: 7500 TC");
                             args.Player.SendInfoMessage("It will give you a random hint of a pre-defined pool of hints.");
                             return;                        
-                        }                        
-                        //else if (args.Parameters.Count > 1 && args.Parameters[0].ToLower())
-                        //{
-                            //string hintparameter = string.Join(" ", args.Parameters);
-                            //string hintparameter = args.Parameters[2];
+                        }
+                        
+                        #region Level 30 trial hints                                
 
-                            #region Lab1 hint                          
-                            if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() ==  "lab1")
+                        #region Lab1 hint                          
+                        if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() ==  "lab1")
                             {
-                                if (args.Player.Group.Name != Config.contents.trial30magegroup || args.Player.Group.Name != Config.contents.trial30warriorgroup || args.Player.Group.Name != Config.contents.trial30rangergroup || args.Player.Group.Name != Config.contents.trial30summonergroup || args.Player.Group.Name != Config.contents.trial30terrariangroup)
-                                {
-                                    args.Player.SendErrorMessage("You have already completed the first lab and6or the second lab.");
-                                    args.Player.SendErrorMessage("Use trial progress to check your progress.");
-                                    return;
-                                }
-                                else
+                                if (args.Player.Group.Name == Config.contents.trial30magegroup || args.Player.Group.Name == Config.contents.trial30warriorgroup || args.Player.Group.Name == Config.contents.trial30rangergroup || args.Player.Group.Name == Config.contents.trial30summonergroup || args.Player.Group.Name == Config.contents.trial30terrariangroup)
                                 {
                                     var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                                     var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -1933,19 +2041,19 @@ namespace RPG
                                         args.Player.SendInfoMessage("Hint for lab1: {0}", randomhint);
                                     }
                                 }
-                            }
-                            #endregion
-                            /*
-                            #region Lab2 hint
-                            if (hintparameter == "lab2")
-                            {
-                                if (args.Player.Group.Name != Config.contents.lab1magegroup || args.Player.Group.Name != Config.contents.lab1warriorgroup || args.Player.Group.Name != Config.contents.lab1rangergroup || args.Player.Group.Name != Config.contents.lab1summonergroup || args.Player.Group.Name != Config.contents.lab1terrariangroup)
+                                else
                                 {
-                                    args.Player.SendErrorMessage("You have already completed the second lab or you need to complete the first.");
-                                    args.Player.SendErrorMessage("Use /trial progress to check your progress.");
+                                    args.Player.SendErrorMessage("You have already completed the first lab and/or the second lab.");
+                                    args.Player.SendErrorMessage("Use trial progress to check what did you finish.");
                                     return;
                                 }
-                                else
+                            }
+                            #endregion
+                            
+                        #region Lab2 hint
+                            if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "lab2")
+                            {
+                                if (args.Player.Group.Name == Config.contents.lab1magegroup || args.Player.Group.Name == Config.contents.lab1warriorgroup || args.Player.Group.Name == Config.contents.lab1rangergroup || args.Player.Group.Name == Config.contents.lab1summonergroup || args.Player.Group.Name == Config.contents.lab1terrariangroup)
                                 {
                                     var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                                     var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -1967,18 +2075,19 @@ namespace RPG
                                         args.Player.SendInfoMessage("Hint for lab2: {0}", randomhint);
                                     }
                                 }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("You have already completed the first lab and/or the second lab.");
+                                    args.Player.SendErrorMessage("Use /trial progress to check what did you finish.");
+                                    return;
+                                }
                             }
                             #endregion
                             
-                            #region Lab3 hint
-                            if (hintparameter == "lab3")
+                        #region Lab3 hint
+                            if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "lab3")
                             {
-                                if (args.Player.Group.Name != Config.contents.lab2magegroup || args.Player.Group.Name != Config.contents.lab2warriorgroup || args.Player.Group.Name != Config.contents.lab2rangergroup || args.Player.Group.Name != Config.contents.lab2summonergroup || args.Player.Group.Name != Config.contents.lab2terrariangroup)
-                                {
-                                    args.Player.SendErrorMessage("You are not ready for the third lab. Use /trial progress to check your progress.");
-                                    return;
-                                }
-                                else
+                                if (args.Player.Group.Name == Config.contents.lab2magegroup || args.Player.Group.Name == Config.contents.lab2warriorgroup || args.Player.Group.Name == Config.contents.lab2rangergroup || args.Player.Group.Name == Config.contents.lab2summonergroup || args.Player.Group.Name == Config.contents.lab2terrariangroup)
                                 {
                                     var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                                     var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -2000,36 +2109,70 @@ namespace RPG
                                         args.Player.SendInfoMessage("Hint for lab3: {0}", randomhint);
                                     }
                                 }
+                                else
+                                {
+                                    args.Player.SendErrorMessage("You are not ready for the third lab.");
+                                    args.Player.SendErrorMessage("Use /trial progress to check if you are unsure.");
+                                    return;
+                                }
                             }
-                            #endregion
+                        #endregion
 
-                            if (hintparameter == "start")
+                        #endregion
+
+                        #region Level 60 trial hints
+                        if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "geralt")
+                        {
+                            if (args.Player.Group.Name == Config.contents.trial60mageshrinegroup || args.Player.Group.Name == Config.contents.trial60warriorshrinegroup || args.Player.Group.Name == Config.contents.trial60rangershrinegroup || args.Player.Group.Name == Config.contents.trial60summonershrinegroup || args.Player.Group.Name == Config.contents.trial60terrarianshrinegroup)
                             {
-                                Random random = new Random();
-                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
-                                var randomhint = hints[new Random().Next(0, hints.Length)];
-                                args.Player.SendInfoMessage("Hint for where to start: {0}", randomhint);
-                            }
-                            if (hintparameter == "middle")
-                            {
-                                Random random = new Random();
-                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
-                                var randomhint = hints[new Random().Next(0, hints.Length)];
-                                args.Player.SendInfoMessage("Hint for the second part: {0}", randomhint);
-                            }
-                            if (hintparameter == "tomb")
-                            {
-                                Random random = new Random();
-                                string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
-                                var randomhint = hints[new Random().Next(0, hints.Length)];
-                                args.Player.SendInfoMessage("Hint for tomb: {0}", randomhint);
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial60hintcost;
+                                Money moneyamount2 = Config.contents.trial60hintcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You don't have enough Terra Coins to execute this commands. You need {0}, and you have {1}.", moneyamount2, playeramount);
+                                    return;
+                                }
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a trial hint.", moneyamount2, args.Player.Name), string.Format("Level 60 tiral hint. Geralt.", args.Player.Name));
+                                    Random random = new Random();
+                                    string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                    var randomhint = hints[new Random().Next(0, hints.Length)];
+                                    args.Player.SendInfoMessage("Hint for lab3: {0}", randomhint);
+                                }
                             }
                             else
                             {
-                                args.Player.SendErrorMessage("Wrong hint parameter provided. Check /trial hint for available commands.");
+                                //fix
+                                args.Player.SendErrorMessage("You are not ready for the third lab.");
+                                args.Player.SendErrorMessage("Use /trial progress to check if you are unsure.");
                                 return;
-                            }  */                          
-                      //  }
+                            }
+                        }
+                        if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "shrine")
+                        {
+                            Random random = new Random();
+                            string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                            var randomhint = hints[new Random().Next(0, hints.Length)];
+                            args.Player.SendInfoMessage("Hint for the second part: {0}", randomhint);
+                        }
+                        if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "tombs")
+                        {
+                            Random random = new Random();
+                            string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                            var randomhint = hints[new Random().Next(0, hints.Length)];
+                            args.Player.SendInfoMessage("Hint for tomb: {0}", randomhint);
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("Wrong hint parameter provided. Check /trial hint for available commands.");
+                            return;
+                        }
+                        #endregion
                     }
                     break;
                 #endregion
