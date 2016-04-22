@@ -107,144 +107,150 @@ namespace RPG
                 public string defaultowner = "Tygra";
                 public string abovehousing = "abovehousing";
                 public string underhousing = "uhousing";
-                
+            public int housingzindex = 20;
+
+            public int tier1housecost = 50000;
+                /*
                 public string h1region = "h1";
-                public int h1cost = 5000;
+                public int h1cost = 50000;
             
                 public string h2region = "h2";
-                public int h2cost = ;
+                public int h2cost = 50000;
 
                 public string h3region = "h3";
-                public int h3cost = ;
+                public int h3cost = 50000;
 
                 public string h4region = "h4";
-                public int h4cost = ;
+                public int h4cost = 50000;
 
                 public string h5region = "h5";
-                public int h5cost = ;
+                public int h5cost = 50000;
 
                 public string h6region = "h6";
-                public int h6cost = ;
+                public int h6cost = 50000;
 
                 public string h7region = "h7";
-                public int h7cost = ;
+                public int h7cost = 50000;
 
                 public string h8region = "h8";
-                public int h8cost = ;
+                public int h8cost = 50000;
 
                 public string h9region = "h9";
-                public int h9cost = ;
+                public int h9cost = 50000;
+
+                public string h10region = "h10";
+                public int h10cost = 50000;
 
                 public string h11region = "h11";
-                public int h11cost = 5000;
+                public int h11cost = 50000;
 
                 public string h12region = "h12";
-                public int h12cost = ;
+                public int h12cost = 50000;
 
                 public string h13region = "h13";
-                public int h13cost = ;
+                public int h13cost = 50000;
 
                 public string h14region = "h14";
-                public int h14cost = ;
+                public int h14cost = 50000;
 
                 public string h15region = "h15";
-                public int h15cost = ;
+                public int h15cost = 50000;
 
                 public string h16region = "h16";
-                public int h16cost = ;
+                public int h16cost = 50000;
 
                 public string h17region = "h17";
-                public int h17cost = ;
+                public int h17cost = 45000;
 
                 public string h18region = "h18";
-                public int h18cost = ;
+                public int h18cost = 45000;
 
                 public string h19region = "h19";
-                public int h19cost = ;
+                public int h19cost = 45000;
 
                 public string h20region = "h20";
-                public int h20cost = ;
+                public int h20cost = 45000;
 
                 public string h21region = "h21";
-                public int h21cost = 5000;
+                public int h21cost = 45000;
 
-            public string h22region = "h22";
-            public int h22cost = ;
+                public string h22region = "h22";
+                public int h22cost = 45000;
 
-            public string h23region = "h23";
-            public int h23cost = ;
+                public string h23region = "h23";
+                public int h23cost = 45000;
 
-            public string h24region = "h24";
-            public int h24cost = ;
+                public string h24region = "h24";
+                public int h24cost = 45000;
 
-            public string h25region = "h25";
-            public int h25cost = ;
+                public string h25region = "h25";
+                public int h25cost = 45000;
 
-            public string h26region = "h26";
-            public int h26cost = ;
+                public string h26region = "h26";
+                public int h26cost = 45000;
 
-            public string h27region = "h27";
-            public int h27cost = ;
+                public string h27region = "h27";
+                public int h27cost = 45000;
 
-            public string h28region = "h28";
-            public int h28cost = ;
+                public string h28region = "h28";
+                public int h28cost = 45000;
 
-            public string h29region = "h29";
-            public int h29cost = ;
+                public string h29region = "h29";
+                public int h29cost = 45000;
 
-            public string h30region = "h30";
-            public int h30cost = ;
+                public string h30region = "h30";
+                public int h30cost = 45000;
 
-            public string h31region = "h31";
-            public int h31cost = 5000;
+                public string h31region = "h31";
+                public int h31cost = 45000;
 
-            public string h32region = "h32";
-            public int h32cost = ;
+                public string h32region = "h32";
+                public int h32cost = 45000;
 
             public string h33region = "h33";
-            public int h33cost = ;
+            public int h33cost = 45000;
 
             public string h34region = "h34";
-            public int h34cost = ;
+            public int h34cost = 45000;
 
             public string h35region = "h35";
-            public int h35cost = ;
+            public int h35cost = 45000;
 
             public string h36region = "h36";
-            public int h36cost = ;
+            public int h36cost = 45000;
 
             public string h37region = "h37";
-            public int h37cost = ;
+            public int h37cost = 45000;
 
             public string h38region = "h38";
-            public int h38cost = ;
+            public int h38cost = 45000;
 
             public string h39region = "h39";
-            public int h39cost = ;
+            public int h39cost = 45000;
 
             public string h40region = "h40";
-            public int h40cost = ;
+            public int h40cost = 45000;
 
             public string h41region = "h41";
-            public int h41cost = 5000;
+            public int h41cost = 45000;
 
             public string h42region = "h42";
-            public int h42cost = ;
+            public int h42cost = 45000;
 
             public string h43region = "h43";
-            public int h43cost = ;
+            public int h43cost = 45000;
 
             public string h44region = "h44";
-            public int h44cost = ;
+            public int h44cost = 45000;
 
             public string h45region = "h45";
-            public int h45cost = ;
+            public int h45cost = 45000;
 
             public string h46region = "h46";
-            public int h46cost = ;
+            public int h46cost = 45000;
 
             public string h47region = "h47";
-            public int h47cost = ;
+            public int h47cost = 45000;
 
             public string h48region = "h48";
             public int h48cost = ;
@@ -407,7 +413,7 @@ namespace RPG
 
             public string h10region = "h10";
                 public int h10cost = ;
-                
+                */
             #endregion
 
                 public int mimicchest = 48;

@@ -26,12 +26,13 @@ using TShockAPI.DB;
 using Wolfje.Plugins.SEconomy;
 using Wolfje.Plugins.SEconomy.Journal;
 using Newtonsoft.Json;
+using Mono.Data.Sqlite;
+using MySql.Data.MySqlClient;
 #endregion
 
 namespace RPG
 {
     /*
-     * House for tc - replicate
      * House upgrade list
      * Vip trial
      * Test mimic spawn - nope
@@ -45,7 +46,8 @@ namespace RPG
     {
         #region Info & other things
         public DateTime LastCheck = DateTime.UtcNow;
-        public DateTime SLastCheck = DateTime.UtcNow;
+        public DateTime SLastCheck = DateTime.UtcNow;        
+        public string SavePath = TShock.SavePath;
         public GPlayer[] Playerlist = new GPlayer[256];
         DateTime DLastCheck = DateTime.UtcNow;
         public TShockAPI.DB.Region Region { get; set; }
@@ -99,6 +101,7 @@ namespace RPG
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
             ServerApi.Hooks.ServerChat.Register(this, OnChat);
+            //ServerApi.Hooks.GameInitialize.Register(this, OnInitialize);
             if (!Config.ReadConfig())
             {
                 TShock.Log.ConsoleError("Config loading failed. Consider deleting it.");
@@ -115,9 +118,26 @@ namespace RPG
                 ServerApi.Hooks.ServerJoin.Deregister(this, OnJoin);
                 ServerApi.Hooks.ServerLeave.Deregister(this, OnLeave);
                 ServerApi.Hooks.ServerChat.Deregister(this, OnChat);
+                //ServerApi.Hooks.GameInitialize.Deregister(this, OnInitialize);
+                //Database.Dispose();
             }
+            base.Dispose(disposing);
 
         }
+        #endregion
+
+        #region OnInitialize
+        /*
+        private void OnInitialize(EventArgs args)
+        {
+            QDB.InitQuestDB();
+        }*/
+        #endregion
+
+        #region DBbthings
+        /*
+        private void AddRQuest(TSPlayer player, )
+        */
         #endregion
 
         #region Playerlist Join/Leave
@@ -1205,9 +1225,7 @@ namespace RPG
                 #region Current region
                 case "region":
                     {
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.abovehousing);
-                        Region region2 = TShock.Regions.GetRegionByName(Config.contents.underhousing);
-                        if (args.Player.CurrentRegion != region || args.Player.CurrentRegion != region2)
+                        if (args.Player.CurrentRegion.Z != 20)
                         {
                             args.Player.SendErrorMessage("You are not in any housing region, go to the above or underground housing area and stand on a free spot.");
                             return;
@@ -1217,6 +1235,32 @@ namespace RPG
                             args.Player.SendInfoMessage("You are in the region: {0} .", args.Player.CurrentRegion.Name);
                             args.Player.SendInfoMessage("To check the plot's price do /housing price.");
                         }
+                    }
+                    break;
+                #endregion
+
+                #region Protection
+                case "protection":
+                    {                       
+                        if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z != Config.contents.housingzindex)
+                        {
+                            args.Player.SendErrorMessage("You are not standing on any houisng plot. Go to the above or underground housing.");
+                            return;
+                        }
+                        else
+                        {                            
+                            TShockAPI.Commands.HandleCommand(args.Player, "/rv " + args.Player.CurrentRegion.Name);
+                            args.Player.SendInfoMessage("You can remove the region outlining with /housing clear, or by relogging.");
+                        }
+                    }
+                    break;
+                #endregion
+
+                #region Clear rv
+
+                case "clear":
+                    {
+                        TShockAPI.Commands.HandleCommand(args.Player, "/rc");
                     }
                     break;
                 #endregion
@@ -1231,104 +1275,13 @@ namespace RPG
                         }
                     }
 
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h1")
+                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h1" || args.Parameters[1].ToLower() == "h2" || args.Parameters[1].ToLower() == "h3"
+                        || args.Parameters[1].ToLower() == "h4" || args.Parameters[1].ToLower() == "h5" || args.Parameters[1].ToLower() == "h6" || args.Parameters[1].ToLower() == "h7"
+                        || args.Parameters[1].ToLower() == "h8" || args.Parameters[1].ToLower() == "h9" || args.Parameters[1].ToLower() == "h10" || args.Parameters[1].ToLower() == "h11"
+                        || args.Parameters[1].ToLower() == "h12" || args.Parameters[1].ToLower() == "h13" || args.Parameters[1].ToLower() == "h14" || args.Parameters[1].ToLower() == "h15"
+                        || args.Parameters[1].ToLower() == "h16")
                     {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h1cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h2")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h2cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h3")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h3cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h4")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h4cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h5")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h5cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h6")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h6cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h7")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h7cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h8")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h8cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h9")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h9cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h10")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h10cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h11")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h11cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h12")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h12cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h13")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h13cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h14")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h14cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h15")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h15cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h16")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h16cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h17")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h17cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h18")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h18cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h19")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h19cost);
-                        return;
-                    }
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h20")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Player.CurrentRegion, Config.contents.h20cost);
+                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Parameters[1], Config.contents.tier1housecost);
                         return;
                     }
                     break;
@@ -1378,7 +1331,7 @@ namespace RPG
                     }
                     break;
                 #endregion
-
+/*
                 #region Housing plot 1
                 case "h1":
                     {                        
@@ -1418,8 +1371,9 @@ namespace RPG
                             args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion);
                             return;                                                
                         }
-                    }                    
-                    #endregion
+                    }
+                #endregion
+                    */
             }
         }
         
@@ -3548,7 +3502,7 @@ namespace RPG
                             args.Player.SendMessage("You found 150 Terra Coins laying around in a chest.", Color.Goldenrod);
                             if(!args.Player.Group.HasPermission("geldar.bypasscd"))
                             {
-                                player.girocd = Config.contents.girocd;
+                                //player.girocd = Config.contents.girocd;
                             }
                         }
                     }
