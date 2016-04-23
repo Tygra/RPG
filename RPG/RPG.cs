@@ -1251,7 +1251,7 @@ namespace RPG
                 #region Protection
                 case "protection":
                     {                       
-                        if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z != Config.contents.housingzindex)
+                        if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
                         {
                             args.Player.SendErrorMessage("You are not standing on any houisng plot. Go to the above or underground housing.");
                             return;
@@ -1365,7 +1365,7 @@ namespace RPG
                             var player = Playerlist[args.Player.Index];
                             Money moneyamount = -Config.contents.tier1housecost;
                             Money moneyamount2 = Config.contents.tier1housecost;
-                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z > 20)
+                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
                             {
                                 args.Player.SendErrorMessage("You are not standing on a housing plot.");
                                 return;
@@ -1384,22 +1384,211 @@ namespace RPG
                             {
                                 SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name ,args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
                                 TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
-                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
-                                return;
+                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);                                
                             }
                         }
                         #endregion
 
                         #region Tier 2 housing
-
+                        if (args.Player.CurrentRegion.Name == Config.contents.h17region || args.Player.CurrentRegion.Name == Config.contents.h18region || args.Player.CurrentRegion.Name == Config.contents.h19region
+                            || args.Player.CurrentRegion.Name == Config.contents.h20region || args.Player.CurrentRegion.Name == Config.contents.h21region || args.Player.CurrentRegion.Name == Config.contents.h22region
+                            || args.Player.CurrentRegion.Name == Config.contents.h23region || args.Player.CurrentRegion.Name == Config.contents.h24region || args.Player.CurrentRegion.Name == Config.contents.h25region
+                            || args.Player.CurrentRegion.Name == Config.contents.h26region || args.Player.CurrentRegion.Name == Config.contents.h27region || args.Player.CurrentRegion.Name == Config.contents.h28region
+                            || args.Player.CurrentRegion.Name == Config.contents.h29region || args.Player.CurrentRegion.Name == Config.contents.h30region || args.Player.CurrentRegion.Name == Config.contents.h31region
+                            || args.Player.CurrentRegion.Name == Config.contents.h32region || args.Player.CurrentRegion.Name == Config.contents.h33region || args.Player.CurrentRegion.Name == Config.contents.h34region
+                            || args.Player.CurrentRegion.Name == Config.contents.h35region || args.Player.CurrentRegion.Name == Config.contents.h36region || args.Player.CurrentRegion.Name == Config.contents.h37region
+                            || args.Player.CurrentRegion.Name == Config.contents.h38region || args.Player.CurrentRegion.Name == Config.contents.h39region || args.Player.CurrentRegion.Name == Config.contents.h40region
+                            || args.Player.CurrentRegion.Name == Config.contents.h41region || args.Player.CurrentRegion.Name == Config.contents.h42region || args.Player.CurrentRegion.Name == Config.contents.h43region
+                            || args.Player.CurrentRegion.Name == Config.contents.h44region || args.Player.CurrentRegion.Name == Config.contents.h45region || args.Player.CurrentRegion.Name == Config.contents.h46region
+                            || args.Player.CurrentRegion.Name == Config.contents.h47region || args.Player.CurrentRegion.Name == Config.contents.h48region || args.Player.CurrentRegion.Name == Config.contents.h49region)
+                        {
+                            var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                            var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                            var playeramount = selectedPlayer.Balance;
+                            var player = Playerlist[args.Player.Index];
+                            Money moneyamount = -Config.contents.tier2housecost;
+                            Money moneyamount2 = Config.contents.tier2housecost;
+                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
+                            {
+                                args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                return;
+                            }
+                            if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                            {
+                                args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
+                                return;
+                            }
+                            if (playeramount < moneyamount2)
+                            {
+                                args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                return;
+                            }
+                            else
+                            {
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
+                                TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
+                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
+                            }
+                        }
                         #endregion
 
                         #region Tier 3 housing
-
+                            if (args.Player.CurrentRegion.Name == Config.contents.h50region || args.Player.CurrentRegion.Name == Config.contents.h51region || args.Player.CurrentRegion.Name == Config.contents.h52region
+                                || args.Player.CurrentRegion.Name == Config.contents.h53region || args.Player.CurrentRegion.Name == Config.contents.h54region || args.Player.CurrentRegion.Name == Config.contents.h55region
+                                || args.Player.CurrentRegion.Name == Config.contents.h56region || args.Player.CurrentRegion.Name == Config.contents.h57region || args.Player.CurrentRegion.Name == Config.contents.h58region
+                                || args.Player.CurrentRegion.Name == Config.contents.h59region || args.Player.CurrentRegion.Name == Config.contents.h60region || args.Player.CurrentRegion.Name == Config.contents.h61region
+                                || args.Player.CurrentRegion.Name == Config.contents.h62region || args.Player.CurrentRegion.Name == Config.contents.h80region || args.Player.CurrentRegion.Name == Config.contents.h81region
+                                || args.Player.CurrentRegion.Name == Config.contents.h82region || args.Player.CurrentRegion.Name == Config.contents.h83region || args.Player.CurrentRegion.Name == Config.contents.h84region
+                                || args.Player.CurrentRegion.Name == Config.contents.h85region || args.Player.CurrentRegion.Name == Config.contents.h86region)
+                            {
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.tier3housecost;
+                                Money moneyamount2 = Config.contents.tier3housecost;
+                                if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
+                                {
+                                    args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                    return;
+                                }
+                                if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                                {
+                                    args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
+                                    return;
+                                }
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
+                                    TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
+                                    args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
+                                }
+                            }
                         #endregion
 
                         #region Tier 4 housing
+                        if (args.Player.CurrentRegion.Name == Config.contents.h63region || args.Player.CurrentRegion.Name == Config.contents.h64region || args.Player.CurrentRegion.Name == Config.contents.h65region
+                            || args.Player.CurrentRegion.Name == Config.contents.h66region || args.Player.CurrentRegion.Name == Config.contents.h67region || args.Player.CurrentRegion.Name == Config.contents.h68region
+                            || args.Player.CurrentRegion.Name == Config.contents.h69region || args.Player.CurrentRegion.Name == Config.contents.h70region || args.Player.CurrentRegion.Name == Config.contents.h71region
+                            || args.Player.CurrentRegion.Name == Config.contents.h72region || args.Player.CurrentRegion.Name == Config.contents.h73region || args.Player.CurrentRegion.Name == Config.contents.h74region
+                            || args.Player.CurrentRegion.Name == Config.contents.h75region || args.Player.CurrentRegion.Name == Config.contents.h76region || args.Player.CurrentRegion.Name == Config.contents.h77region
+                            || args.Player.CurrentRegion.Name == Config.contents.h78region || args.Player.CurrentRegion.Name == Config.contents.h79region || args.Player.CurrentRegion.Name == Config.contents.h87region
+                            || args.Player.CurrentRegion.Name == Config.contents.h88region || args.Player.CurrentRegion.Name == Config.contents.h89region || args.Player.CurrentRegion.Name == Config.contents.h90region
+                            || args.Player.CurrentRegion.Name == Config.contents.h91region || args.Player.CurrentRegion.Name == Config.contents.h92region || args.Player.CurrentRegion.Name == Config.contents.h93region
+                            || args.Player.CurrentRegion.Name == Config.contents.h94region || args.Player.CurrentRegion.Name == Config.contents.h95region || args.Player.CurrentRegion.Name == Config.contents.h96region
+                            || args.Player.CurrentRegion.Name == Config.contents.h97region || args.Player.CurrentRegion.Name == Config.contents.h98region || args.Player.CurrentRegion.Name == Config.contents.h99region
+                            || args.Player.CurrentRegion.Name == Config.contents.h100region || args.Player.CurrentRegion.Name == Config.contents.h101region || args.Player.CurrentRegion.Name == Config.contents.h102region
+                            || args.Player.CurrentRegion.Name == Config.contents.h103region || args.Player.CurrentRegion.Name == Config.contents.h104region || args.Player.CurrentRegion.Name == Config.contents.h105region
+                            || args.Player.CurrentRegion.Name == Config.contents.h106region || args.Player.CurrentRegion.Name == Config.contents.h107region)
+                        {
+                            var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                            var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                            var playeramount = selectedPlayer.Balance;
+                            var player = Playerlist[args.Player.Index];
+                            Money moneyamount = -Config.contents.tier4housecost;
+                            Money moneyamount2 = Config.contents.tier4housecost;
+                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
+                            {
+                                args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                return;
+                            }
+                            if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                            {
+                                args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
+                                return;
+                            }
+                            if (playeramount < moneyamount2)
+                            {
+                                args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                return;
+                            }
+                            else
+                            {
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
+                                TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
+                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
+                            }
+                        }
+                        #endregion
 
+                        #region Tier 5 housing
+                        if (args.Player.CurrentRegion.Name == Config.contents.h108region || args.Player.CurrentRegion.Name == Config.contents.h109region || args.Player.CurrentRegion.Name == Config.contents.h110region
+                            || args.Player.CurrentRegion.Name == Config.contents.h111region || args.Player.CurrentRegion.Name == Config.contents.h112region || args.Player.CurrentRegion.Name == Config.contents.h113region
+                            || args.Player.CurrentRegion.Name == Config.contents.h114region || args.Player.CurrentRegion.Name == Config.contents.h115region || args.Player.CurrentRegion.Name == Config.contents.h116region
+                            || args.Player.CurrentRegion.Name == Config.contents.h117region || args.Player.CurrentRegion.Name == Config.contents.h118region || args.Player.CurrentRegion.Name == Config.contents.h119region
+                            || args.Player.CurrentRegion.Name == Config.contents.h120region || args.Player.CurrentRegion.Name == Config.contents.h121region || args.Player.CurrentRegion.Name == Config.contents.h122region
+                            || args.Player.CurrentRegion.Name == Config.contents.h123region || args.Player.CurrentRegion.Name == Config.contents.h124region || args.Player.CurrentRegion.Name == Config.contents.h125region
+                            || args.Player.CurrentRegion.Name == Config.contents.h126region || args.Player.CurrentRegion.Name == Config.contents.h127region || args.Player.CurrentRegion.Name == Config.contents.h128region
+                            || args.Player.CurrentRegion.Name == Config.contents.h129region || args.Player.CurrentRegion.Name == Config.contents.h130region || args.Player.CurrentRegion.Name == Config.contents.h131region)
+                        {
+                            var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                            var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                            var playeramount = selectedPlayer.Balance;
+                            var player = Playerlist[args.Player.Index];
+                            Money moneyamount = -Config.contents.tier5housecost;
+                            Money moneyamount2 = Config.contents.tier5housecost;
+                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
+                            {
+                                args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                return;
+                            }
+                            if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                            {
+                                args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
+                                return;
+                            }
+                            if (playeramount < moneyamount2)
+                            {
+                                args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                return;
+                            }
+                            else
+                            {
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
+                                TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
+                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
+                            }
+                        }
+                        #endregion
+
+                        #region Tier 6 housing
+                        if (args.Player.CurrentRegion.Name == Config.contents.h131region || args.Player.CurrentRegion.Name == Config.contents.h132region || args.Player.CurrentRegion.Name == Config.contents.h133region
+                            || args.Player.CurrentRegion.Name == Config.contents.h134region || args.Player.CurrentRegion.Name == Config.contents.h135region || args.Player.CurrentRegion.Name == Config.contents.h136region
+                            || args.Player.CurrentRegion.Name == Config.contents.h137region || args.Player.CurrentRegion.Name == Config.contents.h138region || args.Player.CurrentRegion.Name == Config.contents.h139region)
+                        {
+                            var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                            var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                            var playeramount = selectedPlayer.Balance;
+                            var player = Playerlist[args.Player.Index];
+                            Money moneyamount = -Config.contents.tier6housecost;
+                            Money moneyamount2 = Config.contents.tier6housecost;
+                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
+                            {
+                                args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                return;
+                            }
+                            if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                            {
+                                args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
+                                return;
+                            }
+                            if (playeramount < moneyamount2)
+                            {
+                                args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                return;
+                            }
+                            else
+                            {
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
+                                TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
+                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
+                            }
+                        }
                         #endregion
                     }
                     break;

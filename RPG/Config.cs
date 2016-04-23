@@ -105,11 +105,20 @@ namespace RPG
             
                 public int altcost = 5000;
                 public string defaultowner = "Tygra";
-                public string abovehousing = "abovehousing";
-                public string underhousing = "uhousing";
-            public int housingzindex = 20;
+                public int tier1housingindex = 20;
+                public int tier2housingindex = 25;
+                public int tier3housingindex = 30;
+                public int tier4housingindex = 35;
+                public int tier5housingindex = 40;
+                public int tier6housingindex = 45;
 
-            public int tier1housecost = 50000;
+                public int tier1housecost = 50000;
+                public int tier2housecost = 45000;
+                public int tier3housecost = 40000;
+                public int tier4housecost = 35000;
+                public int tier5housecost = 30000;
+                public int tier6housecost = 25000;
+
                  
                 public string h1region = "h1";
                 public int h1cost = 50000;
@@ -158,7 +167,7 @@ namespace RPG
 
                 public string h16region = "h16";
                 public int h16cost = 50000;
-            /*
+            
                 public string h17region = "h17";
                 public int h17cost = 45000;
 
@@ -251,172 +260,316 @@ namespace RPG
 
             public string h47region = "h47";
             public int h47cost = 45000;
-
+            
             public string h48region = "h48";
-            public int h48cost = ;
+            public int h48cost = 45000;
 
             public string h49region = "h49";
-            public int h49cost = ;
+            public int h49cost = 45000;
 
             public string h50region = "h50";
-            public int h50cost = ;
+            public int h50cost = 40000;
 
             public string h51region = "h51";
-            public int h51cost = 5000;
+            public int h51cost = 40000;
 
             public string h52region = "h52";
-            public int h52cost = ;
+            public int h52cost = 40000;
 
             public string h53region = "h53";
-            public int h53cost = ;
+            public int h53cost = 40000;
 
             public string h54region = "h54";
-            public int h54cost = ;
+            public int h54cost = 40000;
 
             public string h55region = "h55";
-            public int h55cost = ;
+            public int h55cost = 40000;
 
             public string h56region = "h56";
-            public int h56cost = ;
+            public int h56cost = 40000;
 
             public string h57region = "h57";
-            public int h57cost = ;
+            public int h57cost = 40000;
 
             public string h58region = "h58";
-            public int h58cost = ;
+            public int h58cost = 40000;
 
             public string h59region = "h59";
-            public int h59cost = ;
+            public int h59cost = 40000;
 
             public string h60region = "h60";
-            public int h60cost = ;
+            public int h60cost = 40000;
 
             public string h61region = "h61";
-            public int h61cost = 5000;
+            public int h61cost = 40000;
 
             public string h62region = "h62";
-            public int h62cost = ;
+            public int h62cost = 40000;
 
             public string h63region = "h63";
-            public int h63cost = ;
+            public int h63cost = 35000;
 
             public string h64region = "h64";
-            public int h64cost = ;
+            public int h64cost = 35000;
 
             public string h65region = "h65";
-            public int h65cost = ;
+            public int h65cost = 35000;
 
             public string h66region = "h66";
-            public int h66cost = ;
+            public int h66cost = 35000;
 
             public string h67region = "h67";
-            public int h67cost = ;
+            public int h67cost = 35000;
 
             public string h68region = "h68";
-            public int h68cost = ;
+            public int h68cost = 35000;
 
             public string h69region = "h69";
-            public int h69cost = ;
+            public int h69cost = 35000;
 
             public string h70region = "h70";
-            public int h70cost = ;
+            public int h70cost = 35000;
 
             public string h71region = "h71";
-            public int h71cost = 5000;
+            public int h71cost = 35000;
 
             public string h72region = "h72";
-            public int h72cost = ;
+            public int h72cost = 35000;
 
             public string h73region = "h73";
-            public int h73cost = ;
+            public int h73cost = 35000;
 
             public string h74region = "h74";
-            public int h74cost = ;
+            public int h74cost = 35000;
 
             public string h75region = "h75";
-            public int h75cost = ;
+            public int h75cost = 35000;
 
             public string h76region = "h76";
-            public int h76cost = ;
+            public int h76cost = 35000;
 
             public string h77region = "h77";
-            public int h77cost = ;
+            public int h77cost = 35000;
 
             public string h78region = "h78";
-            public int h78cost = ;
+            public int h78cost = 35000;
 
             public string h79region = "h79";
-            public int h79cost = ;
+            public int h79cost = 35000;
 
             public string h80region = "h80";
-            public int h80cost = ;
+            public int h80cost = 40000;
 
             public string h81region = "h81";
-            public int h81cost = 5000;
+            public int h81cost = 40000;
 
             public string h82region = "h82";
-            public int h82cost = ;
+            public int h82cost = 40000;
 
             public string h83region = "h83";
-            public int h83cost = ;
+            public int h83cost = 40000;
 
             public string h84region = "h84";
-            public int h84cost = ;
+            public int h84cost = 40000;
 
             public string h85region = "h85";
-            public int h85cost = ;
+            public int h85cost = 40000;
 
             public string h86region = "h86";
-            public int h86cost = ;
+            public int h86cost = 40000;
 
             public string h87region = "h87";
-            public int h87cost = ;
+            public int h87cost = 35000;
 
             public string h88region = "h88";
-            public int h88cost = ;
+            public int h88cost = 35000;
 
             public string h89region = "h89";
-            public int h89cost = ;
+            public int h89cost = 35000;
 
             public string h90region = "h90";
-            public int h90cost = ;
+            public int h90cost = 35000;
 
             public string h91region = "h91";
-            public int h91cost = 5000;
+            public int h91cost = 35000;
 
             public string h92region = "h92";
-            public int h92cost = ;
+            public int h92cost = 35000;
 
             public string h93region = "h93";
-            public int h93cost = ;
+            public int h93cost = 35000;
 
             public string h94region = "h94";
-            public int h94cost = ;
+            public int h94cost = 35000;
 
             public string h95region = "h95";
-            public int h95cost = ;
+            public int h95cost = 35000;
 
             public string h96region = "h96";
-            public int h96cost = ;
+            public int h96cost = 35000;
 
             public string h97region = "h97";
-            public int h97cost = ;
+            public int h97cost = 35000;
 
             public string h98region = "h98";
-            public int h98cost = ;
+            public int h98cost = 35000;
 
             public string h99region = "h99";
-            public int h99cost = ;
+            public int h99cost = 35000;
 
             public string h100region = "h100";
-            public int h100cost = ;
+            public int h100cost = 35000;
 
-            public string h10region = "h10";
-                public int h10cost = ;
-                */
+            public string h101region = "h101";
+            public int h101cost = 35000;
+
+            public string h102region = "h102";
+            public int h102cost = 35000;
+
+            public string h103region = "h103";
+            public int h103cost = 35000;
+
+            public string h104region = "h104";
+            public int h104cost = 35000;
+
+            public string h105region = "h105";
+            public int h105cost = 35000;
+
+            public string h106region = "h106";
+            public int h106cost = 35000;
+
+            public string h107region = "h107";
+            public int h107cost = 35000;
+
+            public string h108region = "h108";
+            public int h108cost = 30000;
+
+            public string h109region = "h109";
+            public int h109cost = 30000;
+
+            public string h110region = "h110";
+            public int h110cost = 30000;
+
+            public string h111region = "h111";
+            public int h111cost = 30000;
+
+            public string h112region = "h112";
+            public int h112cost = 30000;
+
+            public string h113region = "h113";
+            public int h113cost = 30000;
+
+            public string h114region = "h114";
+            public int h114cost = 30000;
+
+            public string h115region = "h115";
+            public int h115cost = 30000;
+
+            public string h116region = "h116";
+            public int h116cost = 30000;
+
+            public string h117region = "h117";
+            public int h117cost = 30000;
+
+            public string h118region = "h118";
+            public int h118cost = 30000;
+
+            public string h119region = "h119";
+            public int h119cost = 30000;
+
+            public string h120region = "h120";
+            public int h120cost = 30000;
+
+            public string h121region = "h121";
+            public int h121cost = 30000;
+
+            public string h122region = "h122";
+            public int h122cost = 30000;
+
+            public string h123region = "h123";
+            public int h123cost = 30000;
+
+            public string h124region = "h124";
+            public int h124cost = 30000;
+
+            public string h125region = "h125";
+            public int h125cost = 30000;
+
+            public string h126region = "h126";
+            public int h126cost = 30000;
+
+            public string h127region = "h127";
+            public int h127cost = 30000;
+
+            public string h128region = "h128";
+            public int h128cost = 30000;
+
+            public string h129region = "h129";
+            public int h129cost = 30000;
+
+            public string h130region = "h130";
+            public int h130cost = 30000;
+
+            public string h131region = "h131";
+            public int h131cost = 30000;
+
+            public string h132region = "h132";
+            public int h132cost = 25000;
+
+            public string h133region = "h133";
+            public int h133cost = 25000;
+
+            public string h134region = "h134";
+            public int h134cost = 25000;
+
+            public string h135region = "h135";
+            public int h135cost = 25000;
+
+            public string h136region = "h136";
+            public int h136cost = 25000;
+
+            public string h137region = "h137";
+            public int h137cost = 25000;
+
+            public string h138region = "h138";
+            public int h138cost = 25000;
+
+            public string h139region = "h139";
+            public int h139cost = 25000;
+            /*
+            public string h140region = "h140";
+            public int h140cost = ;
+
+            public string h141region = "h141";
+            public int h141cost = ;
+
+            public string h142region = "h142";
+            public int h142cost = ;
+
+            public string h143region = "h143";
+            public int h143cost = ;
+
+            public string h144region = "h144";
+            public int h144cost = ;
+
+            public string h145region = "h145";
+            public int h145cost = ;
+
+            public string h146region = "h146";
+            public int h146cost = ;
+
+            public string h147region = "h147";
+            public int h147cost = ;
+
+            public string h148region = "h148";
+            public int h148cost = ;
+
+            public string h149region = "h149";
+            public int h149cost = ;
+            */
             #endregion
 
-                public int mimicchest = 48;
+            public int mimicchest = 48;
                 public int mimichallowkey = 3092;
                 public int mimiccrimsonkey = 3091;
                 public int mimiccorruptkey = 3091;
