@@ -1205,31 +1205,40 @@ namespace RPG
             {
                 args.Player.SendInfoMessage("With this command you can buy a pre-define housing plot, either on the clouds, or underground.");
                 args.Player.SendInfoMessage("The plot's cost depends on where it is located. Plots closer to the teleporters are more expensive.");
-                args.Player.SendInfoMessage("/housing price <region name> - will show you the price of the plot. /housing region - will show you the region's name.");
                 args.Player.SendInfoMessage("Check the housing rules for restrictions. /geldar housing");
-                args.Player.SendInfoMessage("With /housing alt you can add your other characters to the plot for x Terra Coins.");
-                args.Player.SendInfoMessage("You need to be stading on an island for the commands to work.");
+                args.Player.SendInfoMessage("For the list of commands type /housing help");
+                args.Player.SendInfoMessage("You need to be stading on a housing plot for the commands to work.");
                 return;
             }
             
             switch (args.Parameters[0])
             {
-                #region Upgrade
-                case "upgrade":
+                #region Help
+                case "help":
                     {
-
+                        args.Player.SendInfoMessage("/housing plot - will show you the plot's name.");
+                        args.Player.SendInfoMessage("/housing price - will show you the price of the plot.");
+                        args.Player.SendInfoMessage("/housing protection - will turn on the region outlining to help visualizing the area protected.");
+                        args.Player.SendInfoMessage("/housing clear - will clear the region outlining");
+                        args.Player.SendInfoMessage("/housing alt - will add your other characters to the plot for X TC");
+                        args.Player.SendInfoMessage("/housing buy - will byu the plot if you have enough money, and it's not owned already.");
                     }
                     break;
                 #endregion
 
                 #region Current region
-                case "region":
+                case "plot":
                     {
                         if (args.Player.CurrentRegion.Z != 20)
                         {
                             args.Player.SendErrorMessage("You are not in any housing region, go to the above or underground housing area and stand on a free spot.");
                             return;
                         }
+                        if (args.Player.CurrentRegion.Owner != args.Player.Name)
+                        {
+                            args.Player.SendErrorMessage("This plot is someone else's.");
+                            return;
+                        }                        
                         else
                         {
                             args.Player.SendInfoMessage("You are in the region: {0} .", args.Player.CurrentRegion.Name);
@@ -1247,6 +1256,12 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not standing on any houisng plot. Go to the above or underground housing.");
                             return;
                         }
+                        if (args.Player.CurrentRegion.Owner != args.Player.Name)
+                        {
+                            args.Player.SendErrorMessage("You are not the owner of this housing plot.");
+                            args.Player.SendErrorMessage("If you own this plot but this is your alt character, log in with the owner.");
+                            return;
+                        }
                         else
                         {                            
                             TShockAPI.Commands.HandleCommand(args.Player, "/rv " + args.Player.CurrentRegion.Name);
@@ -1261,6 +1276,7 @@ namespace RPG
                 case "clear":
                     {
                         TShockAPI.Commands.HandleCommand(args.Player, "/rc");
+                        args.Player.SendInfoMessage("Region outlining has been cleared.");
                     }
                     break;
                 #endregion
@@ -1268,21 +1284,21 @@ namespace RPG
                 #region Price
                 case "price":
                     {
-                        if (args.Parameters.Count == 1)
+                        if (args.Player.CurrentRegion == null)
                         {
-                            args.Player.SendErrorMessage("Wrong or no region name provided. Use /housing region to get the region name.");
+                            args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                            return;
+                        } 
+                        if (args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                        {
+                            args.Player.SendErrorMessage("This housing plot has been claimed by someone. No point in checking the price.");
                             return;
                         }
-                    }
-
-                    if (args.Parameters.Count > 0 && args.Parameters[1].ToLower() == "h1" || args.Parameters[1].ToLower() == "h2" || args.Parameters[1].ToLower() == "h3"
-                        || args.Parameters[1].ToLower() == "h4" || args.Parameters[1].ToLower() == "h5" || args.Parameters[1].ToLower() == "h6" || args.Parameters[1].ToLower() == "h7"
-                        || args.Parameters[1].ToLower() == "h8" || args.Parameters[1].ToLower() == "h9" || args.Parameters[1].ToLower() == "h10" || args.Parameters[1].ToLower() == "h11"
-                        || args.Parameters[1].ToLower() == "h12" || args.Parameters[1].ToLower() == "h13" || args.Parameters[1].ToLower() == "h14" || args.Parameters[1].ToLower() == "h15"
-                        || args.Parameters[1].ToLower() == "h16")
-                    {
-                        args.Player.SendInfoMessage("Cost of {0} region: {1} Terra Coins.", args.Parameters[1], Config.contents.tier1housecost);
-                        return;
+                        if (args.Player.CurrentRegion.Name == Config.contents.h1region || args.Player.CurrentRegion.Name == Config.contents.h2region || args.Player.CurrentRegion.Name == Config.contents.h3region
+                            || args.Player.CurrentRegion.Name == Config.contents.h4region || args.Player.CurrentRegion.Name == Config.contents.h5region)
+                        {
+                            args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier1housecost);
+                        }
                     }
                     break;
                 #endregion
@@ -1331,49 +1347,63 @@ namespace RPG
                     }
                     break;
                 #endregion
-/*
-                #region Housing plot 1
-                case "h1":
-                    {                        
-                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
-                        var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
-                        var playeramount = selectedPlayer.Balance;
-                        var player = Playerlist[args.Player.Index];
-                        Money moneyamount = -Config.contents.h1cost;
-                        Money moneyamount2 = Config.contents.h1cost;
-                        Region region = TShock.Regions.GetRegionByName(Config.contents.h1region);
-                        if (args.Player.CurrentRegion == null)
+
+                #region Buying
+                case "buy":
+                    {
+                        #region Tier 1 housing
+                        if(args.Player.CurrentRegion.Name == Config.contents.h1region || args.Player.CurrentRegion.Name == Config.contents.h2region || args.Player.CurrentRegion.Name == Config.contents.h3region
+                            || args.Player.CurrentRegion.Name == Config.contents.h4region || args.Player.CurrentRegion.Name == Config.contents.h5region || args.Player.CurrentRegion.Name == Config.contents.h6region
+                            || args.Player.CurrentRegion.Name == Config.contents.h7region || args.Player.CurrentRegion.Name == Config.contents.h8region || args.Player.CurrentRegion.Name == Config.contents.h9region
+                            || args.Player.CurrentRegion.Name == Config.contents.h10region || args.Player.CurrentRegion.Name == Config.contents.h11region || args.Player.CurrentRegion.Name == Config.contents.h12region
+                            || args.Player.CurrentRegion.Name == Config.contents.h13region || args.Player.CurrentRegion.Name == Config.contents.h14region || args.Player.CurrentRegion.Name == Config.contents.h15region
+                            || args.Player.CurrentRegion.Name == Config.contents.h16region)
                         {
-                            args.Player.SendErrorMessage("You are not in the right region for this command.");
-                            args.Player.SendErrorMessage("Stand on the sign and execute the command written on the sign.");
-                            return;
+                            var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                            var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                            var playeramount = selectedPlayer.Balance;
+                            var player = Playerlist[args.Player.Index];
+                            Money moneyamount = -Config.contents.tier1housecost;
+                            Money moneyamount2 = Config.contents.tier1housecost;
+                            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z > 20)
+                            {
+                                args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                return;
+                            }
+                            if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                            {
+                                args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
+                                return;
+                            }
+                            if (playeramount < moneyamount2)
+                            {
+                                args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                return;
+                            }
+                            else
+                            {
+                                SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the {1} housing plot.", moneyamount2, args.Player.CurrentRegion.Name ,args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion.Name));
+                                TShock.Regions.ChangeOwner(args.Player.CurrentRegion.Name, args.Player.Name);
+                                args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion.Name);
+                                return;
+                            }
                         }
-                        if (args.Player.CurrentRegion != region)
-                        {
-                            args.Player.SendErrorMessage("You are not in the right region for this command.");
-                            args.Player.SendErrorMessage("Stand on the sign and execute the command written on the sign.");
-                            return;
-                        }                        
-                        if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
-                        {
-                            args.Player.SendInfoMessage("This housing plot has already been claimed by someone.");
-                            return;
-                        }
-                        if (playeramount < moneyamount2)
-                        {
-                            args.Player.SendErrorMessage("You need {0} to buy this plot. You have {1}.", moneyamount2, selectedPlayer.Balance);
-                            return;
-                        }
-                        else
-                        {
-                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the h40 housing plot.", moneyamount2, args.Player.Name), string.Format("Housing plot {0}", args.Player.CurrentRegion));
-                            TShock.Regions.ChangeOwner(Config.contents.h1region, args.Player.Name);
-                            args.Player.SendInfoMessage("You bought {0}, housing plot.", args.Player.CurrentRegion);
-                            return;                                                
-                        }
+                        #endregion
+
+                        #region Tier 2 housing
+
+                        #endregion
+
+                        #region Tier 3 housing
+
+                        #endregion
+
+                        #region Tier 4 housing
+
+                        #endregion
                     }
-                #endregion
-                    */
+                    break;
+                    #endregion       
             }
         }
         

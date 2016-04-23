@@ -110,7 +110,7 @@ namespace RPG
             public int housingzindex = 20;
 
             public int tier1housecost = 50000;
-                /*
+                 
                 public string h1region = "h1";
                 public int h1cost = 50000;
             
@@ -137,7 +137,7 @@ namespace RPG
 
                 public string h9region = "h9";
                 public int h9cost = 50000;
-
+            
                 public string h10region = "h10";
                 public int h10cost = 50000;
 
@@ -158,7 +158,7 @@ namespace RPG
 
                 public string h16region = "h16";
                 public int h16cost = 50000;
-
+            /*
                 public string h17region = "h17";
                 public int h17cost = 45000;
 
