@@ -1357,7 +1357,21 @@ namespace RPG
                             || args.Player.CurrentRegion.Name == Config.contents.h7region || args.Player.CurrentRegion.Name == Config.contents.h8region || args.Player.CurrentRegion.Name == Config.contents.h9region
                             || args.Player.CurrentRegion.Name == Config.contents.h10region || args.Player.CurrentRegion.Name == Config.contents.h11region || args.Player.CurrentRegion.Name == Config.contents.h12region
                             || args.Player.CurrentRegion.Name == Config.contents.h13region || args.Player.CurrentRegion.Name == Config.contents.h14region || args.Player.CurrentRegion.Name == Config.contents.h15region
-                            || args.Player.CurrentRegion.Name == Config.contents.h16region)
+                            || args.Player.CurrentRegion.Name == Config.contents.h16region || args.Player.CurrentRegion.Name == Config.contents.h140region || args.Player.CurrentRegion.Name == Config.contents.h141region
+                            || args.Player.CurrentRegion.Name == Config.contents.h142region || args.Player.CurrentRegion.Name == Config.contents.h143region || args.Player.CurrentRegion.Name == Config.contents.h144region
+                            || args.Player.CurrentRegion.Name == Config.contents.h145region || args.Player.CurrentRegion.Name == Config.contents.h146region || args.Player.CurrentRegion.Name == Config.contents.h147region
+                            || args.Player.CurrentRegion.Name == Config.contents.h148region || args.Player.CurrentRegion.Name == Config.contents.h149region || args.Player.CurrentRegion.Name == Config.contents.h150region
+                            || args.Player.CurrentRegion.Name == Config.contents.h151region || args.Player.CurrentRegion.Name == Config.contents.h152region || args.Player.CurrentRegion.Name == Config.contents.h153region
+                            || args.Player.CurrentRegion.Name == Config.contents.h154region || args.Player.CurrentRegion.Name == Config.contents.h155region || args.Player.CurrentRegion.Name == Config.contents.h156region
+                            || args.Player.CurrentRegion.Name == Config.contents.h157region || args.Player.CurrentRegion.Name == Config.contents.h158region || args.Player.CurrentRegion.Name == Config.contents.h159region
+                            || args.Player.CurrentRegion.Name == Config.contents.h160region || args.Player.CurrentRegion.Name == Config.contents.h161region || args.Player.CurrentRegion.Name == Config.contents.h162region
+                            || args.Player.CurrentRegion.Name == Config.contents.h163region || args.Player.CurrentRegion.Name == Config.contents.h164region || args.Player.CurrentRegion.Name == Config.contents.h165region
+                            || args.Player.CurrentRegion.Name == Config.contents.h166region || args.Player.CurrentRegion.Name == Config.contents.h167region || args.Player.CurrentRegion.Name == Config.contents.h168region
+                            || args.Player.CurrentRegion.Name == Config.contents.h169region || args.Player.CurrentRegion.Name == Config.contents.h170region || args.Player.CurrentRegion.Name == Config.contents.h171region
+                            || args.Player.CurrentRegion.Name == Config.contents.h172region || args.Player.CurrentRegion.Name == Config.contents.h173region || args.Player.CurrentRegion.Name == Config.contents.h174region
+                            || args.Player.CurrentRegion.Name == Config.contents.h175region || args.Player.CurrentRegion.Name == Config.contents.h176region || args.Player.CurrentRegion.Name == Config.contents.h177region
+                            || args.Player.CurrentRegion.Name == Config.contents.h178region || args.Player.CurrentRegion.Name == Config.contents.h179region || args.Player.CurrentRegion.Name == Config.contents.h180region 
+                            || args.Player.CurrentRegion.Name == Config.contents.h181region)
                         {
                             var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                             var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
