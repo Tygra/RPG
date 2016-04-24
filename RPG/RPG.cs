@@ -10,6 +10,7 @@
 
 #region Refs
 using System;
+using System.Data;
 using System.IO;
 using System.ComponentModel;
 using System.Timers;
@@ -32,12 +33,10 @@ using MySql.Data.MySqlClient;
 
 namespace RPG
 {
-    /*
-     * House upgrade list
-     * Vip trial
-     * Test mimic spawn - nope
+    /* Vip trial
+     * Test mimic spawn - changed item handling, needs testing
      * Trial hints for TC
-     * Finish hive(it doesnt take the item)
+     * Finish hive - should work now, test it
      * mandatory level 60 trial needs new group 59_1 in the db
      * Trial progress for level 60 trial
     */
@@ -127,17 +126,25 @@ namespace RPG
         #endregion
 
         #region OnInitialize
-        /*
+        
         private void OnInitialize(EventArgs args)
         {
             QDB.InitQuestDB();
-        }*/
+        }
         #endregion
 
         #region DBbthings
-        /*
-        private void AddRQuest(TSPlayer player, )
-        */
+        
+        public void AddRQuest(TSPlayer player, )
+        {
+
+        }
+
+        public void AddNonRQuest(TSPlayer player, int id, Datetime date)
+        {
+
+        }
+        
         #endregion
 
         #region Playerlist Join/Leave
@@ -1050,7 +1057,7 @@ namespace RPG
         #endregion
 
         #region Mimic
-        /*
+        
         private void Mimic(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
@@ -1068,33 +1075,23 @@ namespace RPG
                     {
                         var searchforkey = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimichallowkey);
                         var searchforchest = args.TPlayer.inventory.FirstOrDefault(i => i.netID == (int)Config.contents.mimicchest);
-                        if (searchforkey == null)
+                        if (searchforchest == null || searchforkey == null)
                         {
-                            args.Player.SendErrorMessage("You don't have the key in your inventory.");
+                            args.Player.SendErrorMessage("You don't have one or both of the required items in your inventory.");
                             return;
                         }
-                        if (searchforchest == null)
-                        {
-                            args.Player.SendErrorMessage("You don't have a chest in your intentory.");
-                            return;
-                        }
-                        if (searchforchest == null && searchforkey == null)
-                        {
-                            args.Player.SendErrorMessage("You don't have any of the required items in your inventory.");
-                            return;
-                        }
-
-                        Item item;
+                        Item item = TShock.Utils.GetItemById(Config.contents.mimicchest);
+                        Item item2 = TShock.Utils.GetItemById(Config.contents.mimichallowkey);
                         for (int i = 0; i < 50; i++)
                         {
-                            item = args.TPlayer.inventory[i];
-
-                            if (item.netID == (int)Config.contents.mimichallowkey)
+                            if (args.TPlayer.inventory[i].netID == item.netID && args.TPlayer.inventory[i].netID == item2.netID)
                             {
-                                if (item.stack == 1)
+                                if (item.stack == 1 && item2.stack == 1)
                                 {
-                                    args.TPlayer.inventory[i].stack--;
-                                    NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, string.Empty, args.Player.Index, i);
+                                    args.TPlayer.inventory[i].stack -= Config.contents.mimicchestamount;
+                                    args.TPlayer.inventory[i].stack -= Config.contents.mimickeyamount;
+                                    NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, "", args.Player.Index, i);
+                                    NetMessage.SendData((int)PacketTypes.PlayerSlot, args.Player.Index, -1, "", args.Player.Index, i);
                                     Item take = TShock.Utils.GetItemById((int)Config.contents.mimichallowkey);
                                     Item take2 = TShock.Utils.GetItemById((int)Config.contents.mimicchest);
                                     var npc = TShock.Utils.GetNPCById(Config.contents.mimichallow);
@@ -1111,22 +1108,11 @@ namespace RPG
                     {
                         var searchforkey = args.TPlayer.inventory.FirstOrDefault(i => i.netID == Config.contents.mimiccrimsonkey);
                         var searchforchest = args.TPlayer.inventory.FirstOrDefault(i => i.netID == Config.contents.mimicchest);
-                        if (searchforkey == null)
-                        {
-                            args.Player.SendErrorMessage("You don't have the key in your inventory.");
-                            return;
-                        }
-                        if (searchforchest == null)
-                        {
-                            args.Player.SendErrorMessage("You don't have a chest in your intentory.");
-                            return;
-                        }
                         if (searchforchest == null || searchforkey == null)
                         {
-                            args.Player.SendErrorMessage("You don't have one of the required items in your inventory.");
+                            args.Player.SendErrorMessage("You don't have one or both of the required items in your inventory.");
                             return;
                         }
-
                         Item item;
                         for (int i = 0; i < 50; i++)
                         {
@@ -1193,8 +1179,7 @@ namespace RPG
                     break;
                 #endregion
             }
-        }
-        */
+        }        
         #endregion
 
         #region Houseplot buying
@@ -1371,8 +1356,8 @@ namespace RPG
                             || args.Player.CurrentRegion.Name == Config.contents.h172region || args.Player.CurrentRegion.Name == Config.contents.h173region || args.Player.CurrentRegion.Name == Config.contents.h174region
                             || args.Player.CurrentRegion.Name == Config.contents.h175region || args.Player.CurrentRegion.Name == Config.contents.h176region || args.Player.CurrentRegion.Name == Config.contents.h177region
                             || args.Player.CurrentRegion.Name == Config.contents.h178region || args.Player.CurrentRegion.Name == Config.contents.h179region || args.Player.CurrentRegion.Name == Config.contents.h180region 
-                            || args.Player.CurrentRegion.Name == Config.contents.h181region)
-                        {
+                            || args.Player.CurrentRegion.Name == Config.contents.h181region || args.Player.CurrentRegion.Name == Config.contents.h225region || args.Player.CurrentRegion.Name == Config.contents.h226region)
+                          {
                             var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                             var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
                             var playeramount = selectedPlayer.Balance;
@@ -1414,7 +1399,22 @@ namespace RPG
                             || args.Player.CurrentRegion.Name == Config.contents.h38region || args.Player.CurrentRegion.Name == Config.contents.h39region || args.Player.CurrentRegion.Name == Config.contents.h40region
                             || args.Player.CurrentRegion.Name == Config.contents.h41region || args.Player.CurrentRegion.Name == Config.contents.h42region || args.Player.CurrentRegion.Name == Config.contents.h43region
                             || args.Player.CurrentRegion.Name == Config.contents.h44region || args.Player.CurrentRegion.Name == Config.contents.h45region || args.Player.CurrentRegion.Name == Config.contents.h46region
-                            || args.Player.CurrentRegion.Name == Config.contents.h47region || args.Player.CurrentRegion.Name == Config.contents.h48region || args.Player.CurrentRegion.Name == Config.contents.h49region)
+                            || args.Player.CurrentRegion.Name == Config.contents.h47region || args.Player.CurrentRegion.Name == Config.contents.h48region || args.Player.CurrentRegion.Name == Config.contents.h49region
+                            || args.Player.CurrentRegion.Name == Config.contents.h182region || args.Player.CurrentRegion.Name == Config.contents.h183region || args.Player.CurrentRegion.Name == Config.contents.h184region
+                            || args.Player.CurrentRegion.Name == Config.contents.h185region || args.Player.CurrentRegion.Name == Config.contents.h186region || args.Player.CurrentRegion.Name == Config.contents.h187region
+                            || args.Player.CurrentRegion.Name == Config.contents.h188region || args.Player.CurrentRegion.Name == Config.contents.h189region || args.Player.CurrentRegion.Name == Config.contents.h190region
+                            || args.Player.CurrentRegion.Name == Config.contents.h191region || args.Player.CurrentRegion.Name == Config.contents.h192region || args.Player.CurrentRegion.Name == Config.contents.h193region
+                            || args.Player.CurrentRegion.Name == Config.contents.h194region || args.Player.CurrentRegion.Name == Config.contents.h195region || args.Player.CurrentRegion.Name == Config.contents.h196region
+                            || args.Player.CurrentRegion.Name == Config.contents.h197region || args.Player.CurrentRegion.Name == Config.contents.h198region || args.Player.CurrentRegion.Name == Config.contents.h199region
+                            || args.Player.CurrentRegion.Name == Config.contents.h200region || args.Player.CurrentRegion.Name == Config.contents.h201region || args.Player.CurrentRegion.Name == Config.contents.h202region
+                            || args.Player.CurrentRegion.Name == Config.contents.h203region || args.Player.CurrentRegion.Name == Config.contents.h204region || args.Player.CurrentRegion.Name == Config.contents.h205region
+                            || args.Player.CurrentRegion.Name == Config.contents.h206region || args.Player.CurrentRegion.Name == Config.contents.h207region || args.Player.CurrentRegion.Name == Config.contents.h208region
+                            || args.Player.CurrentRegion.Name == Config.contents.h209region || args.Player.CurrentRegion.Name == Config.contents.h210region || args.Player.CurrentRegion.Name == Config.contents.h211region
+                            || args.Player.CurrentRegion.Name == Config.contents.h212region || args.Player.CurrentRegion.Name == Config.contents.h213region || args.Player.CurrentRegion.Name == Config.contents.h214region
+                            || args.Player.CurrentRegion.Name == Config.contents.h215region || args.Player.CurrentRegion.Name == Config.contents.h216region || args.Player.CurrentRegion.Name == Config.contents.h217region
+                            || args.Player.CurrentRegion.Name == Config.contents.h218region || args.Player.CurrentRegion.Name == Config.contents.h219region || args.Player.CurrentRegion.Name == Config.contents.h220region
+                            || args.Player.CurrentRegion.Name == Config.contents.h221region || args.Player.CurrentRegion.Name == Config.contents.h222region || args.Player.CurrentRegion.Name == Config.contents.h223region
+                            || args.Player.CurrentRegion.Name == Config.contents.h224region)
                         {
                             var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                             var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -1453,7 +1453,18 @@ namespace RPG
                                 || args.Player.CurrentRegion.Name == Config.contents.h59region || args.Player.CurrentRegion.Name == Config.contents.h60region || args.Player.CurrentRegion.Name == Config.contents.h61region
                                 || args.Player.CurrentRegion.Name == Config.contents.h62region || args.Player.CurrentRegion.Name == Config.contents.h80region || args.Player.CurrentRegion.Name == Config.contents.h81region
                                 || args.Player.CurrentRegion.Name == Config.contents.h82region || args.Player.CurrentRegion.Name == Config.contents.h83region || args.Player.CurrentRegion.Name == Config.contents.h84region
-                                || args.Player.CurrentRegion.Name == Config.contents.h85region || args.Player.CurrentRegion.Name == Config.contents.h86region)
+                                || args.Player.CurrentRegion.Name == Config.contents.h85region || args.Player.CurrentRegion.Name == Config.contents.h86region || args.Player.CurrentRegion.Name == Config.contents.h226region
+                                || args.Player.CurrentRegion.Name == Config.contents.h227region || args.Player.CurrentRegion.Name == Config.contents.h228region || args.Player.CurrentRegion.Name == Config.contents.h229region
+                                || args.Player.CurrentRegion.Name == Config.contents.h230region || args.Player.CurrentRegion.Name == Config.contents.h231region || args.Player.CurrentRegion.Name == Config.contents.h232region
+                                || args.Player.CurrentRegion.Name == Config.contents.h233region || args.Player.CurrentRegion.Name == Config.contents.h234region || args.Player.CurrentRegion.Name == Config.contents.h235region
+                                || args.Player.CurrentRegion.Name == Config.contents.h236region || args.Player.CurrentRegion.Name == Config.contents.h237region || args.Player.CurrentRegion.Name == Config.contents.h238region
+                                || args.Player.CurrentRegion.Name == Config.contents.h239region || args.Player.CurrentRegion.Name == Config.contents.h240region || args.Player.CurrentRegion.Name == Config.contents.h241region
+                                || args.Player.CurrentRegion.Name == Config.contents.h242region || args.Player.CurrentRegion.Name == Config.contents.h243region || args.Player.CurrentRegion.Name == Config.contents.h244region
+                                || args.Player.CurrentRegion.Name == Config.contents.h245region || args.Player.CurrentRegion.Name == Config.contents.h246region || args.Player.CurrentRegion.Name == Config.contents.h247region
+                                || args.Player.CurrentRegion.Name == Config.contents.h248region || args.Player.CurrentRegion.Name == Config.contents.h249region || args.Player.CurrentRegion.Name == Config.contents.h250region
+                                || args.Player.CurrentRegion.Name == Config.contents.h251region || args.Player.CurrentRegion.Name == Config.contents.h252region || args.Player.CurrentRegion.Name == Config.contents.h253region
+                                || args.Player.CurrentRegion.Name == Config.contents.h254region || args.Player.CurrentRegion.Name == Config.contents.h255region || args.Player.CurrentRegion.Name == Config.contents.h256region
+                                || args.Player.CurrentRegion.Name == Config.contents.h257region || args.Player.CurrentRegion.Name == Config.contents.h258region || args.Player.CurrentRegion.Name == Config.contents.h259region)
                             {
                                 var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                                 var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -2196,6 +2207,7 @@ namespace RPG
                             args.Player.SendInfoMessage("If you are stuck with the trials you can get some hints here for a small amount of Terra Coins.");
                             args.Player.SendInfoMessage("For the level 30 trial: /trial hint lab1/lab2/lab3");
                             args.Player.SendInfoMessage("For the level 60 trial: /trial hint geralt/shrine/tomb");
+                            args.Player.SendInfoMessage("There are 3-5 hints at each trial stage.");
                             args.Player.SendInfoMessage("Trial 30 hint cost: 500 TC; Trial 60 hint cost: 7500 TC");
                             args.Player.SendInfoMessage("It will give you a random hint of a pre-defined pool of hints.");
                             return;                        
@@ -2223,7 +2235,12 @@ namespace RPG
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a trial hint.", moneyamount2, args.Player.Name), string.Format("Level 30 tiral hint. Lab1.", args.Player.Name));
                                         Random random = new Random();
-                                        string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                        string[] hints = new string[] {
+                                            "Brown, flying pieces of rotting flesh spits at you at this place.",
+                                            "Some of the monsters leave behing a material from which you can make Cursed Arrows.",
+                                            "Big gaping holes are claiming victims here each day. Someone just falls in and his voice just fades away while he's falling",
+                                            "Even the trees are victims of this land's corruption.",
+                                            "Those pesky worms are everywhere. If you feel the ground quaking, run!" };
                                         var randomhint = hints[new Random().Next(0, hints.Length)];
                                         args.Player.SendInfoMessage("Hint for lab1: {0}", randomhint);
                                     }
@@ -2257,7 +2274,12 @@ namespace RPG
                                     {
                                         SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for a trial hint.", moneyamount2, args.Player.Name), string.Format("Level 30 tiral hint. Lab2.", args.Player.Name));
                                         Random random = new Random();
-                                        string[] hints = new string[] { "hint1", "hint2", "hint3", "hint4", "hint5" };
+                                        string[] hints = new string[] {
+                                            "Loads of bugs. Maybe they like the fine sand and the heat.",
+                                            "",
+                                            "The Desolate Sands holds many mysteries. The deeper you go, the more you find.",
+                                            "",
+                                            "" };
                                         var randomhint = hints[new Random().Next(0, hints.Length)];
                                         args.Player.SendInfoMessage("Hint for lab2: {0}", randomhint);
                                     }
@@ -4457,17 +4479,16 @@ namespace RPG
                         {
                                 if (args.Player.InventorySlotAvailable)
                                 {
-                                Item item;
+                                Item item = TShock.Utils.GetItemById(Config.contents.hivereqitem);
                                 for (int i = 0; i < 50; i++)
                                 {
-                                    item = args.TPlayer.inventory[i];
-                                    if (item.netID == Config.contents.hivereqitem)
+                                    if (args.TPlayer.inventory[i].netID == item.netID)
                                     {
-                                        if (item.stack == 1)
+                                        if (item.stack == 1 && args.Player.InventorySlotAvailable)
                                         {
-                                            args.TPlayer.inventory[i].stack--;
+                                            args.TPlayer.inventory[i].stack -= Config.contents.hivereqitemamount;
                                             NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, "", args.Player.Index, i);
-                                            Item take = TShock.Utils.GetItemById(Config.contents.hivereqitem);
+                                            NetMessage.SendData((int)PacketTypes.PlayerSlot, args.Player.Index, -1, "", args.Player.Index, i);
                                             Item itemById = TShock.Utils.GetItemById(Config.contents.hiverewarditem);
                                             args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
                                             var npc1 = TShock.Utils.GetNPCById(Config.contents.hivenpcid1);
@@ -4481,6 +4502,8 @@ namespace RPG
                                                 player.hivecd = Config.contents.hivecd;
                                             }
                                         }
+                                        args.Player.SendErrorMessage("You inventory seems full. Have at least 2 free inventory slots available.");
+                                        return;
                                     }
                                 }
                                 }
