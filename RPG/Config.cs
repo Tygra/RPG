@@ -842,7 +842,7 @@ namespace RPG
                 #endregion
 
                 #region Trials
-            public int trial30item1 = 1071;
+                public int trial30item1 = 1071;
                 public int trial30item2 = 327;
                 public int trial30item3 = 2349;
                 public string trial30region = "trial";
@@ -881,23 +881,24 @@ namespace RPG
                 public int lab2npc1 = 513;
                 public int lab2npc2 = 509;
                 public int trial30npc = 51;
-
+                /*
                 public string trial60shrineregion = "trial60pre";
                 public string trial60mageshrinegroup = "mage59";
                 public string trial60warriorshrinegroup = "warrior59";
                 public string trial60rangershrinegroup = "ranger59";
                 public string trial60summonershrinegroup = "summoner59";
                 public string trial60terrarianshrinegroup = "terrarian59"; 
+                */
                 public string trial60mageregion = "trial60mage";
                 public string trial60warriorregion = "trial60warrior";
                 public string trial60rangerregion = "trial60ranger";
                 public string trial60summonerregion = "trial60summoner";
                 public string trial60terrarianregion = "trial60ranger";
-                public string trial60magegroup = "mage59_1";
-                public string trial60rangergroup = "ranger59_1";
-                public string trial60warriorgroup = "warrior59_1";
-                public string trial60summonergroup = "summoner59_1";
-                public string trial60terrariangroup = "terrarian59_1";
+                public string trial60magegroup = "mage59";
+                public string trial60rangergroup = "ranger59";
+                public string trial60warriorgroup = "warrior59";
+                public string trial60summonergroup = "summoner59";
+                public string trial60terrariangroup = "terrarian59";
                 public string trial60magefinish = "mage60";
                 public string trial60warriorfinish = "warrior60";
                 public string trial60rangerfinish = "ranger60";
@@ -916,6 +917,12 @@ namespace RPG
                 public string trial70warriorfinish = "warrior70";
                 public string trial70summonerfinish = "summoner70";
                 public string trial70terrarianfinish = "terrarian70";
+            #endregion
+
+                #region Restricted mounts
+                /*
+                public int[] RestrictedMountIds = { 90, 128, 129, 130, 131, 132, 141, 143, 162, 168};
+                */
                 #endregion
         }
 
