@@ -103,7 +103,7 @@ namespace RPG
 
                 #region Housing
             
-                public int altcost = 5000;
+                public int altcost = 25000;
                 public string defaultowner = "Tygra";
                 public int tier1housingindex = 20;
                 public int tier2housingindex = 25;
@@ -419,6 +419,21 @@ namespace RPG
             public string h297region = "h297";
             public string h298region = "h298";
             public string h299region = "h299";
+            public string h300region = "h300";
+            public string h301region = "h301";
+            public string h302region = "h302";
+            public string h303region = "h303";
+            public string h304region = "h304";
+            public string h305region = "h305";
+            public string h306region = "h306";
+            public string h307region = "h307";
+            public string h308region = "h308";
+            public string h309region = "h309";
+            public string h310region = "h310";
+            public string h311region = "h311";
+            public string h312region = "h312";
+            public string h313region = "h313";
+            public string h314region = "h314";
             #endregion
 
                 public int mimicchest = 48;
@@ -431,7 +446,8 @@ namespace RPG
                 public int mimichallow = 475;
                 public int mimiccorrupt = 473;
                 public int mimiccrimson = 474;
-                
+
+                #region Adventures
                 public string pyramid1region = "pyramid1";
                 public int pyramid1item1 = 327;
                 public int pyramid1item2 = 159;
@@ -651,6 +667,7 @@ namespace RPG
                 public string icetpregion = "icetp";
                 public string hallowtpregion = "hallowtp";
                 public string jadvtpregion = "jadvtp";
+                #endregion
 
                 public string tutclassregion = "tutclass";
                 public string tutgearregion = "tutgear";
@@ -662,7 +679,9 @@ namespace RPG
 
                 public string oasisregion = "oasis";
                 public int oasiscost = 250;
+                public string storyregion = "spawn";
 
+                #region Quests
                 public string giroregion = "sideq1";
                 public int girocd = 259200;
                 public int giroreward = 150;
@@ -707,9 +726,7 @@ namespace RPG
 
                 public string shrine5region = "shrine5";
                 public int shrine5cd = 259200;
-                public int shrine5reward = 75;
-
-                public string storyregion = "spawn";
+                public int shrine5reward = 75;                
 
                 public string greekoneregion = "greekone";
                 public int greekoneitem = 3199;
@@ -778,12 +795,7 @@ namespace RPG
             public int hunter2item2 = ;
             public int hunterreward = ;
             public int hunter2cd = 259200;
-            */
-                public string lab1region = "lab1";
-                public int lab1reward = 68;
-
-                public string lab2region = "lab2";
-                public int lab2cd = 604800;
+            */               
 
                 public string hiddenregion = "hidden";
                 public int hiddenitem = 1579;
@@ -792,6 +804,7 @@ namespace RPG
                 public string millregion = "mill";
                 public int millitem = 1238;
                 public int millcd = 604800;
+                #endregion
 
                 public int facepalmcd = 30;
                 public int slapallcd = 3600;
@@ -802,12 +815,22 @@ namespace RPG
                 public int giftitem2 = 1869;
                 public int giftreward = 50;
 
+                public string bbqregion = "bbq";
+                public int bbqcd = 86400;
+                public int bbqitem1 = 2267;
+                public int bbqitem2 = 353;
+
                 public int startermage = 3069;
                 public int starterwarrior = 280;
                 public int starterranger = 3492;
                 public int startersummoner = 1309;
-                public int startercd = 10800;
+                public int startercd = 10800;                
 
+                public int mgcd = 120;
+                public int mgcost = 1000;
+                public int[] mgexlcude = { 17, 18, 19, 20, 22, 35, 37, 38, 54, 68, 85, 105, 106, 107, 108, 113, 114, 113, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 139, 142, 143, 144, 145, 158, 159, 160, 162, 166, 172, 178, 207, 208, 209, 212, 213, 214, 215, 216, 227, 228, 229, 245, 246, 247, 248, 251, 253, 262, 263, 264, 265, 269, 276, 281, 282, 288, 290, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 325, 326, 327, 328, 338, 339, 340, 344, 345, 346, 353, 354, 368, 369, 370, 372, 373, 376, 379, 380, 381, 382, 383, 385, 386, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 422, 437, 438, 439, 440, 441, 453, 460, 461, 462, 463, 466, 467, 468, 473, 474, 475, 476, 477, 491, 492, 493, 507, 517, 521, 2889, 2890, 2891, 2892, 2893, 2894, 2895, 3564 };
+
+                #region Buffs
                 public int buff1cd = 60;
                 public int buff2cd = 60;
                 public int buff3cd = 60;
@@ -816,12 +839,10 @@ namespace RPG
                 public int buff2cost = 200;
                 public int buff3cost = 350;
                 public int buff4cost = 500;
+                #endregion
 
-                public int mgcd = 120;
-                public int mgcost = 1000;
-                public int[] mgexlcude = { 17, 18, 19, 20, 22, 35, 37, 38, 54, 68, 85, 105, 106, 107, 108, 113, 114, 113, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 139, 142, 143, 144, 145, 158, 159, 160, 162, 166, 172, 178, 207, 208, 209, 212, 213, 214, 215, 216, 227, 228, 229, 245, 246, 247, 248, 251, 253, 262, 263, 264, 265, 269, 276, 281, 282, 288, 290, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 325, 326, 327, 328, 338, 339, 340, 344, 345, 346, 353, 354, 368, 369, 370, 372, 373, 376, 379, 380, 381, 382, 383, 385, 386, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 422, 437, 438, 439, 440, 441, 453, 460, 461, 462, 463, 466, 467, 468, 473, 474, 475, 476, 477, 491, 492, 493, 507, 517, 521, 2889, 2890, 2891, 2892, 2893, 2894, 2895, 3564 };
-
-                public int trial30item1 = 1071;
+                #region Trials
+            public int trial30item1 = 1071;
                 public int trial30item2 = 327;
                 public int trial30item3 = 2349;
                 public string trial30region = "trial";
@@ -852,6 +873,9 @@ namespace RPG
                 public int trial30hintcost = 500;
                 public int trial60hintcost = 7500;
 
+                public string lab1region = "lab1";
+                public int lab1reward = 68;
+                public string lab2region = "lab2";
                 public int lab1npc1 = 13;
                 public int lab1npc2 = 95;
                 public int lab2npc1 = 513;
@@ -892,9 +916,8 @@ namespace RPG
                 public string trial70warriorfinish = "warrior70";
                 public string trial70summonerfinish = "summoner70";
                 public string trial70terrarianfinish = "terrarian70";
-
-            
-            }
+                #endregion
+        }
 
         #endregion
 

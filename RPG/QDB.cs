@@ -18,7 +18,7 @@ namespace RPG.Db
     class QDB
     {
         public IDbConnection db;
-        
+        /*
         public void InitQuestDB(IDbConnection db)
         {
             switch (TShock.Config.StorageType.ToLower())
@@ -71,6 +71,6 @@ namespace RPG.Db
                 new SqlColumn("Itemname", MySqlDbType.Text) { Length = 30 },
                 new SqlColumn("restriction", MySqlDbType.Text)
                 ));
-        }
+        }*/
     }
 }

@@ -39,6 +39,7 @@ namespace RPG
      * Finish hive - should work now, test it
      * mandatory level 60 trial needs new group 59_1 in the db
      * Trial progress for level 60 trial
+     * Consistency with the error messages ||
     */
     [ApiVersion(1, 22)]
     public class RPG : TerrariaPlugin
@@ -93,9 +94,12 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
             Commands.ChatCommands.Add(new Command(Buffme, "buffme"));
             Commands.ChatCommands.Add(new Command(Geldar, "geldar"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet1, "rs1"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet2, "rs2"));
             //Commands.ChatCommands.Add(new Command("geldar.level30", Mimic, "mimic"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", Stuck, "stuck"));
             Commands.ChatCommands.Add(new Command("geldar.level20", Housing, "housing"));
+            Commands.ChatCommands.Add(new Command("geldar.level5", BBQ, "bbq"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -126,15 +130,16 @@ namespace RPG
         #endregion
 
         #region OnInitialize
-        
+        /*
         private void OnInitialize(EventArgs args)
         {
             QDB.InitQuestDB();
         }
+        */
         #endregion
 
         #region DBbthings
-        
+        /*
         public void AddRQuest(TSPlayer player, )
         {
 
@@ -144,7 +149,7 @@ namespace RPG
         {
 
         }
-        
+        */
         #endregion
 
         #region Playerlist Join/Leave
@@ -492,6 +497,10 @@ namespace RPG
                     {
                         player.buff4cd--;
                     }
+                    if (player.bbqcd > 0)
+                    {
+                        player.bbqcd--;
+                    }
                 }
             }
         }
@@ -642,6 +651,18 @@ namespace RPG
                     }
                     break;
             }
+        }
+        #endregion
+
+        #region Region shortcommands
+        private void RegionSet1(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "/region set 1");
+        }
+        
+        private void RegionSet2(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "/region set 2");
         }
         #endregion
 
@@ -1056,8 +1077,40 @@ namespace RPG
         }
         #endregion
 
+        #region BBQ
+        private void BBQ(CommandArgs args)
+        {
+            Region region = TShock.Regions.GetRegionByName(Config.contents.bbqregion);
+            var player = Playerlist[args.Player.Index];
+            if (args.Player.CurrentRegion == null || args.Player.CurrentRegion != region)
+            {
+                args.Player.SendErrorMessage("You are not in the right region to use this command.");
+                return;
+            }
+            if (player.bbqcd != 0)
+            {
+                args.Player.SendErrorMessage("This command in on cooldown for {0} seconds.", (player.bbqcd));
+                return;
+            }
+            else
+            {
+                Item item = TShock.Utils.GetItemById(Config.contents.bbqitem1);
+                Item item2 = TShock.Utils.GetItemById(Config.contents.bbqitem2);
+                args.Player.GiveItem(item.type, item.name, item.width, item.height, 1, 0);
+                args.Player.GiveItem(item2.type, item2.name, item2.width, item2.height, 2, 0);
+                args.Player.SendMessage("Keep calm and grill on!", Color.Goldenrod);
+                if (!args.Player.Group.HasPermission("geldar.bypasscd"))
+                {
+                    player.millcd = Config.contents.bbqcd;
+                }
+            }
+
+
+        }
+        #endregion
+
         #region Mimic
-        
+
         private void Mimic(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
@@ -1205,7 +1258,8 @@ namespace RPG
                         args.Player.SendInfoMessage("/housing price - will show you the price of the plot.");
                         args.Player.SendInfoMessage("/housing protection - will turn on the region outlining to help visualizing the area protected.");
                         args.Player.SendInfoMessage("/housing clear - will clear the region outlining");
-                        args.Player.SendInfoMessage("/housing alt - will add your other characters to the plot for X TC");
+                        args.Player.SendInfoMessage("/housing alt - will add your other characters to the plot for 25000 TC");
+                        args.Player.SendInfoMessage("Example: /housing alt \"character name\"");
                         args.Player.SendInfoMessage("/housing buy - will byu the plot if you have enough money, and it's not owned already.");
                     }
                     break;
@@ -1509,7 +1563,21 @@ namespace RPG
                             || args.Player.CurrentRegion.Name == Config.contents.h97region || args.Player.CurrentRegion.Name == Config.contents.h98region || args.Player.CurrentRegion.Name == Config.contents.h99region
                             || args.Player.CurrentRegion.Name == Config.contents.h100region || args.Player.CurrentRegion.Name == Config.contents.h101region || args.Player.CurrentRegion.Name == Config.contents.h102region
                             || args.Player.CurrentRegion.Name == Config.contents.h103region || args.Player.CurrentRegion.Name == Config.contents.h104region || args.Player.CurrentRegion.Name == Config.contents.h105region
-                            || args.Player.CurrentRegion.Name == Config.contents.h106region || args.Player.CurrentRegion.Name == Config.contents.h107region)
+                            || args.Player.CurrentRegion.Name == Config.contents.h106region || args.Player.CurrentRegion.Name == Config.contents.h107region || args.Player.CurrentRegion.Name == Config.contents.h260region
+                            || args.Player.CurrentRegion.Name == Config.contents.h261region || args.Player.CurrentRegion.Name == Config.contents.h262region || args.Player.CurrentRegion.Name == Config.contents.h263region
+                            || args.Player.CurrentRegion.Name == Config.contents.h264region || args.Player.CurrentRegion.Name == Config.contents.h265region || args.Player.CurrentRegion.Name == Config.contents.h266region
+                            || args.Player.CurrentRegion.Name == Config.contents.h267region || args.Player.CurrentRegion.Name == Config.contents.h268region || args.Player.CurrentRegion.Name == Config.contents.h269region
+                            || args.Player.CurrentRegion.Name == Config.contents.h270region || args.Player.CurrentRegion.Name == Config.contents.h271region || args.Player.CurrentRegion.Name == Config.contents.h272region
+                            || args.Player.CurrentRegion.Name == Config.contents.h273region || args.Player.CurrentRegion.Name == Config.contents.h274region || args.Player.CurrentRegion.Name == Config.contents.h275region
+                            || args.Player.CurrentRegion.Name == Config.contents.h276region || args.Player.CurrentRegion.Name == Config.contents.h277region || args.Player.CurrentRegion.Name == Config.contents.h278region
+                            || args.Player.CurrentRegion.Name == Config.contents.h279region || args.Player.CurrentRegion.Name == Config.contents.h280region || args.Player.CurrentRegion.Name == Config.contents.h281region
+                            || args.Player.CurrentRegion.Name == Config.contents.h282region || args.Player.CurrentRegion.Name == Config.contents.h283region || args.Player.CurrentRegion.Name == Config.contents.h284region
+                            || args.Player.CurrentRegion.Name == Config.contents.h285region || args.Player.CurrentRegion.Name == Config.contents.h286region || args.Player.CurrentRegion.Name == Config.contents.h287region
+                            || args.Player.CurrentRegion.Name == Config.contents.h288region || args.Player.CurrentRegion.Name == Config.contents.h289region || args.Player.CurrentRegion.Name == Config.contents.h290region
+                            || args.Player.CurrentRegion.Name == Config.contents.h291region || args.Player.CurrentRegion.Name == Config.contents.h292region || args.Player.CurrentRegion.Name == Config.contents.h293region
+                            || args.Player.CurrentRegion.Name == Config.contents.h294region || args.Player.CurrentRegion.Name == Config.contents.h295region || args.Player.CurrentRegion.Name == Config.contents.h296region
+                            || args.Player.CurrentRegion.Name == Config.contents.h297region || args.Player.CurrentRegion.Name == Config.contents.h298region || args.Player.CurrentRegion.Name == Config.contents.h299region
+                            || args.Player.CurrentRegion.Name == Config.contents.h300region || args.Player.CurrentRegion.Name == Config.contents.h301region || args.Player.CurrentRegion.Name == Config.contents.h302region)
                         {
                             var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                             var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -1549,7 +1617,11 @@ namespace RPG
                             || args.Player.CurrentRegion.Name == Config.contents.h120region || args.Player.CurrentRegion.Name == Config.contents.h121region || args.Player.CurrentRegion.Name == Config.contents.h122region
                             || args.Player.CurrentRegion.Name == Config.contents.h123region || args.Player.CurrentRegion.Name == Config.contents.h124region || args.Player.CurrentRegion.Name == Config.contents.h125region
                             || args.Player.CurrentRegion.Name == Config.contents.h126region || args.Player.CurrentRegion.Name == Config.contents.h127region || args.Player.CurrentRegion.Name == Config.contents.h128region
-                            || args.Player.CurrentRegion.Name == Config.contents.h129region || args.Player.CurrentRegion.Name == Config.contents.h130region || args.Player.CurrentRegion.Name == Config.contents.h131region)
+                            || args.Player.CurrentRegion.Name == Config.contents.h129region || args.Player.CurrentRegion.Name == Config.contents.h130region || args.Player.CurrentRegion.Name == Config.contents.h131region
+                            || args.Player.CurrentRegion.Name == Config.contents.h303region || args.Player.CurrentRegion.Name == Config.contents.h304region || args.Player.CurrentRegion.Name == Config.contents.h305region
+                            || args.Player.CurrentRegion.Name == Config.contents.h306region || args.Player.CurrentRegion.Name == Config.contents.h307region || args.Player.CurrentRegion.Name == Config.contents.h308region
+                            || args.Player.CurrentRegion.Name == Config.contents.h309region || args.Player.CurrentRegion.Name == Config.contents.h310region || args.Player.CurrentRegion.Name == Config.contents.h311region
+                            || args.Player.CurrentRegion.Name == Config.contents.h312region || args.Player.CurrentRegion.Name == Config.contents.h313region || args.Player.CurrentRegion.Name == Config.contents.h314region)
                         {
                             var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                             var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
@@ -4475,43 +4547,36 @@ namespace RPG
                             args.Player.SendErrorMessage("You don't have the required item in your inventory.");
                             return;
                         }
+                        if (!args.Player.InventorySlotAvailable)
+                        {
+                            args.Player.SendErrorMessage("You inventory seems full. Have at least 2 free inventory slots available.");
+                            return;
+                        }
                         else
                         {
-                                if (args.Player.InventorySlotAvailable)
+                            Item item = TShock.Utils.GetItemById(Config.contents.hivereqitem);
+                            for (int i = 0; i < 50; i++)
+                            {
+                                if (args.TPlayer.inventory[i].netID == item.netID)
                                 {
-                                Item item = TShock.Utils.GetItemById(Config.contents.hivereqitem);
-                                for (int i = 0; i < 50; i++)
-                                {
-                                    if (args.TPlayer.inventory[i].netID == item.netID)
-                                    {
-                                        if (item.stack == 1 && args.Player.InventorySlotAvailable)
+                                        args.TPlayer.inventory[i].stack -= item.netID;
+                                        NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, "", args.Player.Index, i);
+                                        NetMessage.SendData((int)PacketTypes.PlayerSlot, args.Player.Index, -1, "", args.Player.Index, i);
+                                        Item itemById = TShock.Utils.GetItemById(Config.contents.hiverewarditem);
+                                        args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
+                                        var npc1 = TShock.Utils.GetNPCById(Config.contents.hivenpcid1);
+                                        var npc2 = TShock.Utils.GetNPCById(Config.contents.hivenpcid2);
+                                        var trial30player = Playerlist[args.Player.Index];
+                                        TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid1, npc1.name, Config.contents.hivenpcamount1, player.TSPlayer.TileX, player.TSPlayer.TileY);
+                                        TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid2, npc2.name, Config.contents.hivenpcamount2, player.TSPlayer.TileX, player.TSPlayer.TileY);
+                                        args.Player.SendMessage("", Color.Goldenrod);
+                                        if (!args.Player.Group.HasPermission("geldar.bypasscd"))
                                         {
-                                            args.TPlayer.inventory[i].stack -= Config.contents.hivereqitemamount;
-                                            NetMessage.SendData((int)PacketTypes.PlayerSlot, -1, -1, "", args.Player.Index, i);
-                                            NetMessage.SendData((int)PacketTypes.PlayerSlot, args.Player.Index, -1, "", args.Player.Index, i);
-                                            Item itemById = TShock.Utils.GetItemById(Config.contents.hiverewarditem);
-                                            args.Player.GiveItem(itemById.type, itemById.name, itemById.width, itemById.height, 1, 0);
-                                            var npc1 = TShock.Utils.GetNPCById(Config.contents.hivenpcid1);
-                                            var npc2 = TShock.Utils.GetNPCById(Config.contents.hivenpcid2);
-                                            var trial30player = Playerlist[args.Player.Index];
-                                            TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid1, npc1.name, Config.contents.hivenpcamount1, player.TSPlayer.TileX, player.TSPlayer.TileY);
-                                            TSPlayer.Server.SpawnNPC(Config.contents.hivenpcid2, npc2.name, Config.contents.hivenpcamount2, player.TSPlayer.TileX, player.TSPlayer.TileY);
-                                            args.Player.SendMessage("", Color.Goldenrod);
-                                            if (!args.Player.Group.HasPermission("geldar.bypasscd"))
-                                            {
-                                                player.hivecd = Config.contents.hivecd;
-                                            }
-                                        }
-                                        args.Player.SendErrorMessage("You inventory seems full. Have at least 2 free inventory slots available.");
-                                        return;
-                                    }
+                                            player.hivecd = Config.contents.hivecd;
+                                        }                                                                       
                                 }
-                                }
-                                else
-                                {
-                                    args.Player.SendErrorMessage("Your inventory seems to be full. Have at least 4 free slots.");
-                                }
-                        }
+                            }
+                        }                        
                     }                    
                 break;                
                 #endregion 
