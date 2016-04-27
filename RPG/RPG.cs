@@ -1284,7 +1284,7 @@ namespace RPG
                 #region Current region
                 case "plot":
                     {
-                        if (args.Player.CurrentRegion.Z != 20)
+                        if (args.Player.CurrentRegion.Z < 20)
                         {
                             args.Player.SendErrorMessage("You are not in any housing region, go to the above or underground housing area and stand on a free spot.");
                             return;
@@ -1311,7 +1311,7 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not standing on any houisng plot. Go to the above or underground housing.");
                             return;
                         }
-                        if (args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
+                        if (args.Player.CurrentRegion.Owner != Config.contents.defaultowner || args.Player.Name != args.Player.CurrentRegion.Owner)
                         {
                             args.Player.SendErrorMessage("You are not the owner of this housing plot.");
                             args.Player.SendErrorMessage("If you own this plot but this is your alt character, log in with the owner.");
