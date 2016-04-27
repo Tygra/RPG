@@ -97,6 +97,7 @@ namespace RPG
         public int buff2cd { get; set; }
         public int buff3cd { get; set; }
         public int buff4cd { get; set; }
+        public int bbqcd { get; set; }
         public GPlayer(int index)
         {
             this.Index = index;
