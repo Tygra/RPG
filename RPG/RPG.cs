@@ -1856,10 +1856,18 @@ namespace RPG
                     break;
                 #endregion
 
+                #region Owner
+                case "owner":
+                    {
+                        args.Player.SendInfoMessage("Owner of region {0} is {1}", args.Player.CurrentRegion.Name, args.Player.CurrentRegion.Owner);                        
+                    }
+                    break;
+                #endregion
+
                 #region Default
                 default:
                     {
-                        args.Player.SendErrorMessage("Wrong subcommand.");
+                        args.Player.SendErrorMessage("Wrong subcommand.");                        
                     }
                     break;
                     #endregion
