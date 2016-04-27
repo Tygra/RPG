@@ -98,7 +98,7 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet2, "rs2"));
             //Commands.ChatCommands.Add(new Command("geldar.level30", Mimic, "mimic"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", Stuck, "stuck"));
-            Commands.ChatCommands.Add(new Command("geldar.level20", Housing, "housing"));
+            Commands.ChatCommands.Add(new Command("infchests.chest.protect", Housing, "housing"));
             Commands.ChatCommands.Add(new Command("geldar.level5", BBQ, "bbq"));
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
@@ -1311,7 +1311,7 @@ namespace RPG
                             args.Player.SendErrorMessage("You are not standing on any houisng plot. Go to the above or underground housing.");
                             return;
                         }
-                        if (args.Player.CurrentRegion.Owner != args.Player.Name)
+                        if (args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                         {
                             args.Player.SendErrorMessage("You are not the owner of this housing plot.");
                             args.Player.SendErrorMessage("If you own this plot but this is your alt character, log in with the owner.");
@@ -1319,7 +1319,7 @@ namespace RPG
                         }
                         else
                         {                            
-                            TShockAPI.Commands.HandleCommand(args.Player, "/rv " + args.Player.CurrentRegion.Name);
+                            TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name  + " /rv " + args.Player.CurrentRegion.Name);
                             args.Player.SendInfoMessage("You can remove the region outlining with /housing clear, or by relogging.");
                         }
                     }
@@ -1330,7 +1330,7 @@ namespace RPG
 
                 case "clear":
                     {
-                        TShockAPI.Commands.HandleCommand(args.Player, "/rc");
+                        TShockAPI.Commands.HandleCommand(TSPlayer.Server, "/sudo -f " + args.Player.Name + " /rc");
                         args.Player.SendInfoMessage("Region outlining has been cleared.");
                     }
                     break;
@@ -1350,9 +1350,128 @@ namespace RPG
                             return;
                         }
                         if (args.Player.CurrentRegion.Name == Config.contents.h1region || args.Player.CurrentRegion.Name == Config.contents.h2region || args.Player.CurrentRegion.Name == Config.contents.h3region
-                            || args.Player.CurrentRegion.Name == Config.contents.h4region || args.Player.CurrentRegion.Name == Config.contents.h5region)
+                            || args.Player.CurrentRegion.Name == Config.contents.h4region || args.Player.CurrentRegion.Name == Config.contents.h5region || args.Player.CurrentRegion.Name == Config.contents.h6region
+                            || args.Player.CurrentRegion.Name == Config.contents.h7region || args.Player.CurrentRegion.Name == Config.contents.h8region || args.Player.CurrentRegion.Name == Config.contents.h9region
+                            || args.Player.CurrentRegion.Name == Config.contents.h10region || args.Player.CurrentRegion.Name == Config.contents.h11region || args.Player.CurrentRegion.Name == Config.contents.h12region
+                            || args.Player.CurrentRegion.Name == Config.contents.h13region || args.Player.CurrentRegion.Name == Config.contents.h14region || args.Player.CurrentRegion.Name == Config.contents.h15region
+                            || args.Player.CurrentRegion.Name == Config.contents.h16region || args.Player.CurrentRegion.Name == Config.contents.h140region || args.Player.CurrentRegion.Name == Config.contents.h141region
+                            || args.Player.CurrentRegion.Name == Config.contents.h142region || args.Player.CurrentRegion.Name == Config.contents.h143region || args.Player.CurrentRegion.Name == Config.contents.h144region
+                            || args.Player.CurrentRegion.Name == Config.contents.h145region || args.Player.CurrentRegion.Name == Config.contents.h146region || args.Player.CurrentRegion.Name == Config.contents.h147region
+                            || args.Player.CurrentRegion.Name == Config.contents.h148region || args.Player.CurrentRegion.Name == Config.contents.h149region || args.Player.CurrentRegion.Name == Config.contents.h150region
+                            || args.Player.CurrentRegion.Name == Config.contents.h151region || args.Player.CurrentRegion.Name == Config.contents.h152region || args.Player.CurrentRegion.Name == Config.contents.h153region
+                            || args.Player.CurrentRegion.Name == Config.contents.h154region || args.Player.CurrentRegion.Name == Config.contents.h155region || args.Player.CurrentRegion.Name == Config.contents.h156region
+                            || args.Player.CurrentRegion.Name == Config.contents.h157region || args.Player.CurrentRegion.Name == Config.contents.h158region || args.Player.CurrentRegion.Name == Config.contents.h159region
+                            || args.Player.CurrentRegion.Name == Config.contents.h160region || args.Player.CurrentRegion.Name == Config.contents.h161region || args.Player.CurrentRegion.Name == Config.contents.h162region
+                            || args.Player.CurrentRegion.Name == Config.contents.h163region || args.Player.CurrentRegion.Name == Config.contents.h164region || args.Player.CurrentRegion.Name == Config.contents.h165region
+                            || args.Player.CurrentRegion.Name == Config.contents.h166region || args.Player.CurrentRegion.Name == Config.contents.h167region || args.Player.CurrentRegion.Name == Config.contents.h168region
+                            || args.Player.CurrentRegion.Name == Config.contents.h169region || args.Player.CurrentRegion.Name == Config.contents.h170region || args.Player.CurrentRegion.Name == Config.contents.h171region
+                            || args.Player.CurrentRegion.Name == Config.contents.h172region || args.Player.CurrentRegion.Name == Config.contents.h173region || args.Player.CurrentRegion.Name == Config.contents.h174region
+                            || args.Player.CurrentRegion.Name == Config.contents.h175region || args.Player.CurrentRegion.Name == Config.contents.h176region || args.Player.CurrentRegion.Name == Config.contents.h177region
+                            || args.Player.CurrentRegion.Name == Config.contents.h178region || args.Player.CurrentRegion.Name == Config.contents.h179region || args.Player.CurrentRegion.Name == Config.contents.h180region
+                            || args.Player.CurrentRegion.Name == Config.contents.h181region || args.Player.CurrentRegion.Name == Config.contents.h225region || args.Player.CurrentRegion.Name == Config.contents.h226region)
                         {
                             args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier1housecost);
+                        }
+                        if (args.Player.CurrentRegion.Name == Config.contents.h17region || args.Player.CurrentRegion.Name == Config.contents.h18region || args.Player.CurrentRegion.Name == Config.contents.h19region
+                            || args.Player.CurrentRegion.Name == Config.contents.h20region || args.Player.CurrentRegion.Name == Config.contents.h21region || args.Player.CurrentRegion.Name == Config.contents.h22region
+                            || args.Player.CurrentRegion.Name == Config.contents.h23region || args.Player.CurrentRegion.Name == Config.contents.h24region || args.Player.CurrentRegion.Name == Config.contents.h25region
+                            || args.Player.CurrentRegion.Name == Config.contents.h26region || args.Player.CurrentRegion.Name == Config.contents.h27region || args.Player.CurrentRegion.Name == Config.contents.h28region
+                            || args.Player.CurrentRegion.Name == Config.contents.h29region || args.Player.CurrentRegion.Name == Config.contents.h30region || args.Player.CurrentRegion.Name == Config.contents.h31region
+                            || args.Player.CurrentRegion.Name == Config.contents.h32region || args.Player.CurrentRegion.Name == Config.contents.h33region || args.Player.CurrentRegion.Name == Config.contents.h34region
+                            || args.Player.CurrentRegion.Name == Config.contents.h35region || args.Player.CurrentRegion.Name == Config.contents.h36region || args.Player.CurrentRegion.Name == Config.contents.h37region
+                            || args.Player.CurrentRegion.Name == Config.contents.h38region || args.Player.CurrentRegion.Name == Config.contents.h39region || args.Player.CurrentRegion.Name == Config.contents.h40region
+                            || args.Player.CurrentRegion.Name == Config.contents.h41region || args.Player.CurrentRegion.Name == Config.contents.h42region || args.Player.CurrentRegion.Name == Config.contents.h43region
+                            || args.Player.CurrentRegion.Name == Config.contents.h44region || args.Player.CurrentRegion.Name == Config.contents.h45region || args.Player.CurrentRegion.Name == Config.contents.h46region
+                            || args.Player.CurrentRegion.Name == Config.contents.h47region || args.Player.CurrentRegion.Name == Config.contents.h48region || args.Player.CurrentRegion.Name == Config.contents.h49region
+                            || args.Player.CurrentRegion.Name == Config.contents.h182region || args.Player.CurrentRegion.Name == Config.contents.h183region || args.Player.CurrentRegion.Name == Config.contents.h184region
+                            || args.Player.CurrentRegion.Name == Config.contents.h185region || args.Player.CurrentRegion.Name == Config.contents.h186region || args.Player.CurrentRegion.Name == Config.contents.h187region
+                            || args.Player.CurrentRegion.Name == Config.contents.h188region || args.Player.CurrentRegion.Name == Config.contents.h189region || args.Player.CurrentRegion.Name == Config.contents.h190region
+                            || args.Player.CurrentRegion.Name == Config.contents.h191region || args.Player.CurrentRegion.Name == Config.contents.h192region || args.Player.CurrentRegion.Name == Config.contents.h193region
+                            || args.Player.CurrentRegion.Name == Config.contents.h194region || args.Player.CurrentRegion.Name == Config.contents.h195region || args.Player.CurrentRegion.Name == Config.contents.h196region
+                            || args.Player.CurrentRegion.Name == Config.contents.h197region || args.Player.CurrentRegion.Name == Config.contents.h198region || args.Player.CurrentRegion.Name == Config.contents.h199region
+                            || args.Player.CurrentRegion.Name == Config.contents.h200region || args.Player.CurrentRegion.Name == Config.contents.h201region || args.Player.CurrentRegion.Name == Config.contents.h202region
+                            || args.Player.CurrentRegion.Name == Config.contents.h203region || args.Player.CurrentRegion.Name == Config.contents.h204region || args.Player.CurrentRegion.Name == Config.contents.h205region
+                            || args.Player.CurrentRegion.Name == Config.contents.h206region || args.Player.CurrentRegion.Name == Config.contents.h207region || args.Player.CurrentRegion.Name == Config.contents.h208region
+                            || args.Player.CurrentRegion.Name == Config.contents.h209region || args.Player.CurrentRegion.Name == Config.contents.h210region || args.Player.CurrentRegion.Name == Config.contents.h211region
+                            || args.Player.CurrentRegion.Name == Config.contents.h212region || args.Player.CurrentRegion.Name == Config.contents.h213region || args.Player.CurrentRegion.Name == Config.contents.h214region
+                            || args.Player.CurrentRegion.Name == Config.contents.h215region || args.Player.CurrentRegion.Name == Config.contents.h216region || args.Player.CurrentRegion.Name == Config.contents.h217region
+                            || args.Player.CurrentRegion.Name == Config.contents.h218region || args.Player.CurrentRegion.Name == Config.contents.h219region || args.Player.CurrentRegion.Name == Config.contents.h220region
+                            || args.Player.CurrentRegion.Name == Config.contents.h221region || args.Player.CurrentRegion.Name == Config.contents.h222region || args.Player.CurrentRegion.Name == Config.contents.h223region
+                            || args.Player.CurrentRegion.Name == Config.contents.h224region)
+                        {
+                            args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier2housecost);
+                        }
+                        if (args.Player.CurrentRegion.Name == Config.contents.h50region || args.Player.CurrentRegion.Name == Config.contents.h51region || args.Player.CurrentRegion.Name == Config.contents.h52region
+                                || args.Player.CurrentRegion.Name == Config.contents.h53region || args.Player.CurrentRegion.Name == Config.contents.h54region || args.Player.CurrentRegion.Name == Config.contents.h55region
+                                || args.Player.CurrentRegion.Name == Config.contents.h56region || args.Player.CurrentRegion.Name == Config.contents.h57region || args.Player.CurrentRegion.Name == Config.contents.h58region
+                                || args.Player.CurrentRegion.Name == Config.contents.h59region || args.Player.CurrentRegion.Name == Config.contents.h60region || args.Player.CurrentRegion.Name == Config.contents.h61region
+                                || args.Player.CurrentRegion.Name == Config.contents.h62region || args.Player.CurrentRegion.Name == Config.contents.h80region || args.Player.CurrentRegion.Name == Config.contents.h81region
+                                || args.Player.CurrentRegion.Name == Config.contents.h82region || args.Player.CurrentRegion.Name == Config.contents.h83region || args.Player.CurrentRegion.Name == Config.contents.h84region
+                                || args.Player.CurrentRegion.Name == Config.contents.h85region || args.Player.CurrentRegion.Name == Config.contents.h86region || args.Player.CurrentRegion.Name == Config.contents.h226region
+                                || args.Player.CurrentRegion.Name == Config.contents.h227region || args.Player.CurrentRegion.Name == Config.contents.h228region || args.Player.CurrentRegion.Name == Config.contents.h229region
+                                || args.Player.CurrentRegion.Name == Config.contents.h230region || args.Player.CurrentRegion.Name == Config.contents.h231region || args.Player.CurrentRegion.Name == Config.contents.h232region
+                                || args.Player.CurrentRegion.Name == Config.contents.h233region || args.Player.CurrentRegion.Name == Config.contents.h234region || args.Player.CurrentRegion.Name == Config.contents.h235region
+                                || args.Player.CurrentRegion.Name == Config.contents.h236region || args.Player.CurrentRegion.Name == Config.contents.h237region || args.Player.CurrentRegion.Name == Config.contents.h238region
+                                || args.Player.CurrentRegion.Name == Config.contents.h239region || args.Player.CurrentRegion.Name == Config.contents.h240region || args.Player.CurrentRegion.Name == Config.contents.h241region
+                                || args.Player.CurrentRegion.Name == Config.contents.h242region || args.Player.CurrentRegion.Name == Config.contents.h243region || args.Player.CurrentRegion.Name == Config.contents.h244region
+                                || args.Player.CurrentRegion.Name == Config.contents.h245region || args.Player.CurrentRegion.Name == Config.contents.h246region || args.Player.CurrentRegion.Name == Config.contents.h247region
+                                || args.Player.CurrentRegion.Name == Config.contents.h248region || args.Player.CurrentRegion.Name == Config.contents.h249region || args.Player.CurrentRegion.Name == Config.contents.h250region
+                                || args.Player.CurrentRegion.Name == Config.contents.h251region || args.Player.CurrentRegion.Name == Config.contents.h252region || args.Player.CurrentRegion.Name == Config.contents.h253region
+                                || args.Player.CurrentRegion.Name == Config.contents.h254region || args.Player.CurrentRegion.Name == Config.contents.h255region || args.Player.CurrentRegion.Name == Config.contents.h256region
+                                || args.Player.CurrentRegion.Name == Config.contents.h257region || args.Player.CurrentRegion.Name == Config.contents.h258region || args.Player.CurrentRegion.Name == Config.contents.h259region)
+                        {
+                            args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier3housecost);
+                        }
+                        if (args.Player.CurrentRegion.Name == Config.contents.h63region || args.Player.CurrentRegion.Name == Config.contents.h64region || args.Player.CurrentRegion.Name == Config.contents.h65region
+                            || args.Player.CurrentRegion.Name == Config.contents.h66region || args.Player.CurrentRegion.Name == Config.contents.h67region || args.Player.CurrentRegion.Name == Config.contents.h68region
+                            || args.Player.CurrentRegion.Name == Config.contents.h69region || args.Player.CurrentRegion.Name == Config.contents.h70region || args.Player.CurrentRegion.Name == Config.contents.h71region
+                            || args.Player.CurrentRegion.Name == Config.contents.h72region || args.Player.CurrentRegion.Name == Config.contents.h73region || args.Player.CurrentRegion.Name == Config.contents.h74region
+                            || args.Player.CurrentRegion.Name == Config.contents.h75region || args.Player.CurrentRegion.Name == Config.contents.h76region || args.Player.CurrentRegion.Name == Config.contents.h77region
+                            || args.Player.CurrentRegion.Name == Config.contents.h78region || args.Player.CurrentRegion.Name == Config.contents.h79region || args.Player.CurrentRegion.Name == Config.contents.h87region
+                            || args.Player.CurrentRegion.Name == Config.contents.h88region || args.Player.CurrentRegion.Name == Config.contents.h89region || args.Player.CurrentRegion.Name == Config.contents.h90region
+                            || args.Player.CurrentRegion.Name == Config.contents.h91region || args.Player.CurrentRegion.Name == Config.contents.h92region || args.Player.CurrentRegion.Name == Config.contents.h93region
+                            || args.Player.CurrentRegion.Name == Config.contents.h94region || args.Player.CurrentRegion.Name == Config.contents.h95region || args.Player.CurrentRegion.Name == Config.contents.h96region
+                            || args.Player.CurrentRegion.Name == Config.contents.h97region || args.Player.CurrentRegion.Name == Config.contents.h98region || args.Player.CurrentRegion.Name == Config.contents.h99region
+                            || args.Player.CurrentRegion.Name == Config.contents.h100region || args.Player.CurrentRegion.Name == Config.contents.h101region || args.Player.CurrentRegion.Name == Config.contents.h102region
+                            || args.Player.CurrentRegion.Name == Config.contents.h103region || args.Player.CurrentRegion.Name == Config.contents.h104region || args.Player.CurrentRegion.Name == Config.contents.h105region
+                            || args.Player.CurrentRegion.Name == Config.contents.h106region || args.Player.CurrentRegion.Name == Config.contents.h107region || args.Player.CurrentRegion.Name == Config.contents.h260region
+                            || args.Player.CurrentRegion.Name == Config.contents.h261region || args.Player.CurrentRegion.Name == Config.contents.h262region || args.Player.CurrentRegion.Name == Config.contents.h263region
+                            || args.Player.CurrentRegion.Name == Config.contents.h264region || args.Player.CurrentRegion.Name == Config.contents.h265region || args.Player.CurrentRegion.Name == Config.contents.h266region
+                            || args.Player.CurrentRegion.Name == Config.contents.h267region || args.Player.CurrentRegion.Name == Config.contents.h268region || args.Player.CurrentRegion.Name == Config.contents.h269region
+                            || args.Player.CurrentRegion.Name == Config.contents.h270region || args.Player.CurrentRegion.Name == Config.contents.h271region || args.Player.CurrentRegion.Name == Config.contents.h272region
+                            || args.Player.CurrentRegion.Name == Config.contents.h273region || args.Player.CurrentRegion.Name == Config.contents.h274region || args.Player.CurrentRegion.Name == Config.contents.h275region
+                            || args.Player.CurrentRegion.Name == Config.contents.h276region || args.Player.CurrentRegion.Name == Config.contents.h277region || args.Player.CurrentRegion.Name == Config.contents.h278region
+                            || args.Player.CurrentRegion.Name == Config.contents.h279region || args.Player.CurrentRegion.Name == Config.contents.h280region || args.Player.CurrentRegion.Name == Config.contents.h281region
+                            || args.Player.CurrentRegion.Name == Config.contents.h282region || args.Player.CurrentRegion.Name == Config.contents.h283region || args.Player.CurrentRegion.Name == Config.contents.h284region
+                            || args.Player.CurrentRegion.Name == Config.contents.h285region || args.Player.CurrentRegion.Name == Config.contents.h286region || args.Player.CurrentRegion.Name == Config.contents.h287region
+                            || args.Player.CurrentRegion.Name == Config.contents.h288region || args.Player.CurrentRegion.Name == Config.contents.h289region || args.Player.CurrentRegion.Name == Config.contents.h290region
+                            || args.Player.CurrentRegion.Name == Config.contents.h291region || args.Player.CurrentRegion.Name == Config.contents.h292region || args.Player.CurrentRegion.Name == Config.contents.h293region
+                            || args.Player.CurrentRegion.Name == Config.contents.h294region || args.Player.CurrentRegion.Name == Config.contents.h295region || args.Player.CurrentRegion.Name == Config.contents.h296region
+                            || args.Player.CurrentRegion.Name == Config.contents.h297region || args.Player.CurrentRegion.Name == Config.contents.h298region || args.Player.CurrentRegion.Name == Config.contents.h299region
+                            || args.Player.CurrentRegion.Name == Config.contents.h300region || args.Player.CurrentRegion.Name == Config.contents.h301region || args.Player.CurrentRegion.Name == Config.contents.h302region)
+                        {
+                            args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier4housecost);
+                        }
+                        if (args.Player.CurrentRegion.Name == Config.contents.h108region || args.Player.CurrentRegion.Name == Config.contents.h109region || args.Player.CurrentRegion.Name == Config.contents.h110region
+                            || args.Player.CurrentRegion.Name == Config.contents.h111region || args.Player.CurrentRegion.Name == Config.contents.h112region || args.Player.CurrentRegion.Name == Config.contents.h113region
+                            || args.Player.CurrentRegion.Name == Config.contents.h114region || args.Player.CurrentRegion.Name == Config.contents.h115region || args.Player.CurrentRegion.Name == Config.contents.h116region
+                            || args.Player.CurrentRegion.Name == Config.contents.h117region || args.Player.CurrentRegion.Name == Config.contents.h118region || args.Player.CurrentRegion.Name == Config.contents.h119region
+                            || args.Player.CurrentRegion.Name == Config.contents.h120region || args.Player.CurrentRegion.Name == Config.contents.h121region || args.Player.CurrentRegion.Name == Config.contents.h122region
+                            || args.Player.CurrentRegion.Name == Config.contents.h123region || args.Player.CurrentRegion.Name == Config.contents.h124region || args.Player.CurrentRegion.Name == Config.contents.h125region
+                            || args.Player.CurrentRegion.Name == Config.contents.h126region || args.Player.CurrentRegion.Name == Config.contents.h127region || args.Player.CurrentRegion.Name == Config.contents.h128region
+                            || args.Player.CurrentRegion.Name == Config.contents.h129region || args.Player.CurrentRegion.Name == Config.contents.h130region || args.Player.CurrentRegion.Name == Config.contents.h131region
+                            || args.Player.CurrentRegion.Name == Config.contents.h303region || args.Player.CurrentRegion.Name == Config.contents.h304region || args.Player.CurrentRegion.Name == Config.contents.h305region
+                            || args.Player.CurrentRegion.Name == Config.contents.h306region || args.Player.CurrentRegion.Name == Config.contents.h307region || args.Player.CurrentRegion.Name == Config.contents.h308region
+                            || args.Player.CurrentRegion.Name == Config.contents.h309region || args.Player.CurrentRegion.Name == Config.contents.h310region || args.Player.CurrentRegion.Name == Config.contents.h311region
+                            || args.Player.CurrentRegion.Name == Config.contents.h312region || args.Player.CurrentRegion.Name == Config.contents.h313region || args.Player.CurrentRegion.Name == Config.contents.h314region)
+                        {
+                            args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier5housecost);
+                        }
+                        if (args.Player.CurrentRegion.Name == Config.contents.h131region || args.Player.CurrentRegion.Name == Config.contents.h132region || args.Player.CurrentRegion.Name == Config.contents.h133region
+                            || args.Player.CurrentRegion.Name == Config.contents.h134region || args.Player.CurrentRegion.Name == Config.contents.h135region || args.Player.CurrentRegion.Name == Config.contents.h136region
+                            || args.Player.CurrentRegion.Name == Config.contents.h137region || args.Player.CurrentRegion.Name == Config.contents.h138region || args.Player.CurrentRegion.Name == Config.contents.h139region)
+                        {
+                            args.Player.SendInfoMessage("Cost of {0} plot: {1} Terra Coins.", args.Player.CurrentRegion.Name, Config.contents.tier6housecost);
                         }
                     }
                     break;
@@ -1439,6 +1558,11 @@ namespace RPG
                                 args.Player.SendErrorMessage("You are not standing on a housing plot.");
                                 return;
                             }
+                            if (args.Player.CurrentRegion.Owner == args.Player.Name)
+                            {
+                                args.Player.SendErrorMessage("You already own this plot.");
+                                return;
+                            }
                             if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                             {
                                 args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
@@ -1497,6 +1621,11 @@ namespace RPG
                                 args.Player.SendErrorMessage("You are not standing on a housing plot.");
                                 return;
                             }
+                            if (args.Player.CurrentRegion.Owner == args.Player.Name)
+                            {
+                                args.Player.SendErrorMessage("You already own this plot.");
+                                return;
+                            }
                             if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                             {
                                 args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
@@ -1546,6 +1675,11 @@ namespace RPG
                                 {
                                     args.Player.SendErrorMessage("You are not standing on a housing plot.");
                                     return;
+                                }
+                                if (args.Player.CurrentRegion.Owner == args.Player.Name)
+                                {
+                                    args.Player.SendErrorMessage("You already own this plot.");
+                                 return;
                                 }
                                 if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                                 {
@@ -1606,6 +1740,11 @@ namespace RPG
                                 args.Player.SendErrorMessage("You are not standing on a housing plot.");
                                 return;
                             }
+                            if (args.Player.CurrentRegion.Owner == args.Player.Name)
+                            {
+                                args.Player.SendErrorMessage("You already own this plot.");
+                                return;
+                            }
                             if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                             {
                                 args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
@@ -1650,6 +1789,11 @@ namespace RPG
                                 args.Player.SendErrorMessage("You are not standing on a housing plot.");
                                 return;
                             }
+                            if (args.Player.CurrentRegion.Owner == args.Player.Name)
+                            {
+                                args.Player.SendErrorMessage("You already own this plot.");
+                                return;
+                            }
                             if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
                             {
                                 args.Player.SendErrorMessage("This housing plot has already been claimed by someone.");
@@ -1683,6 +1827,11 @@ namespace RPG
                             if (args.Player.CurrentRegion == null || args.Player.CurrentRegion.Z < 20)
                             {
                                 args.Player.SendErrorMessage("You are not standing on a housing plot.");
+                                return;
+                            }
+                            if (args.Player.CurrentRegion.Owner == args.Player.Name)
+                            {
+                                args.Player.SendErrorMessage("You already own this plot.");
                                 return;
                             }
                             if (args.Player.Name != args.Player.CurrentRegion.Owner && args.Player.CurrentRegion.Owner != Config.contents.defaultowner)
@@ -1970,16 +2119,12 @@ namespace RPG
                 args.Player.SendMessage("Info: If you wish to skip the trials use /trial skip to get more information about it.", Color.Goldenrod);
                 args.Player.SendMessage("Info: The commands to finish the trial can be found on the last sign of the trial.", Color.Goldenrod);
                 args.Player.SendMessage("Info: You can monitor your progress with /trial progress.", Color.Goldenrod);
+                args.Player.SendMessage("Info: With /trial hint you can get some hints for some Terra Coins.(Trial 30 only currently)", Color.Goldenrod);
                 args.Player.SendMessage("IMPORTANT: Skipping to level 70 is available for 35000 Terra Coins, but this is one way.", Color.Red);
                 args.Player.SendMessage("You won't be able to come back and do the story elements when they come out with a 70+ character.", Color.Red);
                 args.Player.SendMessage("Only skip to level 70 if you are absolutely sure about this.", Color.Red);
                 return;
-            }
-            if (args.Parameters.Count > 1)
-            {
-                args.Player.SendErrorMessage("Wrong subcommand");
-                return;
-            }
+            }            
             switch (args.Parameters[0])
             {
                 #region lab1
@@ -2360,7 +2505,7 @@ namespace RPG
                                 else
                                 {
                                     args.Player.SendErrorMessage("You have already completed the first lab and/or the second lab.");
-                                    args.Player.SendErrorMessage("Use trial progress to check what did you finish.");
+                                    args.Player.SendErrorMessage("Use trial progress to check where are you at.");
                                     return;
                                 }
                             }
@@ -2397,8 +2542,8 @@ namespace RPG
                                 }
                                 else
                                 {
-                                    args.Player.SendErrorMessage("You have already completed the first lab and/or the second lab.");
-                                    args.Player.SendErrorMessage("Use /trial progress to check what did you finish.");
+                                    args.Player.SendErrorMessage("You have already completed the first lab and/or the second lab or nothing at all.");
+                                    args.Player.SendErrorMessage("Use /trial progress to check where are you at.");
                                     return;
                                 }
                             }
@@ -2815,7 +2960,7 @@ namespace RPG
                 #region Skipinfo
                 case "skip":
                     {
-                        args.Player.SendMessage("You can skip the trials but it iwll cost you a hefty amount of Terra Coins.", Color.Goldenrod);
+                        args.Player.SendMessage("You can skip the trials but it will cost you a hefty amount of Terra Coins.", Color.Goldenrod);
                         args.Player.SendMessage("The level 30 trial skip costs 50 000 Terra Coins.", Color.Goldenrod);
                         args.Player.SendMessage("The level 60 trial skip costs 200 000 Terra Coins.", Color.Goldenrod);
                         args.Player.SendMessage("To avoid accidental skips you need to be at Melody's Farmstead in the room marked with a T.", Color.Goldenrod);
