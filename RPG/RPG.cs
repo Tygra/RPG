@@ -3623,7 +3623,178 @@ namespace RPG
                 #region Level 80 trial skip
                 case "skip80":
                     {
+                        if (args.Player.Group.Name == Config.contents.trial80magegroup || args.Player.Group.Name == Config.contents.trial80warriorgroup || args.Player.Group.Name == Config.contents.trial80rangergroup || args.Player.Group.Name == Config.contents.trial80summonergroup || args.Player.Group.Name == Config.contents.trial80terrariangroup)
+                        {
+                            #region Trial 80 mage skip
+                            if (args.Player.Group.Name == Config.contents.trial80magegroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region || args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 100 000 Terra Coins!");
+                                    return;
+                                }
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial80skipcost;
+                                Money moneyamount2 = Config.contents.trial80skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 80 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
 
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 80 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 80 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial80magefinishgroup);
+                                    TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.70.Cosmic.Being", Color.SkyBlue);
+                                    args.Player.SendMessage("You have paid 100 000 Terra Coins for the level 80 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
+
+                            #region Trial 80 ranger skip
+                            if (args.Player.Group.Name == Config.contents.trial80rangergroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region || args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 100 000 Terra Coins!");
+                                    return;
+                                }
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial80skipcost;
+                                Money moneyamount2 = Config.contents.trial80skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 80 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 80 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 80 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial80rangerfinishgroup);
+                                    TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.80.Avatar.of.Death", Color.SkyBlue);
+                                    args.Player.SendMessage("You have paid 100 000 Terra Coins for the level 80 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
+
+                            #region Trial 80 warrior skip
+                            if (args.Player.Group.Name == Config.contents.trial80warriorgroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region || args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 100 000 Terra Coins!");
+                                    return;
+                                }
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial80skipcost;
+                                Money moneyamount2 = Config.contents.trial80skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 80 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 80 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 80 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial80warriorfinishgroup);
+                                    TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.80.Hero.of.Legends", Color.SkyBlue);
+                                    args.Player.SendMessage("You have paid 35 000 Terra Coins for the level 80 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
+
+                            #region Trial 80 summoner skip
+                            if (args.Player.Group.Name == Config.contents.trial80summonergroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region || args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 100 000 Terra Coins!");
+                                    return;
+                                }
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial80skipcost;
+                                Money moneyamount2 = Config.contents.trial80skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 80 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 80 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 80 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial80summonerfinishgroup);
+                                    TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.80.King.of.Kings", Color.SkyBlue);
+                                    args.Player.SendMessage("You have paid 100 000 Terra Coins for the level 80 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
+
+                            #region Trial 80 terrarian skip
+                            if (args.Player.Group.Name == Config.contents.trial80terrariangroup)
+                            {
+                                Region region = TShock.Regions.GetRegionByName(Config.contents.trialskipregion);
+                                if (args.Player.CurrentRegion != region || args.Player.CurrentRegion == null)
+                                {
+                                    args.Player.SendErrorMessage("You are not in the right region. Look for a basement at Melody's Farmstead with the letter T.");
+                                    args.Player.SendErrorMessage("This command will cost you 100 000 Terra Coins!");
+                                    return;
+                                }
+                                var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
+                                var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
+                                var playeramount = selectedPlayer.Balance;
+                                var player = Playerlist[args.Player.Index];
+                                Money moneyamount = -Config.contents.trial80skipcost;
+                                Money moneyamount2 = Config.contents.trial80skipcost;
+                                if (playeramount < moneyamount2)
+                                {
+                                    args.Player.SendErrorMessage("You need {0} to skip the level 80 trial. You have {1}.", moneyamount2, selectedPlayer.Balance);
+                                    return;
+                                }
+
+                                else
+                                {
+                                    SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for the level 70 trial skip.", moneyamount2, args.Player.Name), string.Format("Level 70 trial skip"));
+                                    var trialuser = TShock.Users.GetUserByName(args.Player.User.Name);
+                                    TShock.Users.SetUserGroup(trialuser, Config.contents.trial80terrarianfinishgroup);
+                                    TSPlayer.All.SendMessage(args.Player.Name + " has become a Level.80.Terrarian", Color.SkyBlue);
+                                    args.Player.SendMessage("You have paid 100 000 Terra Coins for the level 80 trial skip", Color.Goldenrod);
+                                }
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            args.Player.SendErrorMessage("You need to be level 79.");
+                            return;
+                        }
                     }
                     break;
                 #endregion

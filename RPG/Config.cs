@@ -872,6 +872,7 @@ namespace RPG
                 public int trial70skipcost = 35000;
                 public int trial30hintcost = 500;
                 public int trial60hintcost = 7500;
+                public int trial80skipcost = 1000;
 
                 public string lab1region = "lab1";
                 public int lab1reward = 68;
@@ -917,6 +918,17 @@ namespace RPG
                 public string trial70warriorfinish = "warrior70";
                 public string trial70summonerfinish = "summoner70";
                 public string trial70terrarianfinish = "terrarian70";
+
+                public string trial80magegroup = "mage79";
+                public string trial80warriorgroup = "warrior79";
+                public string trial80rangergroup = "ranger79";
+                public string trial80summonergroup = "summoner79";
+                public string trial80terrariangroup = "terrarian79";
+                public string trial80magefinishgroup = "mage80";
+                public string trial80warriorfinishgroup = "warrior80";
+                public string trial80rangerfinishgroup = "ranger80";
+                public string trial80summonerfinishgroup = "summoner80";
+                public string trial80terrarianfinishgroup = "terrarian80";
             #endregion
 
                 #region Restricted mounts
