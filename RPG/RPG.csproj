@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="QDB.cs" />
+    <Compile Include="GDB.cs" />
     <Compile Include="GPlayer.cs" />
     <Compile Include="RPG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

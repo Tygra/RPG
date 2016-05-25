@@ -119,322 +119,140 @@ namespace RPG
                 public int tier5housecost = 30000;
                 public int tier6housecost = 25000;
 
-                 
-                public string h1region = "h1";           
-                public string h2region = "h2";
-                public string h3region = "h3";
-                public string h4region = "h4";
-                public string h5region = "h5";
-                public string h6region = "h6";
-                public string h7region = "h7";
-                public string h8region = "h8";
-                public string h9region = "h9";
-                public string h10region = "h10";
-                public string h11region = "h11";
-                public string h12region = "h12";
-                public string h13region = "h13";
-                public string h14region = "h14";
-                public string h15region = "h15";
-                public string h16region = "h16";
-                public string h17region = "h17";
-                public string h18region = "h18";
-                public string h19region = "h19";
-                public string h20region = "h20";
-                public string h21region = "h21";
-                public string h22region = "h22";
-                public string h23region = "h23";
-                public string h24region = "h24";
-                public string h25region = "h25";
-                public string h26region = "h26";
-                public string h27region = "h27";
-                public string h28region = "h28";
-                public string h29region = "h29";
-                public string h30region = "h30";
-                public string h31region = "h31";
-                public string h32region = "h32";
-                public string h33region = "h33";
-                public string h34region = "h34";
-                public string h35region = "h35";
-                public string h36region = "h36";
-                public string h37region = "h37";
-                public string h38region = "h38";
-                public string h39region = "h39";
-                public string h40region = "h40";
-            public string h41region = "h41";
-            public string h42region = "h42";
-            public string h43region = "h43";
-            public string h44region = "h44";
-            public string h45region = "h45";
-            public string h46region = "h46";
-            public string h47region = "h47";
-            public string h48region = "h48";
-            public string h49region = "h49";
-            public string h50region = "h50";
-            public string h51region = "h51";
-            public string h52region = "h52";
-            public string h53region = "h53";
-            public string h54region = "h54";
-            public string h55region = "h55";
-            public string h56region = "h56";
-            public string h57region = "h57";
-            public string h58region = "h58";
-            public string h59region = "h59";
-            public string h60region = "h60";
-            public string h61region = "h61";
-            public string h62region = "h62";
-            public string h63region = "h63";
-            public string h64region = "h64";
-            public string h65region = "h65";
-            public string h66region = "h66";
-            public string h67region = "h67";
-            public string h68region = "h68";
-            public string h69region = "h69";
-            public string h70region = "h70";
-            public string h71region = "h71";
-            public string h72region = "h72";
-            public string h73region = "h73";
-            public string h74region = "h74";
-            public string h75region = "h75";
-            public string h76region = "h76";
-            public string h77region = "h77";
-            public string h78region = "h78";
-            public string h79region = "h79";
-            public string h80region = "h80";
-            public string h81region = "h81";
-            public string h82region = "h82";
-            public string h83region = "h83";
-            public string h84region = "h84";
-            public string h85region = "h85";
-            public string h86region = "h86";
-            public string h87region = "h87";
-            public string h88region = "h88";
-            public string h89region = "h89";
-            public string h90region = "h90";
-            public string h91region = "h91";
-            public string h92region = "h92";
-            public string h93region = "h93";
-            public string h94region = "h94";
-            public string h95region = "h95";
-            public string h96region = "h96";
-            public string h97region = "h97";
-            public string h98region = "h98";
-            public string h99region = "h99";
-            public string h100region = "h100";
-            public string h101region = "h101";
-            public string h102region = "h102";
-            public string h103region = "h103";
-            public string h104region = "h104";
-            public string h105region = "h105";
-            public string h106region = "h106";
-            public string h107region = "h107";
-            public string h108region = "h108";
-            public string h109region = "h109";
-            public string h110region = "h110";
-            public string h111region = "h111";
-            public string h112region = "h112";
-            public string h113region = "h113";
-            public string h114region = "h114";
-            public string h115region = "h115";
-            public string h116region = "h116";
-            public string h117region = "h117";
-            public string h118region = "h118";
-            public string h119region = "h119";
-            public string h120region = "h120";
-            public string h121region = "h121";
-            public string h122region = "h122";
-            public string h123region = "h123";
-            public string h124region = "h124";
-            public string h125region = "h125";
-            public string h126region = "h126";
-            public string h127region = "h127";
-            public string h128region = "h128";
-            public string h129region = "h129";
-            public string h130region = "h130";
-            public string h131region = "h131";
-            public string h132region = "h132";
-            public string h133region = "h133";
-            public string h134region = "h134";
-            public string h135region = "h135";
-            public string h136region = "h136";
-            public string h137region = "h137";
-            public string h138region = "h138";
-            public string h139region = "h139";            
-            public string h140region = "h140";
-            public string h141region = "h141";
-            public string h142region = "h142";
-            public string h143region = "h143";
-            public string h144region = "h144";
-            public string h145region = "h145";
-            public string h146region = "h146";
-            public string h147region = "h147";
-            public string h148region = "h148";
-            public string h149region = "h149";
-            public string h150region = "h150";
-            public string h151region = "h151";
-            public string h152region = "h152";
-            public string h153region = "h153";
-            public string h154region = "h154";
-            public string h155region = "h155";
-            public string h156region = "h156";
-            public string h157region = "h157";
-            public string h158region = "h158";
-            public string h159region = "h159";
-            public string h160region = "h160";
-            public string h161region = "h161";
-            public string h162region = "h162";
-            public string h163region = "h163";
-            public string h164region = "h164";
-            public string h165region = "h165";
-            public string h166region = "h166";
-            public string h167region = "h167";
-            public string h168region = "h168";
-            public string h169region = "h169";
-            public string h170region = "h170";
-            public string h171region = "h171";
-            public string h172region = "h172";
-            public string h173region = "h173";
-            public string h174region = "h174";
-            public string h175region = "h175";
-            public string h176region = "h176";
-            public string h177region = "h177";
-            public string h178region = "h178";
-            public string h179region = "h179";
-            public string h180region = "h180";
-            public string h181region = "h181";
-            public string h182region = "h182";
-            public string h183region = "h183";
-            public string h184region = "h184";
-            public string h185region = "h185";
-            public string h186region = "h186";
-            public string h187region = "h187";
-            public string h188region = "h188";
-            public string h189region = "h189";
-            public string h190region = "h190";
-            public string h191region = "h191";
-            public string h192region = "h192";
-            public string h193region = "h193";
-            public string h194region = "h194";
-            public string h195region = "h195";
-            public string h196region = "h196";
-            public string h197region = "h197";
-            public string h198region = "h198";
-            public string h199region = "h199";
-            public string h200region = "h200";
-            public string h201region = "h201";
-            public string h202region = "h202";
-            public string h203region = "h203";
-            public string h204region = "h204";
-            public string h205region = "h205";
-            public string h206region = "h206";
-            public string h207region = "h207";
-            public string h208region = "h208";
-            public string h209region = "h209";
-            public string h210region = "h210";
-            public string h211region = "h211";
-            public string h212region = "h212";
-            public string h213region = "h213";
-            public string h214region = "h214";
-            public string h215region = "h215";
-            public string h216region = "h216";
-            public string h217region = "h217";
-            public string h218region = "h218";
-            public string h219region = "h219";
-            public string h220region = "h220";
-            public string h221region = "h221";
-            public string h222region = "h222";
-            public string h223region = "h223";
-            public string h224region = "h224";
-            public string h225region = "h225";
-            public string h226region = "h226";
-            public string h227region = "h227";
-            public string h228region = "h228";
-            public string h229region = "h229";
-            public string h230region = "h230";
-            public string h231region = "h231";
-            public string h232region = "h232";
-            public string h233region = "h233";
-            public string h234region = "h234";
-            public string h235region = "h235";
-            public string h236region = "h236";
-            public string h237region = "h237";
-            public string h238region = "h238";
-            public string h239region = "h239";
-            public string h240region = "h240";
-            public string h241region = "h241";
-            public string h242region = "h242";
-            public string h243region = "h243";
-            public string h244region = "h244";
-            public string h245region = "h245";
-            public string h246region = "h246";
-            public string h247region = "h247";
-            public string h248region = "h248";
-            public string h249region = "h249";
-            public string h250region = "h250";
-            public string h251region = "h251";
-            public string h252region = "h252";
-            public string h253region = "h253";
-            public string h254region = "h254";
-            public string h255region = "h255";
-            public string h256region = "h256";
-            public string h257region = "h257";
-            public string h258region = "h258";
-            public string h259region = "h259";
-            public string h260region = "h260";
-            public string h261region = "h261";
-            public string h262region = "h262";
-            public string h263region = "h263";
-            public string h264region = "h264";
-            public string h265region = "h265";
-            public string h266region = "h266";
-            public string h267region = "h267";
-            public string h268region = "h268";
-            public string h269region = "h269";
-            public string h270region = "h270";
-            public string h271region = "h271";
-            public string h272region = "h272";
-            public string h273region = "h273";
-            public string h274region = "h274";
-            public string h275region = "h275";
-            public string h276region = "h276";
-            public string h277region = "h277";
-            public string h278region = "h278";
-            public string h279region = "h279";
-            public string h280region = "h280";
-            public string h281region = "h281";
-            public string h282region = "h282";
-            public string h283region = "h283";
-            public string h284region = "h284";
-            public string h285region = "h285";
-            public string h286region = "h286";
-            public string h287region = "h287";
-            public string h288region = "h288";
-            public string h289region = "h289";
-            public string h290region = "h290";
-            public string h291region = "h291";
-            public string h292region = "h292";
-            public string h293region = "h293";
-            public string h294region = "h294";
-            public string h295region = "h295";
-            public string h296region = "h296";
-            public string h297region = "h297";
-            public string h298region = "h298";
-            public string h299region = "h299";
-            public string h300region = "h300";
-            public string h301region = "h301";
-            public string h302region = "h302";
-            public string h303region = "h303";
-            public string h304region = "h304";
-            public string h305region = "h305";
-            public string h306region = "h306";
-            public string h307region = "h307";
-            public string h308region = "h308";
-            public string h309region = "h309";
-            public string h310region = "h310";
-            public string h311region = "h311";
-            public string h312region = "h312";
-            public string h313region = "h313";
-            public string h314region = "h314";
+                #region Tier 1 Housingplots
+                public String[] tier1plots = {
+                            "h1","h2", "h3", "h4", "h5",
+                            "h6","h7","h8","h9","h2",
+                            "h11", "h12", "h13","h14",
+                            "h15","h16", "h140","h141",
+                            "h142", "h143","h144",
+                            "h145", "h146","h147",
+                            "h148", "h149","h150",
+                            "h151", "h152","h153",
+                            "h154", "h155","h156",
+                            "h157", "h158", "h159",
+                            "h160", "h161", "h162",
+                            "h163", "h164", "h165",
+                            "h166", "h167", "h168",
+                            "h169", "h170", "h171",
+                            "h172", "h173", "h174",
+                            "h175", "h176", "h177",
+                            "h178", "h179", "h180",
+                            "h181", "h225", "h226"
+                        };
             #endregion
+
+                #region Tier 2 Housingplots
+                public String[] tier2plots = {
+                        "h17","h18","h19",
+                        "h20","h21","h22",
+                        "h23","h24","h25",
+                        "h26","h27","h28",
+                        "h29","h30","h31",
+                        "h32","h33","h34",
+                        "h35","h36","h37",
+                        "h38","h39","h40",
+                        "h41","h42","h43",
+                        "h44","h45","h46",
+                        "h47","h48","h49",
+                        "h182","h183","h184",
+                        "h185","h186","h187",
+                        "h188","h189","h190",
+                        "h191","h192","h193",
+                        "h194","h195","h196",
+                        "h197","h198","h199",
+                        "h200","h201","h202",
+                        "h203","h204","h205",
+                        "h206","h207","h208",
+                        "h209","h210","h211",
+                        "h212","h213","h214",
+                        "h215","h216","h217",
+                        "h218","h219","h220",
+                        "h221","h222","h223","h224"
+                    };
+            #endregion
+
+                #region Tier 3 Housingplots
+                public String[] tier3plots = {
+                        "h50", "h51", "h52",
+                        "h53", "h54", "h55",
+                        "h56", "h57", "h58",
+                        "h59", "h60", "h61",
+                        "h62", "h80", "h81",
+                        "h82", "h83", "h84",
+                        "h85", "h86", "h226",
+                        "h227", "h228", "h229",
+                        "h230", "h231", "h232",
+                        "h233", "h234", "h235",
+                        "h236", "h237", "h238",
+                        "h239", "h240", "h241",
+                        "h242", "h243", "h244",
+                        "h245", "h246", "h247",
+                        "h248", "h249", "h250",
+                        "h251", "h252", "h253",
+                        "h254", "h255", "h256",
+                        "h257", "h258", "h259"
+                    };
+            #endregion
+
+                #region Tier 4 Housingplots
+                public String[] tier4plots = {
+                        "h63","h64","h65",
+                        "h66","h67","h68",
+                        "h69","h70","h71",
+                        "h72","h73","h74",
+                        "h75","h76","h77",
+                        "h78","h79","h87",
+                        "h88","h89","h90",
+                        "h91","h92","h93",
+                        "h94","h95","h96",
+                        "h97","h98","h99",
+                        "h100","h101","h102",
+                        "h103","h104","h105",
+                        "h106","h107","h260",
+                        "h261","h262","h263",
+                        "h264","h265","h266",
+                        "h267","h268","h269",
+                        "h270","h271","h272",
+                        "h273","h274","h275",
+                        "h276","h277","h278",
+                        "h279","h280","h281",
+                        "h282","h283","h284",
+                        "h285","h286","h287",
+                        "h288","h289","h290",
+                        "h291","h292","h293",
+                        "h294","h295","h296",
+                        "h297","h298","h299",
+                        "h300","h301","h302"
+                    };
+            #endregion
+
+                #region Tier 5 Housingplots
+                public String[] tier5plots = {
+                        "h108","h109","h110",
+                        "h111","h112","h113",
+                        "h114","h115","h116",
+                        "h117","h118","h119",
+                        "h120","h121","h122",
+                        "h123","h124","h125",
+                        "h126","h127","h128",
+                        "h129","h130","h131",
+                        "h303","h304","h305",
+                        "h306","h307","h308",
+                        "h309","h310","h311",
+                        "h312","h313","h314"
+                    };
+            #endregion
+
+                #region Tier 6 Housingplots
+                public String[] tier6plots = {
+                        "h131","h132","h133",
+                        "h134","h135","h136",
+                        "h137","h138","h139"
+                    };
+                #endregion
+            
+                #endregion
 
                 public int mimicchest = 48;
                 public int mimichallowkey = 3092;
@@ -667,6 +485,13 @@ namespace RPG
                 public string icetpregion = "icetp";
                 public string hallowtpregion = "hallowtp";
                 public string jadvtpregion = "jadvtp";
+            #endregion
+
+                #region Minigame
+                public string rouletteregion = "roulette";
+                public int roulettereward = 1000;
+                public int roulettedeathcost = 500;
+                public int roulettecd = 60;
                 #endregion
 
                 public string tutclassregion = "tutclass";
@@ -829,7 +654,7 @@ namespace RPG
                 public int mgcd = 120;
                 public int mgcost = 1000;
                 public int[] mgexlcude = { 17, 18, 19, 20, 22, 35, 37, 38, 54, 68, 85, 105, 106, 107, 108, 113, 114, 113, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 139, 142, 143, 144, 145, 158, 159, 160, 162, 166, 172, 178, 207, 208, 209, 212, 213, 214, 215, 216, 227, 228, 229, 245, 246, 247, 248, 251, 253, 262, 263, 264, 265, 269, 276, 281, 282, 288, 290, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 325, 326, 327, 328, 338, 339, 340, 344, 345, 346, 353, 354, 368, 369, 370, 372, 373, 376, 379, 380, 381, 382, 383, 385, 386, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 422, 437, 438, 439, 440, 441, 453, 460, 461, 462, 463, 466, 467, 468, 473, 474, 475, 476, 477, 491, 492, 493, 507, 517, 521, 2889, 2890, 2891, 2892, 2893, 2894, 2895, 3564 };
-
+            
                 #region Buffs
                 public int buff1cd = 60;
                 public int buff2cd = 60;
@@ -870,6 +695,7 @@ namespace RPG
                 public int trial30skipcost = 50000;
                 public int trial60skipcost = 200000;
                 public int trial70skipcost = 35000;
+                public int trial80skipcost = 100000;
                 public int trial30hintcost = 500;
                 public int trial60hintcost = 7500;
 
