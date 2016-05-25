@@ -61,9 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Wolfje.Plugins.SEconomy.dll</HintPath>
     </Reference>
-    <Reference Include="WorldEdit">
-      <HintPath>..\..\WorldEdit\bin\WorldEdit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
