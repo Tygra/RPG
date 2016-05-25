@@ -61,10 +61,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Wolfje.Plugins.SEconomy.dll</HintPath>
     </Reference>
+    <Reference Include="WorldEdit">
+      <HintPath>..\..\WorldEdit\bin\WorldEdit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="QDB.cs" />
+    <Compile Include="GDB.cs" />
     <Compile Include="GPlayer.cs" />
     <Compile Include="RPG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

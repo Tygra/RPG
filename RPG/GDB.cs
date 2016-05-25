@@ -15,7 +15,7 @@ using MySql.Data.MySqlClient;
 
 namespace RPG.Db
 {
-    class QDB
+    class GDB
     {
         public IDbConnection db;
         /*
