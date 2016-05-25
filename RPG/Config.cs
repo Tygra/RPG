@@ -629,7 +629,10 @@ namespace RPG
                 public string millregion = "mill";
                 public int millitem = 1238;
                 public int millcd = 604800;
-                #endregion
+            #endregion
+
+                #region Misc
+                public bool worldstatreset = true;
 
                 public int facepalmcd = 30;
                 public int slapallcd = 3600;
@@ -654,9 +657,14 @@ namespace RPG
                 public int mgcd = 120;
                 public int mgcost = 1000;
                 public int[] mgexlcude = { 17, 18, 19, 20, 22, 35, 37, 38, 54, 68, 85, 105, 106, 107, 108, 113, 114, 113, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 139, 142, 143, 144, 145, 158, 159, 160, 162, 166, 172, 178, 207, 208, 209, 212, 213, 214, 215, 216, 227, 228, 229, 245, 246, 247, 248, 251, 253, 262, 263, 264, 265, 269, 276, 281, 282, 288, 290, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 325, 326, 327, 328, 338, 339, 340, 344, 345, 346, 353, 354, 368, 369, 370, 372, 373, 376, 379, 380, 381, 382, 383, 385, 386, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 422, 437, 438, 439, 440, 441, 453, 460, 461, 462, 463, 466, 467, 468, 473, 474, 475, 476, 477, 491, 492, 493, 507, 517, 521, 2889, 2890, 2891, 2892, 2893, 2894, 2895, 3564 };
+<<<<<<< HEAD
             
+=======
+                #endregion
+
+>>>>>>> origin/master
                 #region Buffs
-                public int buff1cd = 60;
+            public int buff1cd = 60;
                 public int buff2cd = 60;
                 public int buff3cd = 60;
                 public int buff4cd = 60;
@@ -698,6 +706,7 @@ namespace RPG
                 public int trial80skipcost = 100000;
                 public int trial30hintcost = 500;
                 public int trial60hintcost = 7500;
+                public int trial80skipcost = 1000;
 
                 public string lab1region = "lab1";
                 public int lab1reward = 68;
@@ -707,24 +716,32 @@ namespace RPG
                 public int lab2npc1 = 513;
                 public int lab2npc2 = 509;
                 public int trial30npc = 51;
-                /*
+                
                 public string trial60shrineregion = "trial60pre";
-                public string trial60mageshrinegroup = "mage59";
-                public string trial60warriorshrinegroup = "warrior59";
-                public string trial60rangershrinegroup = "ranger59";
-                public string trial60summonershrinegroup = "summoner59";
-                public string trial60terrarianshrinegroup = "terrarian59"; 
-                */
+                public string trial60geralthouse = "geralthouse";
+
+                public string trial60magegeralt = "mage59";
+                public string trial60warriorgeralt = "warrior59";
+                public string trial60rangergeralt = "ranger59";
+                public string trial60summonergeralt = "summoner59";
+                public string trial60terrariangeralt = "terrarian59";
+
+                public string trial60mageshrinegroup = "mage59_1";
+                public string trial60warriorshrinegroup = "warrior59_1";
+                public string trial60rangershrinegroup = "ranger59_1";
+                public string trial60summonershrinegroup = "summoner59_1";
+                public string trial60terrarianshrinegroup = "terrarian59_1"; 
+                
                 public string trial60mageregion = "trial60mage";
                 public string trial60warriorregion = "trial60warrior";
                 public string trial60rangerregion = "trial60ranger";
                 public string trial60summonerregion = "trial60summoner";
                 public string trial60terrarianregion = "trial60ranger";
-                public string trial60magegroup = "mage59";
-                public string trial60rangergroup = "ranger59";
-                public string trial60warriorgroup = "warrior59";
-                public string trial60summonergroup = "summoner59";
-                public string trial60terrariangroup = "terrarian59";
+                public string trial60magegroup = "mage59_2";
+                public string trial60rangergroup = "ranger59_2";
+                public string trial60warriorgroup = "warrior59_2";
+                public string trial60summonergroup = "summoner59_2";
+                public string trial60terrariangroup = "terrarian59_2";
                 public string trial60magefinish = "mage60";
                 public string trial60warriorfinish = "warrior60";
                 public string trial60rangerfinish = "ranger60";
@@ -743,6 +760,17 @@ namespace RPG
                 public string trial70warriorfinish = "warrior70";
                 public string trial70summonerfinish = "summoner70";
                 public string trial70terrarianfinish = "terrarian70";
+
+                public string trial80magegroup = "mage79";
+                public string trial80warriorgroup = "warrior79";
+                public string trial80rangergroup = "ranger79";
+                public string trial80summonergroup = "summoner79";
+                public string trial80terrariangroup = "terrarian79";
+                public string trial80magefinishgroup = "mage80";
+                public string trial80warriorfinishgroup = "warrior80";
+                public string trial80rangerfinishgroup = "ranger80";
+                public string trial80summonerfinishgroup = "summoner80";
+                public string trial80terrarianfinishgroup = "terrarian80";
             #endregion
 
                 #region Restricted mounts
