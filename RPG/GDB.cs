@@ -13,19 +13,19 @@ using TShockAPI.DB;
 using Mono.Data.Sqlite;
 using MySql.Data.MySqlClient;
 
-namespace RPG.Db
+namespace RPG
 {
     class GDB
     {
-        public IDbConnection db;
-        /*
+        public static IDbConnection db;
+
         public void InitQuestDB(IDbConnection db)
-        {
+        {            
             switch (TShock.Config.StorageType.ToLower())
             {
                 case "mysql":
                     string[] host = TShock.Config.MySqlHost.Split(':');
-                    Db = new MySqlConnection()
+                    db = new MySqlConnection()
                     {
                         ConnectionString = string.Format("Server={0}; Port={1}; Database={2}; Uid={3}; Pwd={4}",
                         host[0],
@@ -36,41 +36,37 @@ namespace RPG.Db
                     };
                     break;
 
-                case "sqlite":
-                    if (!System.IO.Directory.Exists(DatabasePath))
-                    {
-                        System.IO.Directory.CreateDirectory(DatabasePath);
-                    }
-                    string sql = Path.Combine(DatabasePath, "quests.sqlite");
-                    Db = new SqliteConnection(string.Format("uri=file://{0}.Version=3", sql));
+                case "sqlite":                    
+                    string sql = Path.Combine(TShock.SavePath, "quests.sqlite");
+                    db = new SqliteConnection(string.Format("uri=file://{0}.Version=3", sql));
                     break;
             }
             SqlTableCreator sqlcreator = new SqlTableCreator(db, db.GetSqlType() == SqlType.Sqlite ? (IQueryBuilder)new SqliteQueryCreator() : new MysqlQueryCreator());
-            sqlcreator.EnsureTableStructure(new SqlTable("rquests",
+            sqlcreator.EnsureTableStructure(new SqlTable("RQuests",
                 new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
                 new SqlColumn("User", MySqlDbType.VarChar) { Length = 30 },
                 new SqlColumn("QuestID", MySqlDbType.Int32),
                 new SqlColumn("Date", MySqlDbType.Text),
                 new SqlColumn("Expiration", MySqlDbType.Text)
                 ));
-            sqlcreator.EnsureTableStructure(new SqlTable("nonrquests",
+            sqlcreator.EnsureTableStructure(new SqlTable("NonRQuests",
                 new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
                 new SqlColumn("User", MySqlDbType.VarChar) { Length = 30 },
                 new SqlColumn("QuestID", MySqlDbType.Int32),
                 new SqlColumn("Date", MySqlDbType.Text)
                 ));
-            sqlcreator.EnsureTableStructure(new SqlTable("adventures",
+            sqlcreator.EnsureTableStructure(new SqlTable("Adventures",
                 new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
                 new SqlColumn("User", MySqlDbType.VarChar) { Length = 30 },
                 new SqlColumn("AdventureID", MySqlDbType.Int32),
                 new SqlColumn("Date", MySqlDbType.Text),
                 new SqlColumn("Expiration", MySqlDbType.Text)
                 ));
-            sqlcreator.EnsureTableStructure(new SqlTable("itemlevels",
+            sqlcreator.EnsureTableStructure(new SqlTable("ItemLevel",
                 new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
-                new SqlColumn("Itemname", MySqlDbType.Text) { Length = 30 },
-                new SqlColumn("restriction", MySqlDbType.Text)
+                new SqlColumn("ItemName", MySqlDbType.Text) { Length = 30 },
+                new SqlColumn("Restriction", MySqlDbType.Text)
                 ));
-        }*/
+        }
     }
 }

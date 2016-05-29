@@ -28,6 +28,8 @@ using Wolfje.Plugins.SEconomy;
 using Wolfje.Plugins.SEconomy.Journal;
 using WorldEdit;
 using WorldEdit.Commands;
+using WorldEdit.Expressions;
+using WorldEdit.Extensions;
 using Newtonsoft.Json;
 using Mono.Data.Sqlite;
 using MySql.Data.MySqlClient;
@@ -46,9 +48,11 @@ namespace RPG
      * Change long if loops to arrays
      * finish ore cleanup
      * check bbq command
+     * level 50 questchain
+     * 
     */
     [ApiVersion(1, 22)]
-    public class RPG : TerrariaPlugin
+    public class GeldarRPG : TerrariaPlugin
     {
         #region Info & other things
         public DateTime LastCheck = DateTime.UtcNow;
@@ -66,7 +70,7 @@ namespace RPG
         public override Version Version
         { get { return new Version(1, 3); } }
 
-        public RPG(Main game)
+        public GeldarRPG(Main game)
             : base(game)
         {
             Order = 1;
@@ -94,19 +98,24 @@ namespace RPG
             Commands.ChatCommands.Add(new Command("geldar.level30", Facepalm, "facepalm"));
             Commands.ChatCommands.Add(new Command("geldar.mod", Slapall, "slapall"));
             Commands.ChatCommands.Add(new Command("geldar.admin", Gift, "gift"));
-            Commands.ChatCommands.Add(new Command("geldar.champion", Bunny, "bunny"));
-            Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
+            Commands.ChatCommands.Add(new Command("geldar.champion", Bunny, "bunny"));            
             Commands.ChatCommands.Add(new Command("geldar.level30", MonsterGamble, "monstergamble", "mg"));
             Commands.ChatCommands.Add(new Command("geldar.vip", VIP, "vip"));
             Commands.ChatCommands.Add(new Command("tshock.world.modify", Buffme, "buffme"));
-            Commands.ChatCommands.Add(new Command(Geldar, "geldar"));
-            Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet1, "rs1"));
-            Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet2, "rs2"));
+            Commands.ChatCommands.Add(new Command(Geldar, "geldar"));            
             //Commands.ChatCommands.Add(new Command("geldar.level30", Mimic, "mimic"));
             Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", Stuck, "stuck"));
             Commands.ChatCommands.Add(new Command("infchests.chest.protect", Housing, "housing"));
             Commands.ChatCommands.Add(new Command("geldar.level5", BBQ, "bbq"));
+            Commands.ChatCommands.Add(new Command(ItemLevel, "itemlevel", "il", "ilevel"));
             Commands.ChatCommands.Add(new Command("geldar.admin", Cleanup, "cleanup"));
+            #region Shortcommands
+            Commands.ChatCommands.Add(new Command("seconomy.world.mobgains", BankBal, "bb"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet1, "rs1"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", RegionSet2, "rs2"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", Point1, "p1"));
+            Commands.ChatCommands.Add(new Command("geldar.admin", Point2, "p2"));
+            #endregion
             ServerApi.Hooks.ServerJoin.Register(this, OnJoin);
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
@@ -691,23 +700,11 @@ namespace RPG
             }
         }
         #endregion
-
-        #region Region shortcommands
-        private void RegionSet1(CommandArgs args)
-        {
-            TShockAPI.Commands.HandleCommand(args.Player, "/region set 1");
-        }
-        
-        private void RegionSet2(CommandArgs args)
-        {
-            TShockAPI.Commands.HandleCommand(args.Player, "/region set 2");
-        }
-        #endregion
-
+                
         #region Cleanup
         public void Cleanup(CommandArgs args)
         {
-
+            
         }
         #endregion
 
@@ -738,11 +735,38 @@ namespace RPG
         }
         #endregion
 
+        #region Shortcommands
+
         #region BankBal
         private void BankBal(CommandArgs args)
         {
             Commands.HandleCommand(args.Player, "/bank bal");
         }
+        #endregion
+
+        #region Region sc
+        private void RegionSet1(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "/region set 1");
+        }
+
+        private void RegionSet2(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "/region set 2");
+        }
+        #endregion
+
+        #region Worldedit points
+        private void Point1(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "//point1");
+        }
+        private void Point2(CommandArgs args)
+        {
+            TShockAPI.Commands.HandleCommand(args.Player, "//point2");
+        }
+        #endregion
+
         #endregion
 
         #region Facepalm
@@ -1339,6 +1363,43 @@ namespace RPG
         }
         #endregion
 
+        #region Itemlevels
+        public void ItemLevel(CommandArgs args)
+        {
+            if (args.Parameters.Count < 1)
+            {
+                args.Player.SendInfoMessage("You can check the required levels for restricted items here.");
+                args.Player.SendInfoMessage("If the item name is two or more words, use doubleqoutes areound the name.");
+                args.Player.SendInfoMessage("Example: /itemlevel \"Solar Eruption\"");
+                return;
+            }
+            if (args.Parameters.Count == 1)
+            {
+                string ilsbcmd = string.Join(" ", args.Parameters[1]);
+                if (ilsbcmd != null && ilsbcmd == "add")
+                {
+                    string itemname = args.Parameters[1];                    
+                    itemname = args.Parameters[1];
+                    restriction = args.Parameters[2];
+                    DBManager.AddItemEntry(new DBInfo(itemname, restriction));
+                }
+                if (ilsbcmd != null && ilsbcmd == "del")
+                {
+
+                }
+                if (ilsbcmd == null || ilsbcmd == "")
+                {
+                    args.Player.SendErrorMessage("Item name can't be empty");
+                    return;
+                }
+                else
+                {
+                    
+                }
+            }
+        }
+        #endregion
+
         #region Houseplot buying
 
         private void Housing(CommandArgs args)
@@ -1477,7 +1538,7 @@ namespace RPG
                         if (args.Parameters.Count == 1)
                         {
                             string altname = string.Join(" ", args.Parameters[1]);
-                            if (altname != null & altname != "")
+                            if (altname != null && altname != "")
                             {
                                 SEconomyPlugin.Instance.WorldAccount.TransferToAsync(selectedPlayer, moneyamount, Journalpayment, string.Format("You paid {0} for adding your alt character to the {1} housing plot.", moneyamount2, args.Player.CurrentRegion, args.Player.Name), string.Format("Alt adding {0} to {1}.", altname, args.Player.CurrentRegion));
                                 TShock.Regions.AddNewUser(args.Player.CurrentRegion.Name, altname);
@@ -4801,6 +4862,10 @@ namespace RPG
                         }
                     }
                     break;
+                #endregion
+
+                #region Level 50 biomequest-chain
+
                 #endregion
 
                 #region Default
