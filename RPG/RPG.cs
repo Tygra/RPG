@@ -37,7 +37,8 @@ using MySql.Data.MySqlClient;
 
 namespace RPG
 {
-    /* Vip trial
+    /*               __--Shit to do--__
+     * Vip trial
      * Test mimic spawn - changed item handling, needs testing
      * Trial hints for TC level 60 hints
      * Finish hive - should work now, test it
@@ -49,8 +50,9 @@ namespace RPG
      * finish ore cleanup
      * check bbq command
      * level 50 questchain
-     * 
+     * /clap command
     */
+
     [ApiVersion(1, 22)]
     public class GeldarRPG : TerrariaPlugin
     {
@@ -58,6 +60,7 @@ namespace RPG
         public DateTime LastCheck = DateTime.UtcNow;
         public DateTime SLastCheck = DateTime.UtcNow;        
         public string SavePath = TShock.SavePath;
+        internal static IDbConnection db;
         public GPlayer[] Playerlist = new GPlayer[256];
         DateTime DLastCheck = DateTime.UtcNow;
         public TShockAPI.DB.Region Region { get; set; }
@@ -120,7 +123,7 @@ namespace RPG
             ServerApi.Hooks.ServerLeave.Register(this, OnLeave);
             ServerApi.Hooks.GameUpdate.Register(this, Cooldowns);
             ServerApi.Hooks.ServerChat.Register(this, OnChat);
-            //ServerApi.Hooks.GameInitialize.Register(this, OnInitialize);
+            ServerApi.Hooks.GameInitialize.Register(this, OnInitialize);
             if (!Config.ReadConfig())
             {
                 TShock.Log.ConsoleError("Config loading failed. Consider deleting it.");
@@ -137,36 +140,65 @@ namespace RPG
                 ServerApi.Hooks.ServerJoin.Deregister(this, OnJoin);
                 ServerApi.Hooks.ServerLeave.Deregister(this, OnLeave);
                 ServerApi.Hooks.ServerChat.Deregister(this, OnChat);
-                //ServerApi.Hooks.GameInitialize.Deregister(this, OnInitialize);
-                //Database.Dispose();
+                ServerApi.Hooks.GameInitialize.Deregister(this, OnInitialize);
+                db.Dispose();
             }
             base.Dispose(disposing);
 
         }
         #endregion
 
-        #region OnInitialize
-        /*
+        #region OnInitialize        
         private void OnInitialize(EventArgs args)
-        {
-            QDB.InitQuestDB();
-        }
-        */
-        #endregion
+        {        
+            switch (TShock.Config.StorageType.ToLower())
+            {
+                case "mysql":
+                    string[] host = TShock.Config.MySqlHost.Split(':');
+                    db = new MySqlConnection()
+                    {
+                        ConnectionString = string.Format("Server={0}; Port={1}; Database={2}; Uid={3}; Pwd={4}",
+                        host[0],
+                        host.Length == 1 ? "3306" : host[1],
+                        TShock.Config.MySqlDbName,
+                        TShock.Config.MySqlUsername,
+                        TShock.Config.MySqlPassword)
+                    };
+                    break;
 
-        #region DBbthings
-        /*
-        public void AddRQuest(TSPlayer player, )
-        {
-
-        }
-
-        public void AddNonRQuest(TSPlayer player, int id, Datetime date)
-        {
-
-        }
-        */
-        #endregion
+                case "sqlite":
+                    string sql = Path.Combine(TShock.SavePath, "quests.sqlite");
+                    db = new SqliteConnection(string.Format("uri=file://{0}.Version=3", sql));
+                    break;
+            }
+            SqlTableCreator sqlcreator = new SqlTableCreator(db, db.GetSqlType() == SqlType.Sqlite ? (IQueryBuilder)new SqliteQueryCreator() : new MysqlQueryCreator());
+            sqlcreator.EnsureTableStructure(new SqlTable("RQuests",
+                new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
+                new SqlColumn("User", MySqlDbType.VarChar) { Length = 30 },
+                new SqlColumn("QuestID", MySqlDbType.Int32),
+                new SqlColumn("Date", MySqlDbType.Text),
+                new SqlColumn("Expiration", MySqlDbType.Text)
+                ));
+            sqlcreator.EnsureTableStructure(new SqlTable("NonRQuests",
+                new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
+                new SqlColumn("User", MySqlDbType.VarChar) { Length = 30 },
+                new SqlColumn("QuestID", MySqlDbType.Int32),
+                new SqlColumn("Date", MySqlDbType.Text)
+                ));
+            sqlcreator.EnsureTableStructure(new SqlTable("Adventures",
+                new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
+                new SqlColumn("User", MySqlDbType.VarChar) { Length = 30 },
+                new SqlColumn("AdventureID", MySqlDbType.Int32),
+                new SqlColumn("Date", MySqlDbType.Text),
+                new SqlColumn("Expiration", MySqlDbType.Text)
+                ));
+            sqlcreator.EnsureTableStructure(new SqlTable("ItemLevel",
+                new SqlColumn("ID", MySqlDbType.Int32) { Unique = true, Primary = true, AutoIncrement = true },
+                new SqlColumn("ItemName", MySqlDbType.Text) { Length = 30 },
+                new SqlColumn("Restriction", MySqlDbType.Text)
+                ));
+        }            
+        #endregion        
 
         #region Playerlist Join/Leave
         public void OnJoin(JoinEventArgs args)
@@ -1378,10 +1410,9 @@ namespace RPG
                 string ilsbcmd = string.Join(" ", args.Parameters[1]);
                 if (ilsbcmd != null && ilsbcmd == "add")
                 {
-                    string itemname = args.Parameters[1];                    
-                    itemname = args.Parameters[1];
-                    restriction = args.Parameters[2];
-                    DBManager.AddItemEntry(new DBInfo(itemname, restriction));
+                    string itemname = args.Parameters[2];
+                    string restriction = args.Parameters[3];                                      
+                    DBManager.AddItemEntry(itemname, restriction);
                 }
                 if (ilsbcmd != null && ilsbcmd == "del")
                 {

@@ -53,16 +53,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Refs\TerrariaServer.exe</HintPath>
     </Reference>
-    <Reference Include="TShockAPI, Version=4.3.13.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="TShockAPI, Version=4.3.12.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Refs\TShockAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Wolfje.Plugins.SEconomy, Version=1.0.22.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wolfje.Plugins.SEconomy, Version=1.0.21.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Refs\Wolfje.Plugins.SEconomy.dll</HintPath>
     </Reference>
-    <Reference Include="WorldEdit, Version=1.4.2.804, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="WorldEdit">
       <HintPath>Refs\WorldEdit.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -70,7 +69,6 @@
     <Compile Include="DBInfo.cs" />
     <Compile Include="DBManager.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="GDB.cs" />
     <Compile Include="GPlayer.cs" />
     <Compile Include="RPG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
