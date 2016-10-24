@@ -736,7 +736,7 @@ namespace RPG
         #region Cleanup
         public void Cleanup(CommandArgs args)
         {
-            
+            //Ore cleanup or an easier way is to just add region names to the config which will be exlcuded from ore generation on altar break
         }
         #endregion
 
@@ -1361,7 +1361,6 @@ namespace RPG
                 case "roulette":
                     {
                         Region region = TShock.Regions.GetRegionByName(Config.contents.rouletteregion);
-                        var Journalpayment = Wolfje.Plugins.SEconomy.Journal.BankAccountTransferOptions.AnnounceToSender;
                         var selectedPlayer = SEconomyPlugin.Instance.GetBankAccount(args.Player.User.Name);
                         var playeramount = selectedPlayer.Balance;
                         var player = Playerlist[args.Player.Index];
@@ -1382,11 +1381,15 @@ namespace RPG
                         var randomnumber = roulettearray[new Random().Next(0, roulettearray.Length)];
                         if (randomnumber % 2 == 0)
                         {
-
+                            args.Player.SendInfoMessage("You live another day!", Color.Goldenrod);
+                            IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.User.ID);
+                            IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(player.Index);
+                            SEconomyPlugin.Instance.WorldAccount.TransferToAsync(Player, Config.contents.roulettereward, BankAccountTransferOptions.AnnounceToReceiver, "Roulette minigame reward", "Roulette reward");                            
                         }
                         else
                         {
-
+                            args.Player.DamagePlayer(90000);
+                            args.Player.SendErrorMessage("It's intresting that you even had the thought that you might win here.");
                         }
                     }
                     break;
