@@ -53,7 +53,7 @@ namespace RPG
      * /clap command
     */
 
-    [ApiVersion(1, 22)]
+    [ApiVersion(1, 25)]
     public class GeldarRPG : TerrariaPlugin
     {
         #region Info & other things
